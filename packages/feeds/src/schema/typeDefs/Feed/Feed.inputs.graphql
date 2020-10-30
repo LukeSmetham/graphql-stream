@@ -1,0 +1,18 @@
+input FeedReactionOptionsInput {
+    """
+    Include reactions added by current user to all activities
+    """
+    counts: Boolean
+    """
+    Filter reactions with given kinds (support differs by SDKs, request if missing)
+    """
+    kinds: [String]
+    """
+    IInclude reaction counts to activities.
+    """
+    own: Boolean
+    """
+    Include recent reactions to activities
+    """
+    recent: Boolean
+}

@@ -1,28 +1,3 @@
-type Feed {
-    duration: String!
-    next: String
-    results: [String]
-}
-
-input FeedReactionOptionsInput {
-    """
-    Include reactions added by current user to all activities
-    """
-    counts: Boolean
-    """
-    Filter reactions with given kinds (support differs by SDKs, request if missing)
-    """
-    kinds: [String]
-    """
-    IInclude reaction counts to activities.
-    """
-    own: Boolean
-    """
-    Include recent reactions to activities
-    """
-    recent: Boolean
-}
-
 type Query {
     """
     Query for the activities of a feed.
@@ -58,5 +33,9 @@ type Query {
         Configure how the reactions are returned for the activities of this feed.
         """
         reactions: FeedReactionOptionsInput
-    ): Feed
+    ): [Activity]
+}
+
+type Subscription {
+    subscribe(slug: String!, id: String!): RealtimeFeed
 }

@@ -1,0 +1,30 @@
+type Feed {
+    """
+    The duration of the request
+    """
+    duration: String!
+    """
+    URL to retrieve the next
+    """
+    next: URL
+    results: [String]
+}
+
+type RealtimeFeed {
+    """
+    All activities deleted by this update
+    """
+    deleted: [Activity]
+    """
+    A pair of foreign_id and time of the deleted activities
+    """
+    deleted_foreign_ids: [String!]
+    """
+    All activities created by this update
+    """
+    new: [Activity]
+    """
+    Time of the update in ISO format
+    """
+    published_at: DateTime!
+}
