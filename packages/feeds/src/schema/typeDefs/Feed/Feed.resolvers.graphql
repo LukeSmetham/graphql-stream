@@ -2,7 +2,7 @@ type Query {
     """
     Query for the activities of a feed.
     """
-    getFeed(
+    feed(
         feed: FeedSelector
         slug: String
         id: String
