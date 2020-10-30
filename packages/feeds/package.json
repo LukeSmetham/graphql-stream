@@ -1,0 +1,11 @@
+{
+  "name": "@graphql-stream/feeds",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/LukeSmetham/graphql-stream.git",
+  "author": "Luke Smetham <luke@smetham.dev>",
+  "license": "MIT",
+  "engines": {
+		"node": ">=14.x"
+	}
+}

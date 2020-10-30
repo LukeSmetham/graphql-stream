@@ -1,0 +1,26 @@
+type Activity {
+    """
+    the actor performing the activity
+    """
+    actor: String!
+    """
+    A unique IF from you application for this activity. IE: pin:1 or like:300. Required to later update activities by Time + Foreign ID.
+    """
+    foreign_id: String
+    """
+    The object of the activity
+    """
+    object: String!
+    """
+    The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID
+    """
+    time: String
+    """
+    Send this activity to other feeds.
+    """
+    to: [String!]
+    """
+    The verb of the activity with a maximum length of 255 bytes
+    """
+    verb: String!
+}

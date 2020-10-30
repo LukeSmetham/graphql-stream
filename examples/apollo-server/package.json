@@ -1,0 +1,12 @@
+{
+  "name": "@graphql-stream/apollo-server-example",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "MIT",
+  "engines": {
+		"node": ">=14.x"
+	},
+  "scripts": {
+    "dev": "nodemon --exec npx babel-node ./src/index.js --inspect --ignore=' '"
+  }
+}
