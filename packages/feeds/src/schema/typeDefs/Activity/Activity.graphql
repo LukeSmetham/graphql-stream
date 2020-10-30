@@ -17,7 +17,7 @@ type Activity {
     """
     The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID
     """
-    time: String
+    time: DateTime
     """
     Send this activity to other feeds.
     """

@@ -49,6 +49,6 @@ type Mutation {
 }
 
 type Subscription {
-    realtimeFeed(feed: FeedSelector!): RealtimeFeed
+    realtimeFeed(slug: String!, id: String!): RealtimeFeed
     # realtimeNotifications(slug: String!, id: String!): RealtimeNotificationFeed
 }

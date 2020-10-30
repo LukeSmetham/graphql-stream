@@ -1,47 +1,45 @@
 import { PubSubEngine } from 'graphql-subscriptions';
 
-export class FeedsSubscription extends PubSubEngine {
-	currentSubscriptionId = 0;
+export class FeedSubscription extends PubSubEngine {
+    currentSubscriptionId = 0;
 
-	subscriptions = {};
+    subscriptions = {};
 
-	subRefMap = {};
+    subRefMap = {};
 
-	constructor(client) {
-		super();
+    constructor(client) {
+        super();
 
-		if (!client) {
-			throw new Error(
-				'Missing client instance when initializing FeedsSubscription.'
-			);
-		}
+        if (!client) {
+            throw new Error('Missing client instance when initializing FeedsSubscription.');
+        }
 
-		if (!client.appId) {
-			throw new Error('Missing Stream App ID - Make sure you pass it as the third argument to the Feeds Client.');
-		}
+        if (!client.appId) {
+            throw new Error('Missing Stream App ID - Make sure you pass it as the third argument to the Feeds Client.');
+        }
 
-		this.client = client;
-	}
+        this.client = client;
+    }
 
-	publish = () => Promise.resolve();
+    publish = () => Promise.resolve();
 
-	subscribe(triggerName, onMessage) {
-		const feedParts = triggerName.split(':');
+    subscribe(triggerName, onMessage) {
+        const feedParts = triggerName.split(':');
 
-		const id = this.currentSubscriptionId++;
+        const id = this.currentSubscriptionId++;
 
-		const feed = this.client.feed(...feedParts);
+        const feed = this.client.feed(...feedParts);
 
-		this.subscriptions[id] = feed.subscribe(onMessage);
+        this.subscriptions[id] = feed.subscribe(onMessage);
 
-		return Promise.resolve(id);
-	}
+        return Promise.resolve(id);
+    }
 
-	unsubscribe(id) {
-		const subscription = this.subscriptions[id];
+    unsubscribe(id) {
+        const subscription = this.subscriptions[id];
 
-		delete this.subscriptions[id];
+        delete this.subscriptions[id];
 
-		subscription.unsubscribe();
-	}
+        subscription.unsubscribe();
+    }
 }
