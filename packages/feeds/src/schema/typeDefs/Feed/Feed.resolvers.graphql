@@ -2,9 +2,10 @@ type Query {
     """
     Query for the activities of a feed.
     """
-    feed(
-        slug: String!
-        id: String!
+    getFeed(
+        feed: FeedSelector
+        slug: String
+        id: String
         """
         When using collections, you can request Stream to enrich activities to include them
         """
@@ -36,6 +37,18 @@ type Query {
     ): [Activity]
 }
 
+type Mutation {
+    """
+    Follow a feed
+    """
+    follow(feed: FeedSelector, toFollow: FeedSelector): JSON
+    """
+    Unfollow a feed
+    """
+    unfollow(feed: FeedSelector, toUnfollow: FeedSelector): JSON
+}
+
 type Subscription {
-    subscribe(slug: String!, id: String!): RealtimeFeed
+    realtimeFeed(feed: FeedSelector!): RealtimeFeed
+    # realtimeNotifications(slug: String!, id: String!): RealtimeNotificationFeed
 }

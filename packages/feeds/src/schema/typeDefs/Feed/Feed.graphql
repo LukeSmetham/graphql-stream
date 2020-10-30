@@ -1,4 +1,4 @@
-type Feed {
+type FlatFeed {
     """
     The duration of the request
     """
@@ -7,14 +7,49 @@ type Feed {
     URL to retrieve the next
     """
     next: URL
-    results: [String]
+    """
+    The activities
+    """
+    results: [Activity!]
 }
+
+type AggregatedFeed {
+    """
+    The duration of the request
+    """
+    duration: String!
+    """
+    URL to retrieve the next
+    """
+    next: URL
+    """
+    The activities
+    """
+    results: [Activity!]
+}
+
+type NotificationFeed {
+    """
+    The duration of the request
+    """
+    duration: String!
+    """
+    URL to retrieve the next
+    """
+    next: URL
+    """
+    The activities
+    """
+    results: [Activity!]
+}
+
+union Feed =  FlatFeed | AggregatedFeed | NotificationFeed
 
 type RealtimeFeed {
     """
     All activities deleted by this update
     """
-    deleted: [Activity]
+    deleted: [Activity!]
     """
     A pair of foreign_id and time of the deleted activities
     """
@@ -22,7 +57,7 @@ type RealtimeFeed {
     """
     All activities created by this update
     """
-    new: [Activity]
+    new: [Activity!]
     """
     Time of the update in ISO format
     """
