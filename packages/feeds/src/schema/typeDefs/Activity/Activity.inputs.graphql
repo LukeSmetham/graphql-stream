@@ -1,0 +1,8 @@
+"""
+The base input type for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
+"""
+input ActivityInput {
+    actor: String!
+    verb: String!
+    object: String!
+}
