@@ -1,0 +1,14 @@
+{
+  "name": "graphql-stream",
+  "repository": "https://github.com/LukeSmetham/graphql-stream.git",
+  "author": "Luke Smetham <luke@smetham.dev>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "graphql": "^15.4.0",
+    "graphql-tools": "^7.0.1"
+  }
+}
