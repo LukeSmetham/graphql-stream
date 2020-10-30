@@ -1,0 +1,7 @@
+{
+  "name": "graphql-stream",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
