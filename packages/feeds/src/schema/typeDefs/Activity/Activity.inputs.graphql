@@ -7,3 +7,53 @@ input AddActivityInput {
     object: String!
     to: [EntitySelector!]
 }
+
+input ActivityQueryReactionOptions {
+    """
+    Include reactions added by current user to all activities
+    """
+    counts: Boolean
+    """
+    Filter reactions with given kinds (support differs by SDKs, request if missing)
+    """
+    kinds: [String]
+    """
+    Include reaction counts to activities.
+    """
+    own: Boolean
+    """
+    Include recent reactions to activities
+    """
+    recent: Boolean
+}
+
+input ActivityQueryOptions {
+    """
+    When using collections, you can request Stream to enrich activities to include them
+    """
+    enrich: Boolean
+    """
+    Filter the feed on ids greater than or equal to the given value
+    """
+    id_gte: String
+    """
+    Filter the feed on ids greater than the given value
+    """
+    id_gt: String
+    """
+    The number of Activities to retrieve (max: 100)
+    """
+    limit: Int
+    """
+    Offset the activity cursor.
+    """
+    offset: Int
+    """
+    The custom ranking formula used to sort the feed, must be defined in the dashboard
+    """
+    ranking: String
+    """
+    Configure how the reactions are returned for the activities of this feed.
+    """
+    reactions: ActivityQueryReactionOptions
+}

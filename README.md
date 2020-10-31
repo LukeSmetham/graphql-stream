@@ -4,6 +4,8 @@ GraphQL Stream offers a set of tools, utils and extendable Schemas, Types, Resol
 - Can talk Directly to Apollo client in React, no API required.
 - Tree-Shakeable, Modularized & Composable Schema files giving you ultimate flexibility to, mix, match and extend types, include just Feeds or just Chat, include both, use the schema as a standalone API in its own right, or throw away our resolver entirely to construct totally custom logic using the Types and Resolver Context providers. 
 
+TODO: Most of the below info has changed slightly.
+
 ### Feeds
 
 #### Retrieving Feeds

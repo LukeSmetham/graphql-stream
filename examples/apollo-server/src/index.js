@@ -5,7 +5,7 @@ const server = new ApolloServer({
     context: () => {
         return {
             stream: {
-                ...createFeedsContext(process.env.STREAM_KEY, process.env.STREAM_SECRET, process.env.STREAM_ID)
+                ...createFeedsContext(process.env.STREAM_KEY, process.env.STREAM_SECRET, process.env.STREAM_ID),
             },
         };
     },

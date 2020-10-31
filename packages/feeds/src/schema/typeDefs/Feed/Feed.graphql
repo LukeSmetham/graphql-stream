@@ -1,45 +1,37 @@
 interface FeedPayload {
-    duration: String!
-    next: URL
-    results: [Activities!]
+    activities: [Activities!]
+    followers: [Feed!]
+    following: [Feed!]
+    followerCount: Int!
+    followingCount: Int!
+    id: EntitySelector!
 }
 
 type Feed implements FeedPayload {
     """
-    The duration of the request
+    The activities for this feed.
     """
-    duration: String!
+    activities(options: ActivityQueryOptions): [Activities!]
     """
-    URL to retrieve the next
+    The EntitySelector for this feed.
     """
-    next: URL
+    id: EntitySelector!
     """
-    The activities
+    The feeds that follow this feed.
     """
-    results: [Activities!]
-}
-
-type NotificationFeed implements FeedPayload {
+    followers: [Feed!]
     """
-    The duration of the request
+    The feeds that this feed follows.
     """
-    duration: String!
+    following: [Feed!]
     """
-    URL to retrieve the next
+    The count of followers for this feed.
     """
-    next: URL
+    followerCount: Int!
     """
-    The Notification Activities
+    The count of feeds that this feed follows.
     """
-    results: [AggregatedActivity!]
-    """
-    The unread activity count.
-    """
-    unread: Int!
-    """
-    The unseen activity count.
-    """
-    unseen: Int!
+    followingCount: Int!
 }
 
 type RealtimeFeed {
@@ -60,5 +52,3 @@ type RealtimeFeed {
     """
     published_at: DateTime!
 }
-
-union FeedResponse = Feed | NotificationFeed

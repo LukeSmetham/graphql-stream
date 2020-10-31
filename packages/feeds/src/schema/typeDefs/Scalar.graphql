@@ -1,5 +1,5 @@
 scalar DateTime
-scalar EntitySelector
+scalar EntitySelector # TODO add directive here to choose return format of the Selector.
 scalar ID
 scalar JSON
 scalar JSONObject

@@ -1,26 +1,8 @@
-const getFeedActivities = async (_, { slug, id, options }, { stream }) => {
-    if (!slug || !id) {
-        throw new Error('Must provide a feed selector, or a slug and id');
-    }
-
-    const feed = stream.feeds.feed(slug, id);
-
-    const { results } = await feed.get(options);
-
-    return results;
-};
+import { EntitySelector } from '@graphql-stream/shared';
 
 export const Query = {
-    aggregatedFeed: {
-        resolve: getFeedActivities,
-    },
+    /** Creates the 'source' object for all Feed fields */
     feed: {
-        resolve: getFeedActivities,
-    },
-    flatFeed: {
-        resolve: getFeedActivities,
-    },
-    notificationFeed: {
-        resolve: getFeedActivities,
+        resolve: (_, { slug, id }) => ({ id: new EntitySelector(`${slug}:${id}`) }),
     },
 };

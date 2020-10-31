@@ -1,53 +1,26 @@
 type Query {
     """
-    Query for the activities of a feed (can be any feed group).
+    Query for a feed (can be any feed group).
     """
     feed(
-        slug: String
-        id: String
-        options: FeedOptionsInput
-    ): [Activities!]
-    
-    """
-    Query for the activities of a flat feed.
-    """
-    flatFeed(
-        slug: String
-        id: String
-        options: FeedOptionsInput
-    ): [Activity!]
-    
-    """
-    Query for the activities of a aggregated feed.
-    """
-    aggregatedFeed(
-        slug: String
-        id: String
-        options: FeedOptionsInput
-    ): [AggregatedActivity!]
-    
-    """
-    Query for the activities of a notification feed.
-    """
-    notificationFeed(
-        slug: String
-        id: String
-        options: FeedOptionsInput
-    ): [NotificationActivity!]
+        slug: String!
+        id: String!
+        options: ActivityQueryOptions
+    ): Feed
 }
 
 type Mutation {
     """
     Follow a feed
     """
-    follow(feed: EntitySelector!, toFollow: EntitySelector!): JSON
+    follow(feed: EntitySelector!, toFollow: EntitySelector!): EntitySelector
+
     """
     Unfollow a feed
     """
-    unfollow(feed: EntitySelector!, toUnfollow: EntitySelector!): JSON
+    unfollow(feed: EntitySelector!, toUnfollow: EntitySelector!, keepHistory: Boolean): EntitySelector
 }
 
 type Subscription {
     realtimeFeed(slug: String!, id: String!): RealtimeFeed
-    # realtimeNotifications(slug: String!, id: String!): RealtimeNotificationFeed
 }
