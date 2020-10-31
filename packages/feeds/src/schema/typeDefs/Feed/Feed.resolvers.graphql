@@ -40,11 +40,11 @@ type Mutation {
     """
     Follow a feed
     """
-    follow(feed: StreamSelector!, toFollow: StreamSelector!): JSON
+    follow(feed: EntitySelector!, toFollow: EntitySelector!): JSON
     """
     Unfollow a feed
     """
-    unfollow(feed: StreamSelector!, toUnfollow: StreamSelector!): JSON
+    unfollow(feed: EntitySelector!, toUnfollow: EntitySelector!): JSON
 }
 
 type Subscription {

@@ -4,7 +4,7 @@ export const Mutation = {
             const activity = data;
 
             if (activity.to?.length) {
-                activity.to = activity.to.map(StreamSelector => StreamSelector.together);
+                activity.to = activity.to.map(EntitySelector => EntitySelector.together);
             }
 
             return feeds.feed(...feed).addActivity(activity);

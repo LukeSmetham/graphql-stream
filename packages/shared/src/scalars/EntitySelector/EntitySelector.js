@@ -1,4 +1,4 @@
-export class StreamSelector extends Array {
+export class EntitySelector extends Array {
     constructor(selector) {
         const parts = selector.split(':');
 

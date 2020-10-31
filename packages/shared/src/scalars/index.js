@@ -1,1 +1,1 @@
-export * from './StreamSelector';
+export * from './EntitySelector';
