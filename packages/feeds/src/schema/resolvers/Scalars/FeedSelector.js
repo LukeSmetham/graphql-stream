@@ -4,14 +4,30 @@ import { Kind, GraphQLError, GraphQLScalarType } from 'graphql';
 // eslint-disable-next-line no-unused-vars
 const bannedCharacters = ['.'];
 
-const validate = feedParts => {
-    feedParts.filter(part => Boolean(part));
+class StreamSelector extends Array {
+    constructor(selector) {
+        const parts = selector.split(':');
 
-    if (feedParts.length !== 2) {
-        throw new TypeError(`Invalid Feed Selector: ${feedParts}`);
+        if (parts?.length !== 2) {
+            throw new TypeError(
+                `Invalid Stream Selector provided: ${selector}, must contain only two parts. feedType:feedId | channelType:channelId`
+            );
+        }
+
+        super(...parts);
     }
 
-    return feedParts;
+    get together() {
+        return this.join(':');
+    }
+}
+
+const validate = data => {
+    if (data.length !== 2) {
+        throw new TypeError('Incorrect FeedSelector Provided.');
+    }
+
+    return data;
 };
 
 export const FeedSelector = new GraphQLScalarType({
@@ -20,7 +36,7 @@ export const FeedSelector = new GraphQLScalarType({
     parseLiteral: ast => {
         switch (ast.kind) {
             case Kind.STRING:
-                return validate(ast.value.split(':'));
+                return validate(new StreamSelector(ast.value));
             default:
                 throw new GraphQLError(`FeedSelector must be a string, you gave a: ${ast.kind}`);
         }
