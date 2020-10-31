@@ -1,4 +1,10 @@
-type FlatFeed {
+interface FeedPayload {
+    duration: String!
+    next: URL
+    results: [Activities!]
+}
+
+type Feed implements FeedPayload {
     """
     The duration of the request
     """
@@ -10,10 +16,10 @@ type FlatFeed {
     """
     The activities
     """
-    results: [Activity!]
+    results: [Activities!]
 }
 
-type AggregatedFeed {
+type NotificationFeed implements FeedPayload {
     """
     The duration of the request
     """
@@ -23,27 +29,18 @@ type AggregatedFeed {
     """
     next: URL
     """
-    The activities
+    The Notification Activities
     """
-    results: [Activity!]
+    results: [AggregatedActivity!]
+    """
+    The unread activity count.
+    """
+    unread: Int!
+    """
+    The unseen activity count.
+    """
+    unseen: Int!
 }
-
-type NotificationFeed {
-    """
-    The duration of the request
-    """
-    duration: String!
-    """
-    URL to retrieve the next
-    """
-    next: URL
-    """
-    The activities
-    """
-    results: [Activity!]
-}
-
-union Feed =  FlatFeed | AggregatedFeed | NotificationFeed
 
 type RealtimeFeed {
     """
@@ -63,3 +60,5 @@ type RealtimeFeed {
     """
     published_at: DateTime!
 }
+
+union FeedResponse = Feed | NotificationFeed

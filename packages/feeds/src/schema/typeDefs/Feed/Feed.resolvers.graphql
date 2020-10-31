@@ -3,7 +3,6 @@ type Query {
     Query for the activities of a feed.
     """
     feed(
-        feed: FeedSelector
         slug: String
         id: String
         """
@@ -34,7 +33,7 @@ type Query {
         Configure how the reactions are returned for the activities of this feed.
         """
         reactions: FeedReactionOptionsInput
-    ): [Activity]
+    ): [Activities]
 }
 
 type Mutation {
