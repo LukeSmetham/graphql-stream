@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server';
 import { createFeedsContext, schema } from '@graphql-stream/feeds';
 
-const server = new ApolloServer({ 
+const server = new ApolloServer({
     context: () => {
         return {
             stream: {
