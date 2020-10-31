@@ -5,4 +5,5 @@ input ActivityInput {
     actor: String!
     verb: String!
     object: String!
+    to: [FeedSelector!]
 }
