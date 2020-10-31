@@ -39,7 +39,7 @@ type Activity implements BaseActivityInterface {
     """
     Send this activity to other feeds.
     """
-    to: [String!]
+    to: [EntitySelector!]
     """
     The verb of the activity with a maximum length of 255 bytes
     """
@@ -61,27 +61,19 @@ type AggregatedActivity {
     """
     created_at: DateTime!
     """
-    The
+    The group this notification activity belongs to
     """
     group: String!
     """
-    The
+    The id of this notification group
     """
     id: String!
     """
-    The
-    """
-    is_read: Boolean!
-    """
-    The
-    """
-    is_seen: Boolean!
-    """
-    The
+    The time that this notification activity was updated.
     """
     updated_at: DateTime!
     """
-    The
+    The verb of the activity with a maximum length of 255 bytes
     """
     verb: String!
 }
@@ -101,27 +93,27 @@ type NotificationActivity {
     """
     created_at: DateTime!
     """
-    The
+    The group this notification activity belongs to
     """
     group: String!
     """
-    The
+    The id of this notification group
     """
     id: String!
     """
-    The
+    The read status of this activity
     """
     is_read: Boolean!
     """
-    The
+    The seen status of this activity
     """
     is_seen: Boolean!
     """
-    The
+    The time that this notification activity was updated.
     """
     updated_at: DateTime!
     """
-    The
+    The verb of the activity with a maximum length of 255 bytes
     """
     verb: String!
 }
