@@ -4,7 +4,7 @@ export const Mutation = {
             feeds.feed(...feed).addActivities(
                 activities.map(({ to, ...rest }) => ({
                     ...rest,
-                    to: to.map(selector => selector.together),
+                    to: to.map(selector => selector.toString()),
                 }))
             ),
     },
@@ -13,7 +13,7 @@ export const Mutation = {
             let { to } = activity;
 
             if (to?.length) {
-                to = activity.to.map(selector => selector.together);
+                to = activity.to.map(selector => selector.toString());
             }
 
             return feeds.feed(...feed).addActivity({

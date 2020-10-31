@@ -1,12 +1,11 @@
 import { ApolloServer } from 'apollo-server';
-import { createFeedsContext, schema } from '@graphql-stream/feeds';
+import { schema } from '@graphql-stream/feeds';
+import { createStreamContext } from '@graphql-stream/shared';
 
 const server = new ApolloServer({
     context: () => {
         return {
-            stream: {
-                ...createFeedsContext(process.env.STREAM_KEY, process.env.STREAM_SECRET, process.env.STREAM_ID),
-            },
+            stream: createStreamContext(process.env.STREAM_KEY, process.env.STREAM_SECRET, process.env.STREAM_ID),
         };
     },
     schema,

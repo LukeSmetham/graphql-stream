@@ -24,6 +24,6 @@ export class EntitySelector extends Array {
     }
 
     get together() {
-        return this.join(':');
+        return this.join('');
     }
 }
