@@ -1,4 +1,13 @@
 export const Mutation = {
+    addActivities: {
+        resolve: (_, { feed, activities }, { stream: { feeds } }) =>
+            feeds.feed(...feed).addActivities(
+                activities.map(({ to, ...rest }) => ({
+                    ...rest,
+                    to: to.map(selector => selector.together),
+                }))
+            ),
+    },
     addActivity: {
         resolve: (_, { feed, activity }, { stream: { feeds } }) => {
             let { to } = activity;
