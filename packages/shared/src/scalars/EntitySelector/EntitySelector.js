@@ -11,6 +11,14 @@ export class EntitySelector extends Array {
         super(...parts);
     }
 
+    get type() {
+        return this[0];
+    }
+
+    get id() {
+        return this[1];
+    }
+
     get together() {
         return this.join(':');
     }

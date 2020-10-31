@@ -1,3 +1,10 @@
 type Mutation {
-    addActivity(feed: EntitySelector!, data: ActivityInput!): Activity!
+    """
+    Add an activity to a given feed.
+    """
+    addActivity(feed: EntitySelector!, activity: AddActivityInput!): Activity!
+    """
+    Deletes the activity from a feed and returns the removed activity ID.
+    """
+    removeActivity(feed: EntitySelector!, id: ID, foreignId: ID): ID!
 }

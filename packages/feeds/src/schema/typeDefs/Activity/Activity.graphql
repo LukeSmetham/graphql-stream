@@ -1,11 +1,15 @@
 """
 The base interface for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-interface BaseActivityInterface {
+interface ActivityInterface {
     """
     the actor performing the activity
     """
     actor: String!
+    """
+    The unique ID of this activity
+    """
+    id: ID!
     """
     The object of the activity
     """
@@ -17,9 +21,47 @@ interface BaseActivityInterface {
 }
 
 """
+The base interface for a Stream Feeds Activity Group (returned by Aggregated and Notification feed groups). You can extend this type in your own schema to construct types for your custom attributes.
+"""
+interface ActivityGroupInterface {
+    """
+    The activities that belong to this group.
+    """
+    activities: [Activity!]
+    """
+    The number of activities
+    """
+    activity_count: Int!
+    """
+    Total actors in the aggregated response
+    """
+    actor_count: Int!
+    """
+    The date this notification update
+    """
+    created_at: DateTime!
+    """
+    The group this notification activity belongs to
+    """
+    group: String!
+    """
+    The id of this notification group
+    """
+    id: ID!
+    """
+    The time that this notification activity was updated.
+    """
+    updated_at: DateTime!
+    """
+    The verb of the activity with a maximum length of 255 bytes
+    """
+    verb: String!
+}
+
+"""
 The base type for a Stream Flat Feed Activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-type Activity implements BaseActivityInterface {
+type Activity implements ActivityInterface {
     """
     the actor performing the activity
     """
@@ -28,6 +70,10 @@ type Activity implements BaseActivityInterface {
     A unique IF from you application for this activity. IE: pin:1 or like:300. Required to later update activities by Time + Foreign ID.
     """
     foreign_id: String
+    """
+    The unique ID of this activity
+    """
+    id: ID!
     """
     The object of the activity
     """
@@ -46,7 +92,10 @@ type Activity implements BaseActivityInterface {
     verb: String!
 }
 
-type AggregatedActivity {
+type AggregatedActivity implements ActivityGroupInterface {
+    """
+    The activities that belong to this group.
+    """
     activities: [Activity!]
     """
     The number of activities
@@ -67,7 +116,7 @@ type AggregatedActivity {
     """
     The id of this notification group
     """
-    id: String!
+    id: ID!
     """
     The time that this notification activity was updated.
     """
@@ -78,7 +127,7 @@ type AggregatedActivity {
     verb: String!
 }
 
-type NotificationActivity {
+type NotificationActivity implements ActivityGroupInterface {
     activities: [Activity!]
     """
     The number of activities
@@ -99,7 +148,7 @@ type NotificationActivity {
     """
     The id of this notification group
     """
-    id: String!
+    id: ID!
     """
     The read status of this activity
     """

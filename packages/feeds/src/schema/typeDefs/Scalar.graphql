@@ -1,5 +1,6 @@
 scalar DateTime
+scalar EntitySelector
+scalar ID
 scalar JSON
 scalar JSONObject
 scalar URL
-scalar EntitySelector
