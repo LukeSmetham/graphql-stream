@@ -1,10 +1,10 @@
 import { DateTimeResolver, JSONResolver, JSONObjectResolver, URLResolver } from 'graphql-scalars';
-import FeedSelector from './FeedSelector';
+import { StreamSelectorResolver } from '@graphql-stream/shared';
 
 export default {
     DateTime: DateTimeResolver,
     JSON: JSONResolver,
     JSONObject: JSONObjectResolver,
-	URL: URLResolver,
-	FeedSelector,
+    StreamSelector: StreamSelectorResolver,
+    URL: URLResolver,
 };

@@ -2,4 +2,4 @@ scalar DateTime
 scalar JSON
 scalar JSONObject
 scalar URL
-scalar FeedSelector
+scalar StreamSelector
