@@ -1,7 +1,25 @@
 """
-The base type for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
+The base interface for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-type Activity {
+interface BaseActivityInterface {
+    """
+    the actor performing the activity
+    """
+    actor: String!
+    """
+    The object of the activity
+    """
+    object: String!
+    """
+    The verb of the activity with a maximum length of 255 bytes
+    """
+    verb: String!
+}
+
+"""
+The base type for a Stream Flat Feed Activity. You can extend this type in your own schema to construct types for your custom attributes.
+"""
+type Activity implements BaseActivityInterface {
     """
     the actor performing the activity
     """
@@ -27,3 +45,85 @@ type Activity {
     """
     verb: String!
 }
+
+type AggregatedActivity {
+    activities: [Activity!]
+    """
+    The number of activities
+    """
+    activity_count: Int!
+    """
+    Total actors in the aggregated response
+    """
+    actor_count: Int!
+    """
+    The date this notification update
+    """
+    created_at: DateTime!
+    """
+    The
+    """
+    group: String!
+    """
+    The
+    """
+    id: String!
+    """
+    The
+    """
+    is_read: Boolean!
+    """
+    The
+    """
+    is_seen: Boolean!
+    """
+    The
+    """
+    updated_at: DateTime!
+    """
+    The
+    """
+    verb: String!
+}
+
+type NotificationActivity {
+    activities: [Activity!]
+    """
+    The number of activities
+    """
+    activity_count: Int!
+    """
+    Total actors in the aggregated response
+    """
+    actor_count: Int!
+    """
+    The date this notification update
+    """
+    created_at: DateTime!
+    """
+    The
+    """
+    group: String!
+    """
+    The
+    """
+    id: String!
+    """
+    The
+    """
+    is_read: Boolean!
+    """
+    The
+    """
+    is_seen: Boolean!
+    """
+    The
+    """
+    updated_at: DateTime!
+    """
+    The
+    """
+    verb: String!
+}
+
+union Activities = Activity | AggregatedActivity | NotificationActivity
