@@ -3,8 +3,8 @@ import { StreamSelectorResolver } from '@graphql-stream/shared';
 
 export default {
     DateTime: DateTimeResolver,
-    FeedSelector: StreamSelectorResolver,
     JSON: JSONResolver,
     JSONObject: JSONObjectResolver,
+    StreamSelector: StreamSelectorResolver,
     URL: URLResolver,
 };

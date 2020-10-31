@@ -1,15 +1,17 @@
 import { Kind, GraphQLError, GraphQLScalarType } from 'graphql';
 
+import { StreamSelector } from './StreamSelector';
+
 // TODO list of banned characters, test the id in the validator below.
 // eslint-disable-next-line no-unused-vars
 const bannedCharacters = ['.'];
 
 const validate = data => {
-    if (data.length !== 2) {
-        throw new TypeError('Incorrect FeedSelector Provided.');
+    if (data instanceof StreamSelector) {
+        return data;
     }
 
-    return data;
+    return new StreamSelector(data);
 };
 
 export const StreamSelectorResolver = new GraphQLScalarType({
