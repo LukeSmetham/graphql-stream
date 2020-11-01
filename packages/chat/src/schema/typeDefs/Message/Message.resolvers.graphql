@@ -1,0 +1,7 @@
+type Query {
+    message(id: String!): Message
+}
+
+type Subscription {
+    channelEvents(channel: EntitySelector!): JSON
+}
