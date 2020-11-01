@@ -27,11 +27,11 @@ type Feed implements FeedPayload {
     """
     The count of followers for this feed.
     """
-    followerCount: Int!
+    followerCount(slugs: [String!]): Int!
     """
     The count of feeds that this feed follows.
     """
-    followingCount: Int!
+    followingCount(slugs: [String!]): Int!
 }
 
 type RealtimeFeed {

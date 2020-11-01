@@ -1,8 +1,14 @@
 export class EntitySelector extends Array {
     constructor(selector) {
-        const parts = selector.split(':');
+        let entity = selector;
 
-        if (!selector.includes(':') || parts?.length !== 2) {
+        if (typeof entity !== 'string') {
+            entity = entity.join(':');
+        }
+
+        const parts = entity.split(':');
+
+        if (!entity.includes(':') || parts?.length !== 2) {
             throw new TypeError(
                 `Invalid Stream Selector provided: ${selector}, must contain only two parts, separated by a colon - feedType:feedId | channelType:channelId`
             );

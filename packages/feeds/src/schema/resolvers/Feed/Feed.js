@@ -1,4 +1,5 @@
-import { EntitySelector } from '@graphql-stream/shared';
+import { EntitySelector } from '../../scalars';
+import { initializeFeed } from '../../utils';
 
 /**
  * Takes a FeedID and Token and returns a suitable source doc that will
@@ -15,13 +16,18 @@ const prepareFeed = (feed, token) => {
 
 export const Feed = {
     activities: async ({ id }, { options }, { stream }) => {
-        const feed = stream.feeds.feed(...id);
+        try {
+            const feed = stream.feeds.feed(...id);
 
-        const { results } = await feed.get(options);
+            const { results } = await feed.get(options);
 
-        return results;
+            return results;
+        } catch (error) {
+            throw new Error(error.message);
+        }
     },
-    followerCount: async ({ id, signature }, { slugs: followerSlugs }, { stream }) => {
+    /** Only allowed on the server, needs its own request sig (different from source.signature) */
+    followerCount: async ({ id }, { slugs: followerSlugs }, { stream }) => {
         const qs = {
             followers: id.toString(),
         };
@@ -33,26 +39,40 @@ export const Feed = {
         try {
             const data = await stream.feeds.get({
                 qs,
-                signature,
+                signature: `${id.together} ${stream.feeds.getOrCreateToken()}`,
                 url: '/stats/follow/',
             });
 
             return data?.results?.followers?.count || 0;
         } catch (error) {
-            throw new Error(error.message);
+            if (!stream.feeds.usingApiSecret) {
+                // eslint-disable-next-line no-console
+                console.warn('Follow Stats are only available on the server. Contact support to enable in client-side.');
+            }
+
+            return null;
         }
     },
     followers: async ({ id }, _, { stream }) => {
-        const data = await stream.feeds.feed(...id).followers();
+        try {
+            const data = await stream.feeds.feed(...id).followers();
 
-        return data?.results?.length ? data.results.map(({ feed_id }) => prepareFeed(feed_id, stream.feeds.getOrCreateToken())) : [];
+            return data?.results?.length ? data.results.map(({ feed_id }) => initializeFeed(...feed_id.split(':'), stream.feeds)) : [];
+        } catch (error) {
+            throw new Error(error.message);
+        }
     },
     following: async ({ id }, _, { stream }) => {
-        const data = await stream.feeds.feed(...id).following();
+        try {
+            const data = await stream.feeds.feed(...id).following();
 
-        return data?.results?.length ? data.results.map(({ target_id }) => prepareFeed(target_id, stream.feeds.getOrCreateToken())) : [];
+            return data?.results?.length ? data.results.map(({ target_id }) => initializeFeed(...target_id.split(':'), stream.feeds)) : [];
+        } catch (error) {
+            throw new Error(error.message);
+        }
     },
-    followingCount: async ({ id, signature }, { slugs: followingSlugs }, { stream }) => {
+    /** Only allowed on the server, needs its own request sig (different from source.signature) */
+    followingCount: async ({ id }, { slugs: followingSlugs }, { stream }) => {
         const qs = {
             following: id.toString(),
         };
@@ -64,22 +84,18 @@ export const Feed = {
         try {
             const data = await stream.feeds.get({
                 qs,
-                signature,
+                signature: `${id.together} ${stream.feeds.getOrCreateToken()}`,
                 url: '/stats/follow/',
             });
 
             return data?.results?.following?.count || 0;
         } catch (error) {
-            throw new Error(error.message);
-        }
-    },
-    id: ({ id }, { slug: feedSlug, id: feedId }) => {
-        if (id instanceof EntitySelector) return id;
+            if (!stream.feeds.usingApiSecret) {
+                // eslint-disable-next-line no-console
+                console.warn('Follow Stats are only available on the server. Contact support to enable in client-side.');
+            }
 
-        if (!id && feedSlug && feedId) {
-            return new EntitySelector(`${feedSlug}:${feedId}`);
+            return null;
         }
-
-        return id;
     },
 };

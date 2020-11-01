@@ -4,9 +4,9 @@ export const Mutation = {
             try {
                 await feeds.feed(...feed).follow(...toFollow);
 
-                return toFollow;
+                return feeds.feed(...toFollow);
             } catch (error) {
-                return null;
+                throw new Error(error.message);
             }
         },
     },
@@ -15,9 +15,9 @@ export const Mutation = {
             try {
                 await feeds.feed(...feed).unfollow(...toUnfollow, { keepHistory });
 
-                return toUnfollow;
+                return feeds.feed(...toUnfollow);
             } catch (error) {
-                return null;
+                throw new Error(error.message);
             }
         },
     },

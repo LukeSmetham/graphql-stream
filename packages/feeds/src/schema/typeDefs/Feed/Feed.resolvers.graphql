@@ -13,12 +13,12 @@ type Mutation {
     """
     Follow a feed
     """
-    follow(feed: EntitySelector!, toFollow: EntitySelector!): EntitySelector
+    follow(feed: EntitySelector!, toFollow: EntitySelector!): Feed
 
     """
     Unfollow a feed
     """
-    unfollow(feed: EntitySelector!, toUnfollow: EntitySelector!, keepHistory: Boolean): EntitySelector
+    unfollow(feed: EntitySelector!, toUnfollow: EntitySelector!, keepHistory: Boolean): Feed
 }
 
 type Subscription {
