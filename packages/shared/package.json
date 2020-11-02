@@ -4,5 +4,8 @@
   "main": "src/index.js",
   "repository": "https://github.com/LukeSmetham/graphql-stream.git",
   "author": "Luke Smetham <luke@smetham.dev>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "graphql-scalars": "^1.4.1"
+  }
 }

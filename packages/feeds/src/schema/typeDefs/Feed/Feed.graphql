@@ -38,7 +38,7 @@ type RealtimeFeed {
     """
     All activities deleted by this update
     """
-    deleted: [Activity!]
+    deleted: [String!]
     """
     A pair of foreign_id and time of the deleted activities
     """
@@ -46,9 +46,9 @@ type RealtimeFeed {
     """
     All activities created by this update
     """
-    new: [Activity!]
+    new: [Activities!]
     """
     Time of the update in ISO format
     """
-    published_at: DateTime!
+    published_at: Date!
 }

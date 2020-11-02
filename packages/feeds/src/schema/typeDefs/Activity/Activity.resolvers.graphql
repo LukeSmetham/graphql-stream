@@ -14,5 +14,5 @@ type Mutation {
     """
     Deletes the activity from a feed and returns the removed activity ID if successful. If no error is thrown, and the resolver returns null, this means the targeted feeds never had an existing follow relationship.
     """
-    removeActivity(feed: EntitySelector!, id: ID, foreignId: ID): ID
+    removeActivity(feed: EntitySelector!, id: UUID, foreignId: UUID): UUID
 }

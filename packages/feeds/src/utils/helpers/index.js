@@ -1,4 +1,4 @@
-import { EntitySelector } from '../../scalars';
+import { EntitySelector } from '@graphql-stream/shared';
 
 export const initializeFeed = (feedSlug, feedId, client) => {
     const feed = client.feed(feedSlug, feedId);

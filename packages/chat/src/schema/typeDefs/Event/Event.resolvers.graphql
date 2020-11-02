@@ -1,0 +1,10 @@
+type Subscription {
+    """
+    Subscribe to Stream Chat Client Events
+    """
+    clientEvents: Event
+    """
+    Subscribe to Stream Chat Client Events
+    """
+    channelEvents(channel: EntitySelector): Event
+}

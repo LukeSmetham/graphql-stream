@@ -2,6 +2,6 @@ type Query {
     message(id: String!): Message
 }
 
-type Subscription {
-    channelEvents(channel: EntitySelector!): JSON
+type Mutation {
+    sendMessage(channel: EntitySelector!, message: MessageInput!): Message
 }

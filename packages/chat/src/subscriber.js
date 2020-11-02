@@ -19,7 +19,6 @@ export class ChatSubscription extends PubSubEngine {
         }
 
         this.client = client;
-        this.client.setUser({ id: user });
     }
 
     publish = () => Promise.resolve();

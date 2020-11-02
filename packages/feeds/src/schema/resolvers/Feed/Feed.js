@@ -1,18 +1,4 @@
-import { EntitySelector } from '../../scalars';
-import { initializeFeed } from '../../utils';
-
-/**
- * Takes a FeedID and Token and returns a suitable source doc that will
- * enable all other fields of a Feed to resolve
- */
-const prepareFeed = (feed, token) => {
-    const id = new EntitySelector(feed);
-
-    return {
-        id,
-        signature: `${id.together} ${token}`,
-    };
-};
+import { initializeFeed } from '../../../utils';
 
 export const Feed = {
     activities: async ({ id }, { options }, { stream }) => {
@@ -26,7 +12,7 @@ export const Feed = {
             throw new Error(error.message);
         }
     },
-    /** Only allowed on the server, needs its own request sig (different from source.signature) */
+    /** Only allowed on the server, so needs its own request sig (different from source.signature) */
     followerCount: async ({ id }, { slugs: followerSlugs }, { stream }) => {
         const qs = {
             followers: id.toString(),
@@ -71,7 +57,7 @@ export const Feed = {
             throw new Error(error.message);
         }
     },
-    /** Only allowed on the server, needs its own request sig (different from source.signature) */
+    /** Only allowed on the server, so needs its own request sig (different from source.signature) */
     followingCount: async ({ id }, { slugs: followingSlugs }, { stream }) => {
         const qs = {
             following: id.toString(),

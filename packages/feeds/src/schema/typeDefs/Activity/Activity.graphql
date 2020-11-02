@@ -9,7 +9,7 @@ interface ActivityInterface {
     """
     The unique ID of this activity
     """
-    id: ID!
+    id: UUID!
     """
     The object of the activity
     """
@@ -39,7 +39,7 @@ interface ActivityGroupInterface {
     """
     The date this notification update
     """
-    created_at: DateTime!
+    created_at: Date!
     """
     The group this notification activity belongs to
     """
@@ -47,11 +47,11 @@ interface ActivityGroupInterface {
     """
     The id of this notification group
     """
-    id: ID!
+    id: UUID!
     """
     The time that this notification activity was updated.
     """
-    updated_at: DateTime!
+    updated_at: Date!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
@@ -73,7 +73,7 @@ type Activity implements ActivityInterface {
     """
     The unique ID of this activity
     """
-    id: ID!
+    id: UUID!
     """
     The object of the activity
     """
@@ -81,7 +81,7 @@ type Activity implements ActivityInterface {
     """
     The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID
     """
-    time: DateTime
+    time: Date
     """
     Send this activity to other feeds.
     """
@@ -108,7 +108,7 @@ type AggregatedActivity implements ActivityGroupInterface {
     """
     The date this notification update
     """
-    created_at: DateTime!
+    created_at: Date!
     """
     The group this notification activity belongs to
     """
@@ -116,11 +116,11 @@ type AggregatedActivity implements ActivityGroupInterface {
     """
     The id of this notification group
     """
-    id: ID!
+    id: UUID!
     """
     The time that this notification activity was updated.
     """
-    updated_at: DateTime!
+    updated_at: Date!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
@@ -140,7 +140,7 @@ type NotificationActivity implements ActivityGroupInterface {
     """
     The date this notification update
     """
-    created_at: DateTime!
+    created_at: Date!
     """
     The group this notification activity belongs to
     """
@@ -148,7 +148,7 @@ type NotificationActivity implements ActivityGroupInterface {
     """
     The id of this notification group
     """
-    id: ID!
+    id: UUID!
     """
     The read status of this activity
     """
@@ -160,7 +160,7 @@ type NotificationActivity implements ActivityGroupInterface {
     """
     The time that this notification activity was updated.
     """
-    updated_at: DateTime!
+    updated_at: Date!
     """
     The verb of the activity with a maximum length of 255 bytes
     """

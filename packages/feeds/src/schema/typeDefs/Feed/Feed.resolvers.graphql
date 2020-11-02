@@ -22,5 +22,5 @@ type Mutation {
 }
 
 type Subscription {
-    realtimeFeed(slug: String!, id: String!): RealtimeFeed
+    realtimeFeed(feed: EntitySelector!): RealtimeFeed
 }

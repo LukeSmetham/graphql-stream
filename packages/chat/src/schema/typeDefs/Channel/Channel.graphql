@@ -1,0 +1,5 @@
+type Channel {
+    id: EntitySelector!
+    messages: [Message!]
+    members: JSON
+}

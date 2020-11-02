@@ -1,4 +1,4 @@
-import { initializeFeed } from '../../utils';
+import { initializeFeed } from '../../../utils';
 
 export const Query = {
     /** Creates the 'source' object for all Feed fields */

@@ -4,9 +4,14 @@
   "main": "src/index.js",
   "license": "MIT",
   "engines": {
-		"node": ">=14.x"
-	},
+    "node": ">=14.x"
+  },
   "scripts": {
-    "dev": "nodemon --exec npx babel-node ./src/index.js --inspect --ignore=' '"
+    "dev": "nodemon --exec npx babel-node --ignore='node_modules' ./src/index.js --inspect"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.19.0",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security"
   }
 }
