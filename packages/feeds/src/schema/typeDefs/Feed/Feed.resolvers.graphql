@@ -3,8 +3,7 @@ type Query {
     Query for a feed (can be any feed group).
     """
     feed(
-        slug: String!
-        id: String!
+        id: EntitySelector!
         options: ActivityQueryOptions
     ): Feed
 }

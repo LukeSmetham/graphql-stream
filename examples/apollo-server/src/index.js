@@ -1,8 +1,24 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, gql } from 'apollo-server-express';
 import http from 'http';
 import express from 'express';
-import { schema } from '@graphql-stream/feeds';
+import { schema as streamFeeds } from '@graphql-stream/feeds';
 import { createStreamContext } from '@graphql-stream/shared';
+import { stitchSchemas } from '@graphql-tools/stitch';
+
+const typeDefs = gql`
+    extend type Activity {
+        feed: EntitySelector!
+    }
+
+    extend input AddActivityInput {
+        feed: EntitySelector!
+    }
+`;
+
+const schema = stitchSchemas({
+    subschemas: [{ schema: streamFeeds }],
+    typeDefs,
+});
 
 const server = new ApolloServer({
     context: () => {

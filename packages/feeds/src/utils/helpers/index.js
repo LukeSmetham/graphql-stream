@@ -1,8 +1,5 @@
-import { EntitySelector } from '@graphql-stream/shared';
-
-export const initializeFeed = (feedSlug, feedId, client) => {
-    const feed = client.feed(feedSlug, feedId);
-    const id = new EntitySelector(feed.id);
+export const initializeFeed = (id, client) => {
+    const feed = client.feed(...id);
 
     return {
         id,

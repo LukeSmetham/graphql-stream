@@ -1,3 +1,4 @@
+import { EntitySelector } from '@graphql-stream/shared';
 import { initializeFeed } from '../../../utils';
 
 export const Feed = {
@@ -43,7 +44,7 @@ export const Feed = {
         try {
             const data = await stream.feeds.feed(...id).followers();
 
-            return data?.results?.length ? data.results.map(({ feed_id }) => initializeFeed(...feed_id.split(':'), stream.feeds)) : [];
+            return data?.results?.length ? data.results.map(({ feed_id }) => initializeFeed(new EntitySelector(feed_id), stream.feeds)) : [];
         } catch (error) {
             throw new Error(error.message);
         }
@@ -52,7 +53,9 @@ export const Feed = {
         try {
             const data = await stream.feeds.feed(...id).following();
 
-            return data?.results?.length ? data.results.map(({ target_id }) => initializeFeed(...target_id.split(':'), stream.feeds)) : [];
+            return data?.results?.length
+                ? data.results.map(({ target_id }) => initializeFeed(new EntitySelector(target_id), stream.feeds))
+                : [];
         } catch (error) {
             throw new Error(error.message);
         }
