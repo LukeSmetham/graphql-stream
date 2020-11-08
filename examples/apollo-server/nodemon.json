@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "../../packages/**",
+    "./**"
+  ],
+  "ignore": ["../../**/node_modules/**"]
+}

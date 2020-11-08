@@ -1,0 +1,34 @@
+"""
+A Stream Chat User object. You can extend this in your own schema if you have custom fields.
+"""
+type User {
+    """
+    The unique ID for this user.
+    """
+    id: String!
+    """
+    The global (app-level) role for this user within your app.
+    """
+    role: String!
+    """
+    Date this user was created
+    """
+    created_at: Date!
+    """
+    Date this user was last updated
+    """
+    updated_at: Date!
+    """
+    Date representing the last time this user was active in your app.
+    """
+    last_active: Date!
+    """
+    The global (app-level) ban status of this user.
+    """
+    banned: Boolean!
+    """
+    The current online status of this user.
+    """
+    online: Boolean!
+}
+

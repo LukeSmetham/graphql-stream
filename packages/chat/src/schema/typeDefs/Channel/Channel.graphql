@@ -1,5 +1,102 @@
 type Channel {
     id: EntitySelector!
-    messages: [Message!]
-    members: JSON
+    type: ChannelTypeEnum!
+    created_by: User!
+    created_at: Date!
+    updated_at: Date!
+    frozen: Boolean!
+    config: ChannelConfig!
+    typing: [JSON!]
+    read: [JSON!]
+    messages: [JSON!]
+    threads: [JSON!]
+    mutedUsers: [JSON!]
+    watchers: [JSON!]
+    members: [ChannelUser!]
+    unreadCount: [JSON!]
+    membership: [JSON!]
+    last_message_at: Date!
+}
+
+"""
+Contains the default channel types for any Stream Chat app. Extend this to include your own custom types if you have any.
+"""
+enum ChannelTypeEnum {
+    livestream
+    messaging
+    team
+    gaming
+    commerce
+}
+
+type ChannelConfig {
+    created_at: Date!
+    updated_at: Date!
+    name: String!
+    typing_events: Boolean!
+    read_events: Boolean!
+    connect_events: Boolean!
+    search: Boolean!
+    reactions: Boolean!
+    relpies: Boolean!
+    mutes: Boolean!
+    uploads: Boolean!
+    url_enrichment: Boolean!
+    message_retention: String!
+    max_message_length: Int!
+    automod: String!
+    automod_behavior: String!
+    commands: [ChannelCommandsConfig!]
+}
+
+"""
+Configuration object for slash commands within a channel.
+"""
+type ChannelCommandsConfig {
+    """
+    The name of the channel command.
+    """
+    name: String!
+    """
+    Describes the channel commands functionality.
+    """
+    description: String!
+    """
+    The arguments helper text, shown in commands auto-completion.
+    """
+    args: String!
+    """
+    The set name used for grouping commands.
+    """
+    set: String!
+}
+
+"""
+A ChannelUser is returned when querying members of a channel. You get their User object, along with their channel specific metadata.
+"""
+type ChannelUser {
+    """
+    The Stream Chat User object this ChannelUser represents
+    """
+    user: User!
+    """
+    The role of this user within the parent channel.
+    """
+    role: String!
+    """
+    When the user was added to this channel.
+    """
+    created_at: Date!
+    """
+    The last time this ChannelUser object was updated. (Changes of a users relationship with this channel, i.e. a change of role)
+    """
+    updated_at: Date!
+    """
+    The channel-level ban status of this user.
+    """
+    banned: Boolean!
+    """
+    The channel-level shadow ban status of this user.
+    """
+    shadow_banned: Boolean!
 }
