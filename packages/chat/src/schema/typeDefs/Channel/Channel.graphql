@@ -8,7 +8,7 @@ type Channel {
     config: ChannelConfig!
     typing: [JSON!]
     read: [JSON!]
-    messages: [JSON!]
+    messages(options: MessageQueryInput): [Message!]
     threads: [JSON!]
     mutedUsers: [JSON!]
     watchers: [JSON!]

@@ -1,0 +1,81 @@
+input MessageInput {
+    """
+    The text of the chat message (Stream chat supports markdown and automatically enriches URLs).
+    """
+    text: String!
+    """
+    A list of attachments (audio, videos, images, and text). Max is 10 attachments per message. Each attachment can have up to 5KB.
+    """
+    attachments: [MessageAttachmentInput!]
+    """
+    The user this message is being sent from (required for server-side.)
+    """
+    user: JSON!
+    """
+    A list of users mentioned in the message. You send this as a list of user IDs and receive back the full user data.
+    """
+    mentioned_users: [String!]
+}
+
+input MessageAttachmentInput {
+    """
+    The attachment type based on the URL resource.
+    """
+    type: MessageAttachmentTypeEnum!
+    """
+    The name of the author.
+    """
+    author_name: String!
+    """
+    The attachment title.
+    """
+    title: String!
+    """
+    The link to which the attachment message points to.
+    """
+    title_link: URL!
+    """
+    The attachment text. It will be displayed in the channel next to the original message.
+    """
+    text: String!
+    """
+    The URL to the attached image. This is present for URL pointing to an image article (eg. Unsplash)
+    """
+    image_url: URL!
+    """
+    The URL to the attached file thumbnail. You can use this to represent the attached link.
+    """
+    thumb_url: URL!
+    """
+    The URL to the audio, video or image related to the URL.
+    """
+    asset_url: URL!
+    """
+    The original URL that was used to scrape this attachment.
+    """
+    og_scope_url: URL!
+}
+
+
+input MessageQueryInput {
+    """
+    Limit the amount of messages received (max. 100)
+    """
+    limit: Int!
+    """
+    ID Greater Than. Used for pagination, fetch all messages after the provided id.
+    """
+    id_gt: UUID!
+    """
+    ID Greater Than or Equal. Used for pagination, fetch all messages after and including the provided id.
+    """
+    id_gte: UUID!
+    """
+    ID Less Than. Used for pagination, fetch all messages before the provided id.
+    """
+    id_lt: UUID!
+    """
+    ID Less Than or Equal. Used for pagination, fetch all messages before and including the provided id.
+    """
+    id_lte: UUID!
+}

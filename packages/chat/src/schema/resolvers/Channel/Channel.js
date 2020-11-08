@@ -8,14 +8,24 @@ export const Channel = {
         try {
             const channel = stream.chat.channel(...id);
             const {members} = await channel.queryMembers({});
-            console.log(members);
             return members;
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     },
     membership: () => [],
-    messages: () => [],
+    messages: async ({ id }, { options = { limit: 100 } }, { stream }) => {
+        try {
+            const channel = stream.chat.channel(...id);
+            const {messages} = await channel.query({
+                messages: options,
+            });
+
+            return messages;
+        } catch (error) {
+            throw new Error(error);
+        }
+    },
     mutedUsers: () => [],
     read: () => [],
     threads: () => [],

@@ -7,6 +7,7 @@ export const Query = {
         return {
             data: channel.data,
             id,
+            state: channel.state,
         };
     },
 
