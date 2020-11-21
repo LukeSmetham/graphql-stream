@@ -1,0 +1,34 @@
+type Query {
+    """
+    Get a user.
+    """
+    user(id: String!): User
+    """
+    Get a user, or create one if there is no user for the given ID. (If the user exists the data argument is completely ignored)
+    """
+    userGetOrCreate(id: String!, data: JSON!): User!
+}
+
+type Mutation {
+    """
+    Create a new user.
+    """
+    userCreate(
+        """
+        The unique identifier for the new user (eg. username, user id, etc.). The value is restricted to alphanumeric characters, dashes and underscore symbols.
+        """
+        id: String
+        """
+        The data to create the user with.
+        """
+        data: JSON!
+    ): User!
+    """
+    Delete a user.
+    """
+    userDelete(id: String!): String!
+    """
+    Update a user (Does not merge old data, data argument replaces the original data for the given user ID).
+    """
+    userUpdate(id: String!, data: JSON!): User!
+}

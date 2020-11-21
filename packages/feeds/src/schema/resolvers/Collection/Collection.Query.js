@@ -1,9 +1,12 @@
 export const Query = {
-    get: async (_, { collection, id }, { stream: { feeds } }) => {
+    get: async (_, { collection, id: entryId }, { stream: { feeds } }) => {
         try {
-            const { data } = await feeds.collections.get(collection, id);
+            const { id, data } = await feeds.collections.get(collection, entryId);
 
-            return data;
+            return {
+                ...data,
+                id,
+            };
         } catch (error) {
             throw new Error(error.message);
         }

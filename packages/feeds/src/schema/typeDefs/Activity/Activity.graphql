@@ -5,7 +5,7 @@ interface ActivityInterface {
     """
     the actor performing the activity
     """
-    actor: String!
+    actor: JSON!
     """
     The unique ID of this activity
     """
@@ -65,7 +65,7 @@ type Activity implements ActivityInterface {
     """
     the actor performing the activity
     """
-    actor: String!
+    actor: JSON!
     """
     A unique IF from you application for this activity. IE: pin:1 or like:300. Required to later update activities by Time + Foreign ID.
     """

@@ -1,33 +1,52 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 import http from 'http';
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { schema as streamFeeds } from '@graphql-stream/feeds';
 import { createStreamContext } from '@graphql-stream/shared';
-import { stitchSchemas } from '@graphql-tools/stitch';
+import { mergeSchemas } from '@graphql-tools/merge';
 
 const typeDefs = gql`
-    extend type Activity {
-        feed: StreamID!
-    }
-
-    extend input AddActivityInput {
-        feed: StreamID!
+    extend type User {
+        email: String!
+        name: String!
     }
 `;
 
-const schema = stitchSchemas({
-    subschemas: [{ schema: streamFeeds }],
+const customFeedsSchema = mergeSchemas({
+    schemas: [streamFeeds],
     typeDefs,
 });
 
 const server = new ApolloServer({
-    context: () => {
+    context: ({ connection, req }) => {
+        let token;
+        let streamUserId;
+
+        if (connection) {
+            token = connection.context.Authorization ? connection.context.Authorization.replace(/^Bearer\s/u, '') : '';
+        } else {
+            token = req.headers.authorization ? req.headers.authorization.replace(/^Bearer\s/u, '') : '';
+        }
+
+        if (token) {
+            const { user_id } = jwt.verify(token, process.env.STREAM_SECRET);
+
+            streamUserId = user_id;
+        }
+
         return {
+            /*
+             * The following will scope all requests to the current user (same behaviour as the client-side client)
+             * stream: createStreamContext(process.env.STREAM_KEY, token || process.env.STREAM_SECRET, process.env.STREAM_ID),
+             */
+
+            // The following will allow the user to use the full server client, this is most suitable if you're heavily extending the schema so you can implement your own authentication logic using the streamUserId
             stream: createStreamContext(process.env.STREAM_KEY, process.env.STREAM_SECRET, process.env.STREAM_ID),
-            user: process.env.USER_ID,
+            streamUserId,
         };
     },
-    schema,
+    schema: customFeedsSchema,
 });
 
 const app = express();

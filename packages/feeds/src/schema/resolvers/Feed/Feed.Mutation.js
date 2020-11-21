@@ -1,8 +1,8 @@
 export const Mutation = {
     follow: {
-        resolve: async (_, { feed, toFollow }, { stream: { feeds } }) => {
+        resolve: async (_, { feed, toFollow, activityCopyLimit = 100 }, { stream: { feeds } }) => {
             try {
-                await feeds.feed(...feed).follow(...toFollow);
+                await feeds.feed(...feed).follow(...toFollow, { limit: activityCopyLimit });
 
                 return feeds.feed(...toFollow);
             } catch (error) {

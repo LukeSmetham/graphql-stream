@@ -3,7 +3,7 @@ type Query {
 }
 
 type Mutation {
-    add(collection: String!, id: String!, data: JSON!): JSON!
+    add(collection: String!, id: String, data: JSON!): JSON!
     delete(collection: String!, id: String!): String!
     update(collection: String!, id: String!, data: JSON!): JSON!
 }
