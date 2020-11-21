@@ -1,22 +1,10 @@
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import { schema as streamFeeds } from '@graphql-stream/feeds';
 import { createStreamContext } from '@graphql-stream/shared';
-import { mergeSchemas } from '@graphql-tools/merge';
 
-const typeDefs = gql`
-    extend type User {
-        email: String!
-        name: String!
-    }
-`;
-
-const customFeedsSchema = mergeSchemas({
-    schemas: [streamFeeds],
-    typeDefs,
-});
+import schema from './schema';
 
 const server = new ApolloServer({
     context: ({ connection, req }) => {
@@ -46,7 +34,7 @@ const server = new ApolloServer({
             streamUserId,
         };
     },
-    schema: customFeedsSchema,
+    schema,
 });
 
 const app = express();

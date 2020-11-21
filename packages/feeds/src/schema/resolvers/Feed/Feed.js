@@ -53,9 +53,7 @@ export const Feed = {
         try {
             const data = await stream.feeds.feed(...id).following();
 
-            return data?.results?.length
-                ? data.results.map(({ target_id }) => initializeFeed(new StreamID(target_id), stream.feeds))
-                : [];
+            return data?.results?.length ? data.results.map(({ target_id }) => initializeFeed(new StreamID(target_id), stream.feeds)) : [];
         } catch (error) {
             throw new Error(error.message);
         }
