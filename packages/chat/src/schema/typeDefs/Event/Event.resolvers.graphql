@@ -6,5 +6,5 @@ type Subscription {
     """
     Subscribe to Stream Chat Client Events
     """
-    channelEvents(channel: EntitySelector): Event
+    channelEvents(channel: StreamID): Event
 }

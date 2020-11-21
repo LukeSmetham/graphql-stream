@@ -85,7 +85,7 @@ type Activity implements ActivityInterface {
     """
     Send this activity to other feeds.
     """
-    to: [EntitySelector!]
+    to: [StreamID!]
     """
     The verb of the activity with a maximum length of 255 bytes
     """

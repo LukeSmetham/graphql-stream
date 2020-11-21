@@ -25,35 +25,35 @@ input MessageAttachmentInput {
     """
     The name of the author.
     """
-    author_name: String!
+    author_name: String
     """
     The attachment title.
     """
-    title: String!
+    title: String
     """
     The link to which the attachment message points to.
     """
-    title_link: URL!
+    title_link: URL
     """
     The attachment text. It will be displayed in the channel next to the original message.
     """
-    text: String!
+    text: String
     """
     The URL to the attached image. This is present for URL pointing to an image article (eg. Unsplash)
     """
-    image_url: URL!
+    image_url: URL
     """
     The URL to the attached file thumbnail. You can use this to represent the attached link.
     """
-    thumb_url: URL!
+    thumb_url: URL
     """
     The URL to the audio, video or image related to the URL.
     """
-    asset_url: URL!
+    asset_url: URL
     """
     The original URL that was used to scrape this attachment.
     """
-    og_scope_url: URL!
+    og_scope_url: URL
 }
 
 
@@ -61,21 +61,21 @@ input MessageQueryInput {
     """
     Limit the amount of messages received (max. 100)
     """
-    limit: Int!
+    limit: Int
     """
     ID Greater Than. Used for pagination, fetch all messages after the provided id.
     """
-    id_gt: UUID!
+    id_gt: UUID
     """
     ID Greater Than or Equal. Used for pagination, fetch all messages after and including the provided id.
     """
-    id_gte: UUID!
+    id_gte: UUID
     """
     ID Less Than. Used for pagination, fetch all messages before the provided id.
     """
-    id_lt: UUID!
+    id_lt: UUID
     """
     ID Less Than or Equal. Used for pagination, fetch all messages before and including the provided id.
     """
-    id_lte: UUID!
+    id_lte: UUID
 }

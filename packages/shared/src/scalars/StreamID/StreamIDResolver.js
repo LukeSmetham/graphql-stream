@@ -1,20 +1,20 @@
 import { Kind, GraphQLError, GraphQLScalarType } from 'graphql';
 
-import { EntitySelector } from './EntitySelector';
+import { StreamID } from './StreamID';
 
-export const EntitySelectorResolver = new GraphQLScalarType({
+export const StreamIDResolver = new GraphQLScalarType({
     description: 'A Stream Feed or Stream Chat Channel represented as a colon-separated value: "type:uid"',
-    name: 'EntitySelector',
+    name: 'StreamID',
     parseLiteral: ast => {
         switch (ast.kind) {
             case Kind.STRING:
-                return new EntitySelector(ast.value);
+                return new StreamID(ast.value);
             default:
-                throw new GraphQLError(`EntitySelector must be a string, you gave a: ${ast.kind}`);
+                throw new GraphQLError(`StreamID must be a string, you gave a: ${ast.kind}`);
         }
     },
     parseValue: data => {
-        return new EntitySelector(data);
+        return new StreamID(data);
     },
     serialize: data => {
         return data.toString();

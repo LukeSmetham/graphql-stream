@@ -1,18 +1,18 @@
 type Query {
-    activities(feed: EntitySelector!, options: ActivityQueryOptions): [Activities!]
+    activities(feed: StreamID!, options: ActivityQueryOptions): [Activities!]
 }
 
 type Mutation {
     """
     Add an activity to a given feed.
     """
-    addActivity(feed: EntitySelector!, activity: AddActivityInput!): Activity!
+    addActivity(feed: StreamID!, activity: AddActivityInput!): Activity!
     """
     Add multiple activities to a given feed.
     """
-    addActivities(feed: EntitySelector!, activities: [AddActivityInput!]): [Activity!]
+    addActivities(feed: StreamID!, activities: [AddActivityInput!]): [Activity!]
     """
     Deletes the activity from a feed and returns the removed activity ID if successful. If no error is thrown, and the resolver returns null, this means the targeted feeds never had an existing follow relationship.
     """
-    removeActivity(feed: EntitySelector!, id: UUID, foreignId: UUID): UUID
+    removeActivity(feed: StreamID!, id: UUID, foreignId: UUID): UUID
 }

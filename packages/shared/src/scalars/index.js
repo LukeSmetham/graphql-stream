@@ -1,2 +1,2 @@
-export * from './EntitySelector';
+export * from './StreamID';
 export * from './StreamScalars';

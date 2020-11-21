@@ -4,7 +4,7 @@ interface FeedPayload {
     following: [Feed!]
     followerCount: Int!
     followingCount: Int!
-    id: EntitySelector!
+    id: StreamID!
 }
 
 type Feed implements FeedPayload {
@@ -13,9 +13,9 @@ type Feed implements FeedPayload {
     """
     activities(options: ActivityQueryOptions): [Activities!]
     """
-    The EntitySelector for this feed.
+    The StreamID for this feed.
     """
-    id: EntitySelector!
+    id: StreamID!
     """
     The feeds that follow this feed.
     """

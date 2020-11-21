@@ -1,5 +1,5 @@
-type Channel {
-    id: EntitySelector!
+interface ChannelData {
+    id: StreamID!
     type: ChannelTypeEnum!
     created_by: User!
     created_at: Date!
@@ -9,6 +9,7 @@ type Channel {
     typing: [JSON!]
     read: [JSON!]
     messages(options: MessageQueryInput): [Message!]
+    name: String
     threads: [JSON!]
     mutedUsers: [JSON!]
     watchers: [JSON!]
@@ -16,6 +17,52 @@ type Channel {
     unreadCount: [JSON!]
     membership: [JSON!]
     last_message_at: Date!
+}
+
+type Channel implements ChannelData {
+    id: StreamID!
+    type: ChannelTypeEnum!
+    created_by: User!
+    created_at: Date!
+    updated_at: Date!
+    frozen: Boolean!
+    config: ChannelConfig!
+    typing: [JSON!]
+    read: [JSON!]
+    messages(options: MessageQueryInput): [Message!]
+    name: String
+    threads: [JSON!]
+    mutedUsers: [JSON!]
+    watchers: [JSON!]
+    members: [ChannelUser!]
+    unreadCount: [JSON!]
+    membership: [JSON!]
+    last_message_at: Date!
+}
+
+type OneToOneChannel implements ChannelData {
+    id: StreamID!
+    type: ChannelTypeEnum!
+    created_by: User!
+    created_at: Date!
+    updated_at: Date!
+    frozen: Boolean!
+    config: ChannelConfig!
+    typing: [JSON!]
+    read: [JSON!]
+    messages(options: MessageQueryInput): [Message!]
+    name: String
+    threads: [JSON!]
+    mutedUsers: [JSON!]
+    watchers: [JSON!]
+    members: [ChannelUser!]
+    unreadCount: [JSON!]
+    membership: [JSON!]
+    last_message_at: Date!
+    """
+    The Partner user in the chat.
+    """
+    partner: User
 }
 
 """

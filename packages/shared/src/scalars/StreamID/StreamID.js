@@ -1,4 +1,4 @@
-export class EntitySelector extends Array {
+export class StreamID extends Array {
     constructor(selector) {
         let entity = selector;
 

@@ -5,7 +5,7 @@ input AddActivityInput {
     actor: String!
     verb: String!
     object: String!
-    to: [EntitySelector!]
+    to: [StreamID!]
 }
 
 input ActivityQueryReactionOptions {

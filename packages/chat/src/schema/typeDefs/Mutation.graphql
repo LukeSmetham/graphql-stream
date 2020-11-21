@@ -1,0 +1,6 @@
+type Mutation {
+    """
+    Generate a token for a user.
+    """
+    createChatToken(id: UUID): String!
+}

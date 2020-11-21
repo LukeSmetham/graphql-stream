@@ -3,5 +3,5 @@ type Query {
 }
 
 type Mutation {
-    sendMessage(channel: EntitySelector!, message: MessageInput!): Message
+    sendMessage(channel: StreamID!, message: MessageInput!): Message
 }
