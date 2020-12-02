@@ -1,0 +1,17 @@
+{
+  "name": "@graphql-stream/apollo-server-chat-example",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.x"
+  },
+  "scripts": {
+    "dev": "nodemon --exec npx babel-node --ignore='node_modules' ./src/index.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.19.0",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security"
+  }
+}

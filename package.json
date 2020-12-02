@@ -9,7 +9,8 @@
     "examples/*"
   ],
   "scripts": {
-    "dev": "yarn workspace @graphql-stream/apollo-server-example dev"
+	"dev:chat": "yarn workspace @graphql-stream/apollo-server-chat-example dev",
+	"dev:feeds": "yarn workspace @graphql-stream/apollo-server-feeds-example dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",

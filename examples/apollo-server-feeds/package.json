@@ -1,5 +1,5 @@
 {
-  "name": "@graphql-stream/apollo-server-example",
+  "name": "@graphql-stream/apollo-server-feeds-example",
   "version": "0.0.1",
   "main": "src/index.js",
   "license": "MIT",
@@ -7,7 +7,7 @@
     "node": ">=14.x"
   },
   "scripts": {
-    "dev": "nodemon --exec npx babel-node --ignore='node_modules' ./src/index.js --inspect"
+    "dev": "nodemon --exec npx babel-node --ignore='node_modules' ./src/index.js"
   },
   "dependencies": {
     "apollo-server-express": "^2.19.0",
