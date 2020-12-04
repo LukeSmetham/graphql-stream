@@ -58,8 +58,8 @@ typings/
 .env
 
 # builds
-dist/
-lib/
+**/dist/
+**/lib/
 
 # system
 .DS_Store
