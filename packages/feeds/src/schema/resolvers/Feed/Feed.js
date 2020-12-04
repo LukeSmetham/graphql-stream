@@ -1,18 +1,9 @@
 import { StreamID } from '@graphql-stream/shared';
+import { Query as ActivityQuery } from '../Activity/Activity.Query';
 import { initializeFeed } from '../../../utils';
 
 export const Feed = {
-    activities: async ({ id }, { options }, { stream }) => {
-        try {
-            const feed = stream.feeds.feed(...id);
-
-            const { results } = await feed.get(options);
-
-            return results;
-        } catch (error) {
-            throw new Error(error.message);
-        }
-    },
+    activities: ActivityQuery.activities,
     /** Only allowed on the server, so needs its own request sig (different from source.signature) */
     followerCount: async ({ id }, { slugs: followerSlugs }, { stream }) => {
         const qs = {

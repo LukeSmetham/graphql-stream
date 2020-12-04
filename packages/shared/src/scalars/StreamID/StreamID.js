@@ -32,4 +32,8 @@ export class StreamID extends Array {
     get together() {
         return this.join('');
     }
+
+    get uri() {
+        return this.join('/');
+    }
 }

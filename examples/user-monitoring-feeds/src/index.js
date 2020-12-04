@@ -2,9 +2,12 @@ import 'dotenv/config';
 import { ApolloServer } from 'apollo-server-express';
 import http from 'http';
 import express from 'express';
+import bodyParser from 'body-parser';
 import { createStreamContext } from '@graphql-stream/shared';
 
+import captainHook from './webhooks';
 import schema from './schema';
+import { nanoid } from 'nanoid';
 
 const server = new ApolloServer({
     context: () => ({
@@ -18,6 +21,9 @@ const app = express();
 server.applyMiddleware({
     app,
 });
+
+app.use('/webhook', bodyParser.json());
+app.use('/webhook', captainHook.onWebhook);
 
 const httpServer = http.createServer(app);
 
