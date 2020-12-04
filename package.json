@@ -9,7 +9,10 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "lerna exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
+    "build:clean": "lerna exec --parallel -- rm -rf lib",
+    "build": "yarn build:js && yarn build:graphql",
+    "build:js": "lerna exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
+    "build:graphql": "lerna exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
     "dev:chat": "yarn workspace @graphql-stream/apollo-server-chat-example dev",
     "dev:feeds": "yarn workspace @graphql-stream/apollo-server-feeds-example dev",
     "dev:user-events": "yarn workspace @graphql-stream/user-event-feeds dev"
@@ -45,6 +48,7 @@
     "nodemon": "^2.0.6",
     "phin": "^3.5.0",
     "prettier": "^2.1.2",
+    "rsync": "^0.6.1",
     "stream-chat": "^2.7.2"
   }
 }
