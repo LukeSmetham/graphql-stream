@@ -1,17 +1,89 @@
-interface StreamFeedPayload {
-    activities: [StreamActivities!]
-    followers: [StreamFeed!]
-    following: [StreamFeed!]
-    followerCount: Int!
-    followingCount: Int!
-    id: StreamID!
-}
-
-type StreamFeed implements StreamFeedPayload {
+interface StreamFeed {
     """
     The activities for this feed.
     """
-    activities(options: StreamActivityQueryOptions): [StreamActivities!]
+    activities(options: StreamActivityQueryOptions): [StreamActivityUnion!]
+    """
+    The StreamID for this feed.
+    """
+    id: StreamID!
+    """
+    The feeds that follow this feed.
+    """
+    followers: [StreamFeed!]
+    """
+    The feeds that this feed follows.
+    """
+    following: [StreamFeed!]
+    """
+    The count of followers for this feed.
+    """
+    followerCount(slugs: [String!]): Int!
+    """
+    The count of feeds that this feed follows.
+    """
+    followingCount(slugs: [String!]): Int!
+}
+
+type StreamFlatFeed implements StreamFeed {
+    """
+    The activities for this feed.
+    """
+    activities(options: StreamActivityQueryOptions): [StreamActivity!]
+    """
+    The StreamID for this feed.
+    """
+    id: StreamID!
+    """
+    The feeds that follow this feed.
+    """
+    followers: [StreamFeed!]
+    """
+    The feeds that this feed follows.
+    """
+    following: [StreamFeed!]
+    """
+    The count of followers for this feed.
+    """
+    followerCount(slugs: [String!]): Int!
+    """
+    The count of feeds that this feed follows.
+    """
+    followingCount(slugs: [String!]): Int!
+}
+
+type StreamAggregatedFeed implements StreamFeed {
+    """
+    The activities for this feed.
+    """
+    activities(options: StreamActivityQueryOptions): [StreamAggregatedActivity!]
+    """
+    The StreamID for this feed.
+    """
+    id: StreamID!
+    """
+    The feeds that follow this feed.
+    """
+    followers: [StreamFeed!]
+    """
+    The feeds that this feed follows.
+    """
+    following: [StreamFeed!]
+    """
+    The count of followers for this feed.
+    """
+    followerCount(slugs: [String!]): Int!
+    """
+    The count of feeds that this feed follows.
+    """
+    followingCount(slugs: [String!]): Int!
+}
+
+type StreamNotificationFeed implements StreamFeed {
+    """
+    The activities for this feed.
+    """
+    activities(options: StreamActivityQueryOptions): [StreamNotificationActivity!]
     """
     The StreamID for this feed.
     """
@@ -38,17 +110,17 @@ type StreamRealtimeFeed {
     """
     All activities deleted by this update
     """
-    deleted: [String!]
+    deleted: [UUID!]
     """
     A pair of foreign_id and time of the deleted activities
     """
-    deleted_foreign_ids: [String!]
+    deleted_foreign_ids: [UUID!]
     """
     All activities created by this update
     """
-    new: [StreamActivities!]
+    new: [StreamActivity!]
     """
     Time of the update in ISO format
     """
-    published_at: Date!
+    published_at: String!
 }

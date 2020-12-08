@@ -1,5 +1,5 @@
 type Query {
-    activities(feed: StreamID!, options: StreamActivityQueryOptions): [StreamActivities!]
+    activities(feed: StreamID!, options: StreamActivityQueryOptions): [StreamActivityUnion!]
 }
 
 type Mutation {

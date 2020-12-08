@@ -1,5 +1,5 @@
 """
-The base interface for a Stream Feeds activity. You can extend this type in your own schema to construct types for your custom attributes.
+The base interface for a Stream Feeds activity. You can implement this interface in your own schema to construct types for your custom attributes.
 """
 interface StreamActivityInterface {
     """
@@ -13,7 +13,7 @@ interface StreamActivityInterface {
     """
     The object of the activity
     """
-    object: String!
+    object: JSON!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
@@ -21,13 +21,9 @@ interface StreamActivityInterface {
 }
 
 """
-The base interface for a Stream Feeds activity Group (returned by Aggregated and Notification feed groups). You can extend this type in your own schema to construct types for your custom attributes.
+The base interface for a Stream Feeds activity Group (returned by Aggregated and Notification feed groups). You can implement this interface in your own schema to construct types for your custom attributes.
 """
-interface StreamGroupedActivityInterface {
-    """
-    The activities that belong to this group.
-    """
-    activities: [StreamActivity!]
+interface StreamAggregatedActivityInterface {
     """
     The number of activities
     """
@@ -39,7 +35,7 @@ interface StreamGroupedActivityInterface {
     """
     The date this notification update
     """
-    created_at: Date!
+    created_at: String!
     """
     The group this notification activity belongs to
     """
@@ -51,7 +47,7 @@ interface StreamGroupedActivityInterface {
     """
     The time that this notification activity was updated.
     """
-    updated_at: Date!
+    updated_at: String!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
@@ -59,7 +55,7 @@ interface StreamGroupedActivityInterface {
 }
 
 """
-The base type for a Stream Flat Feed StreamActivity. You can extend this type in your own schema to construct types for your custom attributes.
+The base type for an Activity in a Stream Feed. You can extend this type in your own schema to construct types for your custom attributes.
 """
 type StreamActivity implements StreamActivityInterface {
     """
@@ -67,9 +63,9 @@ type StreamActivity implements StreamActivityInterface {
     """
     actor: JSON!
     """
-    A unique IF from you application for this activity. IE: pin:1 or like:300. Required to later update activities by Time + Foreign ID.
+    A unique ID from you application for this activity. i,e.: pin:1 or like:300. Required to later update activities by Time + Foreign ID.
     """
-    foreign_id: String
+    foreign_id: UUID
     """
     The unique ID of this activity
     """
@@ -77,11 +73,11 @@ type StreamActivity implements StreamActivityInterface {
     """
     The object of the activity
     """
-    object: String!
+    object: JSON!
     """
     The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID
     """
-    time: Date
+    time: String
     """
     Send this activity to other feeds.
     """
@@ -92,7 +88,7 @@ type StreamActivity implements StreamActivityInterface {
     verb: String!
 }
 
-type StreamAggregatedActivity implements StreamGroupedActivityInterface {
+type StreamAggregatedActivity implements StreamAggregatedActivityInterface {
     """
     The activities that belong to this group.
     """
@@ -108,7 +104,7 @@ type StreamAggregatedActivity implements StreamGroupedActivityInterface {
     """
     The date this notification update
     """
-    created_at: Date!
+    created_at: String!
     """
     The group this notification activity belongs to
     """
@@ -120,14 +116,14 @@ type StreamAggregatedActivity implements StreamGroupedActivityInterface {
     """
     The time that this notification activity was updated.
     """
-    updated_at: Date!
+    updated_at: String!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
     verb: String!
 }
 
-type StreamNotificationActivity implements StreamGroupedActivityInterface {
+type StreamNotificationActivity implements StreamAggregatedActivityInterface {
     activities: [StreamActivity!]
     """
     The number of activities
@@ -140,7 +136,7 @@ type StreamNotificationActivity implements StreamGroupedActivityInterface {
     """
     The date this notification update
     """
-    created_at: Date!
+    created_at: String!
     """
     The group this notification activity belongs to
     """
@@ -160,11 +156,11 @@ type StreamNotificationActivity implements StreamGroupedActivityInterface {
     """
     The time that this notification activity was updated.
     """
-    updated_at: Date!
+    updated_at: String!
     """
     The verb of the activity with a maximum length of 255 bytes
     """
     verb: String!
 }
 
-union StreamActivities = StreamActivity | StreamAggregatedActivity | StreamNotificationActivity
+union StreamActivityUnion = StreamActivity | StreamAggregatedActivity | StreamNotificationActivity

@@ -1,25 +1,43 @@
 type Query {
     """
-    Query for a feed (can be any feed group).
+    Query for a flat feed.
     """
-    feed(
+    flatFeed(
         id: StreamID!
         options: StreamActivityQueryOptions
-    ): StreamFeed
+    ): StreamFlatFeed!
+    
+    """
+    Query for a aggregated feed.
+    """
+    aggregatedFeed(
+        id: StreamID!
+        options: StreamActivityQueryOptions
+    ): StreamAggregatedFeed!
+
+    """
+    Query for a notification feed.
+    """
+    notificationFeed(
+        id: StreamID!
+        options: StreamActivityQueryOptions
+    ): StreamNotificationFeed!
 }
 
 type Mutation {
     """
     Follow a feed
+    (Only flat feeds can be followed)
     """
-    follow(feed: StreamID!, toFollow: StreamID!): StreamFeed
+    follow(feed: StreamID!, toFollow: StreamID!): StreamFlatFeed!
 
     """
     Unfollow a feed
+    (Only flat feeds can be followed)
     """
-    unfollow(feed: StreamID!, toUnfollow: StreamID!, keepHistory: Boolean): StreamFeed
+    unfollow(feed: StreamID!, toUnfollow: StreamID!, keepHistory: Boolean): StreamFlatFeed!
 }
 
 type Subscription {
-    realtimeFeed(feed: StreamID!): StreamRealtimeFeed
+    realtimeFeed(feed: StreamID!): StreamRealtimeFeed!
 }
