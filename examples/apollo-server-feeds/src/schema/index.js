@@ -22,7 +22,7 @@ const resolvers = {
 
 const typeDefs = gql`
     type Query {
-        myActivity: StreamFeed!
+        myActivity: StreamFlatFeed!
     }
 `;
 

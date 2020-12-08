@@ -38,7 +38,7 @@ One example of how this works is, imagine your app creates activity feeds for sp
 
 ```gql
 type Query {
-    match(id: ObjectID!): StreamFeed!
+    match(id: ObjectID!): StreamFlatFeed!
 }
 ```
 

@@ -2,8 +2,7 @@ import { StreamID } from '../../scalars';
 import { Query as ActivityQuery } from '../StreamActivity/StreamActivity.Query';
 import { initializeFeed } from '../../../utils';
 
-export const StreamFeed = {
-    activities: ActivityQuery.activities,
+export const StreamFeedInterface = {
     /** Only allowed on the server, so needs its own request sig (different from source.signature) */
     followerCount: async ({ id }, { slugs: followerSlugs }, { stream }) => {
         const qs = {
@@ -76,4 +75,16 @@ export const StreamFeed = {
             return null;
         }
     },
+};
+
+export const StreamFlatFeed = {
+    activities: ActivityQuery.activities,
+};
+
+export const StreamAggregatedFeed = {
+    activities: ActivityQuery.activities,
+};
+
+export const StreamNotificationFeed = {
+    activities: ActivityQuery.activities,
 };

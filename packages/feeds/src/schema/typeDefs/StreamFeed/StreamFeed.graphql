@@ -1,7 +1,7 @@
 """
 Base interface for all Stream Feed types. Activities is omitted so users can implement custom activity types if need be. They can also implement the StreamActivityInterface
 """
-interface StreamFeed {
+interface StreamFeedInterface {
     """
     The StreamID for this feed.
     """
@@ -9,11 +9,11 @@ interface StreamFeed {
     """
     The feeds that follow this feed.
     """
-    followers: [StreamFeed!]
+    followers: [StreamFlatFeed!]
     """
     The feeds that this feed follows.
     """
-    following: [StreamFeed!]
+    following: [StreamFlatFeed!]
     """
     The count of followers for this feed.
     """
@@ -24,7 +24,7 @@ interface StreamFeed {
     followingCount(slugs: [String!]): Int!
 }
 
-type StreamFlatFeed implements StreamFeed {
+type StreamFlatFeed implements StreamFeedInterface {
     """
     The activities for this feed.
     """
@@ -36,11 +36,11 @@ type StreamFlatFeed implements StreamFeed {
     """
     The feeds that follow this feed.
     """
-    followers: [StreamFeed!]
+    followers: [StreamFlatFeed!]
     """
     The feeds that this feed follows.
     """
-    following: [StreamFeed!]
+    following: [StreamFlatFeed!]
     """
     The count of followers for this feed.
     """
@@ -51,7 +51,7 @@ type StreamFlatFeed implements StreamFeed {
     followingCount(slugs: [String!]): Int!
 }
 
-type StreamAggregatedFeed implements StreamFeed {
+type StreamAggregatedFeed implements StreamFeedInterface {
     """
     The activities for this feed.
     """
@@ -63,11 +63,11 @@ type StreamAggregatedFeed implements StreamFeed {
     """
     The feeds that follow this feed.
     """
-    followers: [StreamFeed!]
+    followers: [StreamFlatFeed!]
     """
     The feeds that this feed follows.
     """
-    following: [StreamFeed!]
+    following: [StreamFlatFeed!]
     """
     The count of followers for this feed.
     """
@@ -78,7 +78,7 @@ type StreamAggregatedFeed implements StreamFeed {
     followingCount(slugs: [String!]): Int!
 }
 
-type StreamNotificationFeed implements StreamFeed {
+type StreamNotificationFeed implements StreamFeedInterface {
     """
     The activities for this feed.
     """
@@ -90,11 +90,11 @@ type StreamNotificationFeed implements StreamFeed {
     """
     The feeds that follow this feed.
     """
-    followers: [StreamFeed!]
+    followers: [StreamFlatFeed!]
     """
     The feeds that this feed follows.
     """
-    following: [StreamFeed!]
+    following: [StreamFlatFeed!]
     """
     The count of followers for this feed.
     """
