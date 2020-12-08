@@ -1,13 +1,13 @@
-export const Activities = {
+export const StreamActivities = {
     __resolveType: ({ activities, is_read, is_seen }) => {
         if (typeof is_read !== 'undefined' && typeof is_seen !== 'undefined') {
-            return 'NotificationActivity';
+            return 'StreamNotificationActivity';
         }
 
         if (activities) {
-            return 'AggregatedActivity';
+            return 'StreamAggregatedActivity';
         }
 
-        return 'Activity';
+        return 'StreamActivity';
     },
 };

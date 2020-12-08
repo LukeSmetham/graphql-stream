@@ -1,5 +1,5 @@
 import path from 'path';
-import { StreamScalars } from '@graphql-stream/shared/src/scalars/StreamScalars';
+import { StreamScalars } from '../scalars';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { loadFilesSync } from '@graphql-tools/load-files';
 

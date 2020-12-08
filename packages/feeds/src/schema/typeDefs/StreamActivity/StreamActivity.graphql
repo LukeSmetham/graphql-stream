@@ -1,7 +1,7 @@
 """
-The base interface for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
+The base interface for a Stream Feeds activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-interface ActivityInterface {
+interface StreamActivityInterface {
     """
     the actor performing the activity
     """
@@ -21,13 +21,13 @@ interface ActivityInterface {
 }
 
 """
-The base interface for a Stream Feeds Activity Group (returned by Aggregated and Notification feed groups). You can extend this type in your own schema to construct types for your custom attributes.
+The base interface for a Stream Feeds activity Group (returned by Aggregated and Notification feed groups). You can extend this type in your own schema to construct types for your custom attributes.
 """
-interface ActivityGroupInterface {
+interface StreamGroupedActivityInterface {
     """
     The activities that belong to this group.
     """
-    activities: [Activity!]
+    activities: [StreamActivity!]
     """
     The number of activities
     """
@@ -59,9 +59,9 @@ interface ActivityGroupInterface {
 }
 
 """
-The base type for a Stream Flat Feed Activity. You can extend this type in your own schema to construct types for your custom attributes.
+The base type for a Stream Flat Feed StreamActivity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-type Activity implements ActivityInterface {
+type StreamActivity implements StreamActivityInterface {
     """
     the actor performing the activity
     """
@@ -92,11 +92,11 @@ type Activity implements ActivityInterface {
     verb: String!
 }
 
-type AggregatedActivity implements ActivityGroupInterface {
+type StreamAggregatedActivity implements StreamGroupedActivityInterface {
     """
     The activities that belong to this group.
     """
-    activities: [Activity!]
+    activities: [StreamActivity!]
     """
     The number of activities
     """
@@ -127,8 +127,8 @@ type AggregatedActivity implements ActivityGroupInterface {
     verb: String!
 }
 
-type NotificationActivity implements ActivityGroupInterface {
-    activities: [Activity!]
+type StreamNotificationActivity implements StreamGroupedActivityInterface {
+    activities: [StreamActivity!]
     """
     The number of activities
     """
@@ -167,4 +167,4 @@ type NotificationActivity implements ActivityGroupInterface {
     verb: String!
 }
 
-union Activities = Activity | AggregatedActivity | NotificationActivity
+union StreamActivities = StreamActivity | StreamAggregatedActivity | StreamNotificationActivity

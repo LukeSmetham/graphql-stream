@@ -1,14 +1,14 @@
 """
 The base input type for a Stream Feeds Activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
-input AddActivityInput {
+input StreamAddActivityInput {
     actor: String!
     verb: String!
     object: String!
     to: [StreamID!]
 }
 
-input ActivityQueryReactionOptions {
+input StreamActivityQueryReactionOptions {
     """
     Include reactions added by current user to all activities
     """
@@ -27,7 +27,7 @@ input ActivityQueryReactionOptions {
     recent: Boolean
 }
 
-input ActivityQueryOptions {
+input StreamActivityQueryOptions {
     """
     When using collections, you can request Stream to enrich activities to include them
     """
@@ -55,5 +55,5 @@ input ActivityQueryOptions {
     """
     Configure how the reactions are returned for the activities of this feed.
     """
-    reactions: ActivityQueryReactionOptions
+    reactions: StreamActivityQueryReactionOptions
 }

@@ -1220,7 +1220,7 @@
     is-promise "4.0.0"
     tslib "~2.0.1"
 
-"@graphql-tools/load-files@^6.2.4":
+"@graphql-tools/load-files@^6.2.4", "@graphql-tools/load-files@^6.2.5":
   version "6.2.5"
   resolved "https://registry.yarnpkg.com/@graphql-tools/load-files/-/load-files-6.2.5.tgz#d5240ab207e2288b499d1f32310a3d2b19e0386a"
   integrity sha512-mjfvrRrQZoXAtI/50KKy7WancqHRHBXfJMJa+Vn2TpMQV0uYlu32+WMa3ZM5yTOuT/ipifvjEQDhxOyTIoi67g==
@@ -5586,6 +5586,22 @@ getstream@^6.2.0:
     jwt-decode "^2.2.0"
     qs "^6.9.4"
 
+getstream@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/getstream/-/getstream-7.0.1.tgz#540a20aa5abc6030d7ceff19d1faffb1299f67f8"
+  integrity sha512-H5kqIGQMEEdbFwakabtVkLtjyDJOUXDQ1kjX3KM9R8pqC2U6gFgz+1vifQ+GcuGHO/AUrVPEt4CeBl6klMqEIg==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@types/jsonwebtoken" "^8.5.0"
+    "@types/jwt-decode" "^2.2.1"
+    "@types/qs" "^6.9.4"
+    axios "^0.20.0"
+    faye "^1.4.0"
+    form-data "^3.0.0"
+    jsonwebtoken "^8.5.1"
+    jwt-decode "^2.2.0"
+    qs "^6.9.4"
+
 git-raw-commits@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/git-raw-commits/-/git-raw-commits-2.0.0.tgz#d92addf74440c14bcc5c83ecce3fb7f8a79118b5"
@@ -5747,6 +5763,13 @@ graphql-scalars@^1.4.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.5.0.tgz#8c2237f71052ea46df5d13bb405e205672933a62"
   integrity sha512-gMs+1+NBptdLxrpR/ME/vj6t8M25jqL22aNbu+OYF+Hkm+5+KFk9I/opddVi3troK3r9PHJS9ouahJExJJrbzw==
+
+graphql-scalars@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/graphql-scalars/-/graphql-scalars-1.6.1.tgz#15564239a6142b9e9e6b6ce01a1b50ba42ebfd0f"
+  integrity sha512-PfgFeAioO48vziGD2SM7KgY0cmUyM9yh1BF2L12muFXIvHbIxYc5JYFSfjqtNIRRuHt00KD29pdFdV+1lLMvuw==
+  dependencies:
+    tslib "~2.0.3"
 
 graphql-subscriptions@^1.0.0, graphql-subscriptions@^1.1.0:
   version "1.1.0"
@@ -9909,7 +9932,7 @@ tslib@^1.10.0, tslib@^1.9.0, tslib@^1.9.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.3, tslib@~2.0.1:
+tslib@^2.0.3, tslib@~2.0.1, tslib@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
   integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==

@@ -10,7 +10,7 @@ import { schema } from '@graphql-stream/feeds';
  */
 
 const typeDefs = gql`
-    extend type User {
+    extend type StreamUser {
         email: String!
         name: String!
     }

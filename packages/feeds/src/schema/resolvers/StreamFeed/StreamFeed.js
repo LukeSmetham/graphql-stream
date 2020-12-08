@@ -1,8 +1,8 @@
-import { StreamID } from '@graphql-stream/shared';
-import { Query as ActivityQuery } from '../Activity/Activity.Query';
+import { StreamID } from '../../scalars';
+import { Query as ActivityQuery } from '../StreamActivity/StreamActivity.Query';
 import { initializeFeed } from '../../../utils';
 
-export const Feed = {
+export const StreamFeed = {
     activities: ActivityQuery.activities,
     /** Only allowed on the server, so needs its own request sig (different from source.signature) */
     followerCount: async ({ id }, { slugs: followerSlugs }, { stream }) => {

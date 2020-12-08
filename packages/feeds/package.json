@@ -7,6 +7,8 @@
   "author": "Luke Smetham <luke@smetham.dev>",
   "license": "MIT",
   "dependencies": {
-    "phin": "^3.5.1"
+    "@graphql-tools/load-files": "^6.2.5",
+    "getstream": "^7.0.1",
+    "graphql-scalars": "^1.6.1"
   }
 }

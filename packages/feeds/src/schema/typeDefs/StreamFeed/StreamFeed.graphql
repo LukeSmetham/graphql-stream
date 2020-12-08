@@ -1,17 +1,17 @@
-interface FeedPayload {
-    activities: [Activities!]
-    followers: [Feed!]
-    following: [Feed!]
+interface StreamFeedPayload {
+    activities: [StreamActivities!]
+    followers: [StreamFeed!]
+    following: [StreamFeed!]
     followerCount: Int!
     followingCount: Int!
     id: StreamID!
 }
 
-type Feed implements FeedPayload {
+type StreamFeed implements StreamFeedPayload {
     """
     The activities for this feed.
     """
-    activities(options: ActivityQueryOptions): [Activities!]
+    activities(options: StreamActivityQueryOptions): [StreamActivities!]
     """
     The StreamID for this feed.
     """
@@ -19,11 +19,11 @@ type Feed implements FeedPayload {
     """
     The feeds that follow this feed.
     """
-    followers: [Feed!]
+    followers: [StreamFeed!]
     """
     The feeds that this feed follows.
     """
-    following: [Feed!]
+    following: [StreamFeed!]
     """
     The count of followers for this feed.
     """
@@ -34,7 +34,7 @@ type Feed implements FeedPayload {
     followingCount(slugs: [String!]): Int!
 }
 
-type RealtimeFeed {
+type StreamRealtimeFeed {
     """
     All activities deleted by this update
     """
@@ -46,7 +46,7 @@ type RealtimeFeed {
     """
     All activities created by this update
     """
-    new: [Activities!]
+    new: [StreamActivities!]
     """
     Time of the update in ISO format
     """

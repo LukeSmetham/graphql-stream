@@ -1,0 +1,25 @@
+type Query {
+    """
+    Query for a feed (can be any feed group).
+    """
+    feed(
+        id: StreamID!
+        options: StreamActivityQueryOptions
+    ): StreamFeed
+}
+
+type Mutation {
+    """
+    Follow a feed
+    """
+    follow(feed: StreamID!, toFollow: StreamID!): StreamFeed
+
+    """
+    Unfollow a feed
+    """
+    unfollow(feed: StreamID!, toUnfollow: StreamID!, keepHistory: Boolean): StreamFeed
+}
+
+type Subscription {
+    realtimeFeed(feed: StreamID!): StreamRealtimeFeed
+}

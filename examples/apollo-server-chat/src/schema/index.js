@@ -25,7 +25,7 @@ import streamChat from './chat';
 /*
  * const typeDefs = gql`
  *     type Query {
- *         project(name: String!): Feed!
+ *         project(name: String!): StreamFeed!
  *     }
  * `;
  */
