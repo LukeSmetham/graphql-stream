@@ -1,8 +1,7 @@
+"""
+Base interface for all Stream Feed types. Activities is omitted so users can implement custom activity types if need be. They can also implement the StreamActivityInterface
+"""
 interface StreamFeed {
-    """
-    The activities for this feed.
-    """
-    activities(options: StreamActivityQueryOptions): [StreamActivityUnion!]
     """
     The StreamID for this feed.
     """
