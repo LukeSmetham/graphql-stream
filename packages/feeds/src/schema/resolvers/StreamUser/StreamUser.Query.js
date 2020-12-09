@@ -22,5 +22,5 @@ export const Query = {
         } catch (error) {
             throw new Error(error.message);
         }
-	}
+    },
 };
