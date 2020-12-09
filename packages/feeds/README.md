@@ -75,20 +75,29 @@ export const Query = {
 By using the `delegateToSchema` method from `graphql-tools` - we can call the underlying feeds schema and optionally change the arguments before the are passed - in this case we force prepend the `matches` feed group slug as this resolver will only ever return feeds from this group. 
 
 ### Activities
-The object and actor of the activity can be used in 2 ways, either embedding data in the activity and storing object for these fields, or storing references to the objects that are stored elsewhere - either in Stream Collections, or any other data store.
+The object and actor of the activity can be used in two ways; either embedding data in the activity and storing objects for these fields, or storing references to the "objects" that are stored elsewhere - either in Stream Collections, Mongo,  or any other data store/service.
 
 Embedding data in activities is not recommended. The best approach is often to keep activities as light as possible and use references. The biggest advantage of this is being able to update the data in one place and have it update for all past, present and future activities.
 
->This concept of relations mixed with GraphQL allows Stream Feeds to become a "hub" of sorts, and create powerful personalized activity feeds & notification timelines from not only your own data, but >from any datasource you can imagine. 
+>This concept of relations mixed with GraphQL allows Stream Feeds to become a "hub" of sorts, and create powerful personalized activity feeds & notification timelines from not only your own data, but from any datasource you can imagine - all in the same request.
 >
->This also works bidirectionally. Here is a link to a blog post & example repo for using Algolia as a search engine, to return Stream Feed activities - you could also, for example, [Create or Extend Activity Types](#link-to-extending-types-stuff) to add a new field that takes in a arguments to power your search, this then calls Algolia to return nested data within the parent type.
+>This also works bidirectionally. Here is a link to a blog post & example repo for using Algolia as a search engine, to return Stream Feed activities - you could also, for example, [Create or Extend Activity Types](#link-to-extending-types-stuff) to add a new field that takes in arguments to power your search, this would then call Algolia in it's resolver to return nested data within the parent type.
 
-**i.e.**
+**Example**
 ```graphql
+type Team {...}
+
+type Stadium {...}
+
+type Player {...}
+
 type MatchActivity implements StreamActivity {
     teams: [Team!]
     stadium: Stadium!
-    players(query: String, filter: AlgoliaFilterInput, facet: AlgoliaFacetInput): [Players!] # <---
+    """
+    Search the players that are playing in this match with Algolia, but return the Stream Feeds User objects.
+    """
+    players(query: String, filter: AlgoliaFilterInput, facet: AlgoliaFacetInput): [Player!] # <--- This field is GQL only, see resolver in the next block
     date: Date!
     verb: String
     actor: JSON!
@@ -145,16 +154,19 @@ const resolvers = {
 ```
 > The source object here is the original "untouched" StreamActivity response. We can access the object property in whatever shape it's in and use it to resolve our new document field.
 
-With this in mind, combined with the ability to add datasource to the resolver context - you can mesh together Stream Feeds with any other service, database, etc.
+With this in mind, combined with the ability to add anything that will run in Node to the datasources/resolver context - or stitch in any other GraphQL API - you can mesh together Stream Feeds with any other service, database, etc.
 
-> You could also potentially use a hybrid approach for `object`, where you store a small object with key value pairs of ids for entities relating to the activity in some way.
+> You could also potentially use a "hybrid" approach for `object`, where you store a small object with key value pairs of identifiers for entities that relate to the activity in some way.
 
-#### Writing your own Activity Type
+Some other options for extending the schema are:
+- 
 
 ### README TODO
 - [ ] Initializing Context
+- [ ] Authentication
 - [ ] Creating/Using Stream Tokens
 - [ ] Extending/Implementing Types
 - [ ] Stitching/Merging the Schema
 - [ ] Subscriptions
 - [ ] Road Map
+- [ ] Publish & Link to the Subscriptions-based realtime, virtualized feed component.
