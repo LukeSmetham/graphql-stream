@@ -8,13 +8,11 @@ GraphQL Schema & Utils for Stream Feeds.
 > 
 > Ultimately this library is young and a work-in-progress, developed alongside Combase to auto-generate activity feeds powered by Stream Chat webhooks & Mongo change streams. It's also not intended to be a _complete_ 'graphql client' for Stream Feeds, at least not at this point; Feed Activities, and especially Users and Collections, contain a lot of your own custom data making it hard to create "exact" types on our end. 
 > 
-> Because of this, the library is intended to be a set of base types, resolvers and utilities that you can utilize in your own api, schema/subschema etc. However best suits your use case. That being said, the schema is still exported as a complete, valid GraphQL schema that you can use out of the box - this can be great if you are using Stream for the first time. With the deploy to heroku button below, you can deploy a working Stream API with a documented GraphQL playground to try some queries, generate a token, create activities and learn how follow relationships work - visually. 
-> 
-> **Deploy to heroku button**
+> Because of this, the library is intended to be a set of base types, resolvers and utilities that you can utilize in your own api, schema/subschema etc. However best suits your use case. That being said, the schema is still exported as a complete, valid GraphQL schema that you can use out of the box - this can be great if you are using Stream for the first time. With the snippet below you can run a working Stream API with a documented GraphQL playground to try some queries, generate a token, create activities and learn how follow relationships work. 
 >
 > Chat support is in the works too.
 
-Currently this library wraps the Stream JS SDK for Node. Still deciding on the best approach between that and directly wrapping the REST API using `phin` but ultimately the Schema syntax would be identical, just the implementation in the resolvers would change. 
+Currently this library wraps the Stream JS SDK for Node. Current avaluation options and working on a version based on RESTDataSource to dedupe requests
 
 --- 
 
@@ -22,7 +20,13 @@ Currently this library wraps the Stream JS SDK for Node. Still deciding on the b
 
 The library can be used out of the box, as a standalone schema like so:
 
-> The example uses `apollo-server` and is adapted from their basic example, however the schema can be used anywhere that is expecting a valid GQL schema.
+### `apollo-server`
+Simplest way to get started.
+
+```sh
+#   Assumes you already have babel set up.
+$   yarn add apollo-server @stream-io/graphql-feeds
+```
 
 ```js
 import { ApolloServer, gql } from 'apollo-server';
@@ -38,52 +42,47 @@ server.listen().then(({ url }) => {
 
 ```
 
-This option is the quickest, easiest way to get a GQL server booted up with the feeds schema included and perfect to have a play around with the schema and see how things work. However, due to the high likely-hood of custom data in any given Stream app, the true usefulness of this library lies in either merging or stitching it with your own schema.
-
-This allows you to create your own resolvers and types as you normally would, use any database you like, any other services etc. but allow your Stream data to become part of the same graph.
-
-One example of how this works is, imagine your app creates activity feeds for sports games and you have a feed group named `matches`, and in your database you have documents with profile data for each team.
-
-```gql
-type Query {
-    match(id: ObjectID!): StreamFlatFeed!
-}
-```
-
-The above query `match` will return a `Match` object, which contains an array of team ids, start and end times, information on the stadium, and a `feed` that will call the underlying Stream Feeds schema and return the activities for this match.
-
-Wherever you define your resolvers, you can implement the following:
+### `apollo-server-express`
+Allows you to use other endpoints for webhooks etc.
+Example also includes set up with [Apollo Server Express](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#subscriptions-with-additional-middleware) to support Subscriptions.
 
 ```js
-import { delegateToSchema } from '@graphql-tools/stitch';
-import { schema as streamFeeds } from '@stream-io/graphql-feeds';
+import http from 'http';
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { schema } from '@stream-io/graphql-feeds';
 
-export const Query = {
-    match: (source, args, context, info) => {
-        return delegateToSchema({
-            args: { id: `matches:${args.id}` },
-            context,
-            fieldName: 'feed',
-            info,
-            operation: 'query',
-            schema: streamFeeds,
-        })
-    }
-}
+const server = new ApolloServer({ schema });
+
+const app = express();
+server.applyMiddleware({ app });
+
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(4000, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+    console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`)
+});
+
 ```
 
-By using the `delegateToSchema` method from `graphql-tools` - we can call the underlying feeds schema and optionally change the arguments before the are passed - in this case we force prepend the `matches` feed group slug as this resolver will only ever return feeds from this group. 
+This option is the quickest, easiest way to get a GQL server booted up with the feeds schema included and perfect to have a play around with the schema and see how things work. However, due to the high likely-hood of custom data in any given Stream app, the true usefulness of this library lies in either merging or stitching it with your own schema.
+
+By passing the schema and no other resolvers, typeDefs or additional schemas you are limited to the type definitions and resolvers that are included with the library with no additional functionality at all. 
+
+Because the library is designed to be extended there are a few types and fields that aren't best suited to be used out of the box. One example of this is with activities - the chances are high that any given feed activity has a reference to an object either in a stream collection or another data store.
 
 ### Activities
-The object and actor of the activity can be used in two ways; either embedding data in the activity and storing objects for these fields, or storing references to the "objects" that are stored elsewhere - either in Stream Collections, Mongo,  or any other data store/service.
+The `object` and `actor` of the activity can be used in two primary ways; either embedding data in the activity and storing objects in these fields, or storing references to data that is stored elsewhere.
 
-Embedding data in activities is not recommended. The best approach is often to keep activities as light as possible and use references. The biggest advantage of this is being able to update the data in one place and have it update for all past, present and future activities.
+Embedding data in activities is not recommended. The best approach is to keep activities as light as possible and use references. The biggest advantage of this is being able to update the data in one place and have it update for all past, present and future activities.
 
->This concept of relations mixed with GraphQL allows Stream Feeds to become a "hub" of sorts, and create powerful personalized activity feeds & notification timelines from not only your own data, but from any datasource you can imagine - all in the same request.
+>This concept of relations mixed with GraphQL allows Stream Feeds to become a "hub" of sorts, creating powerful personalized activity feeds & notification timelines from not only your own data, but from any datasource you can think of.
 >
->This also works bidirectionally. Here is a link to a blog post & example repo for using Algolia as a search engine, to return Stream Feed activities - you could also, for example, [Create or Extend Activity Types](#link-to-extending-types-stuff) to add a new field that takes in arguments to power your search, this would then call Algolia in it's resolver to return nested data within the parent type.
+>This also works bidirectionally. Here is a link to a [blog post]() w/ example repo for using Algolia as a search engine, to return Stream Feed activities. The article also covers adding a new custom field to the `StreamFlatFeed` type to add a "feed-scoped" search using the same technique.
 
-**Example**
+**Custom Activity Example**
 ```graphql
 type Team {...}
 
@@ -91,13 +90,13 @@ type Stadium {...}
 
 type Player {...}
 
-type MatchActivity implements StreamActivity {
-    teams: [Team!]
-    stadium: Stadium!
+type MatchActivity implements StreamActivityInterface {
+    teams: [StreamID!]
+    stadium: UUID!
     """
     Search the players that are playing in this match with Algolia, but return the Stream Feeds User objects.
     """
-    players(query: String, filter: AlgoliaFilterInput, facet: AlgoliaFacetInput): [Player!] # <--- This field is GQL only, see resolver in the next block
+    players(query: String, filter: AlgoliaFilterInput, facet: AlgoliaFacetInput): [Player!]
     date: Date!
     verb: String
     actor: JSON!
@@ -105,7 +104,7 @@ type MatchActivity implements StreamActivity {
 }
 ```
 
-However when using Stream Collections, you can optionally use the `enrich` flag when request activities. This will cause the ID to be replace with the full object. This is great when using Stream on the client side as it allows you to get everything you need in one request, but with GraphQL being strictly typed & a lot of the benefits of relationships combined with `Union`s and `Interfaces` it can be difficult to work out the best solution to extend the activity type. 
+However when using Stream Collections, you can optionally use the `enrich` flag when request activities. This will cause the ID to be replaced with the full object. This is great when using Stream on the client side as it allows you to get everything you need in one request, but with GraphQL being strictly typed & a lot of the benefits of relationships combined with `Union`s and `Interfaces` it can be difficult to work out the best solution to extend the activity type. 
 
 Ultimately you can always do 
 ```js
@@ -152,14 +151,11 @@ const resolvers = {
     }
 };
 ```
-> The source object here is the original "untouched" StreamActivity response. We can access the object property in whatever shape it's in and use it to resolve our new document field.
+> The source object here is the original "untouched" StreamActivity response. We can therefore access the original `object` property (even though it doesn't initially meet the expected type in our schema) and use it to resolve our new `document` field.
 
-With this in mind, combined with the ability to add anything that will run in Node to the datasources/resolver context - or stitch in any other GraphQL API - you can mesh together Stream Feeds with any other service, database, etc.
+With this in mind, combined with the ability to add almost anything to the datasources/resolver context - or stitch in any other GraphQL API - you can mesh together Stream Feeds with any other service, database, etc. One interesting example of this in the real-world is how `gatsby-source-filesystem` uses `graphql-compose` and Node's `fs` package to build out Types based on the files and folder structure at the path you give to it.
 
 > You could also potentially use a "hybrid" approach for `object`, where you store a small object with key value pairs of identifiers for entities that relate to the activity in some way.
-
-Some other options for extending the schema are:
-- 
 
 ### README TODO
 - [ ] Initializing Context

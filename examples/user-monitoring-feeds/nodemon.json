@@ -1,8 +1,0 @@
-{
-  "ext": "env,js,graphql,json",
-  "watch": [
-    "../../packages/**",
-    "./src"
-  ],
-  "ignore": ["../../**/node_modules/**"]
-}
