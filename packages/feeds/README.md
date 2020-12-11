@@ -200,4 +200,4 @@ const activities = (source, args, context, info) => {
 - [ ] Stitching/Merging the Schema
 - [ ] Subscriptions
 - [ ] Road Map
-- [ ] Publish & Link to the Subscriptions-based realtime, virtualized feed component.
+- [ ] Publish & Link to the Subscriptions-based realtime, virtualized feed component for `@apollo/client`
