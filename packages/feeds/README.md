@@ -170,6 +170,28 @@ When using a `StreamID` as an argument, you can also pass a colon-separated stri
 
 `StreamID` extends the default JavaScript `Array` class, and adds some functionality such as getters for `together` `type` and `id`; to return the parts individually, or without the colon to aid in generating a signing signature for the underlying Stream Activity Feeds REST API.
 
+This means it can also be structured, or spread, as with a standard `Array`
+
+For Example, in the `activities` resolver where the `feed` argument is a `StreamID`:
+
+```js
+const activities = (source, args, context, info) => {
+    const { stream } = context;
+    const feed = stream.feeds.feed(...args.feed);
+    // ...
+};
+```
+
+You could also do this: 
+```js
+const activities = (source, args, context, info) => {
+    const { stream } = context;
+    const [feedGroup, feedId] = args.feed;
+    //... 
+};
+```
+
+
 ### README TODO
 - [ ] Initializing Context
 - [ ] Authentication
