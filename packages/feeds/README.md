@@ -157,6 +157,19 @@ With this in mind, combined with the ability to add almost anything to the datas
 
 > You could also potentially use a "hybrid" approach for `object`, where you store a small object with key value pairs of identifiers for entities that relate to the activity in some way.
 
+## StreamID
+`StreamID` is a custom Scalar type that represents a feed, channel or collection entry in a Stream app. 
+
+`timeline:user_id`
+`messaging:channel_id`
+`post:post_id`
+
+The above relate to a `feed` `channel` and `collection` respectively, each one defining its 'type' (be it a feed group, channel type, or collection name) and ID, colon-seprated. When using the Feeds schema in your API, any field with type `StreamID` will resolve to a string as above when it reaches the client.
+
+When using a `StreamID` as an argument, you can also pass a colon-separated string, but once GraphQL parses it, it becomes a `StreamID` instance. 
+
+`StreamID` extends the default JavaScript `Array` class, and adds some functionality such as getters for `together` `type` and `id`; to return the parts individually, or without the colon to aid in generating a signing signature for the underlying Stream Activity Feeds REST API.
+
 ### README TODO
 - [ ] Initializing Context
 - [ ] Authentication
