@@ -12,7 +12,6 @@ module.exports = {
 	plugins: [
         ['module-resolver', { root: ['./src'] }], 
         'transform-optional-chaining', 
-        '@babel/proposal-class-properties', 
-        ['inline-dotenv']
+        '@babel/proposal-class-properties'
     ],
 };
