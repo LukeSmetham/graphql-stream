@@ -13,7 +13,7 @@
     "build": "yarn build:js && yarn build:graphql",
     "build:js": "lerna --scope @stream-io/* exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
     "build:graphql": "lerna --scope @stream-io/* exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
-    "dev": "yarn workspace server dev"
+    "dev": "yarn workspace @examples/apollo-server dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
