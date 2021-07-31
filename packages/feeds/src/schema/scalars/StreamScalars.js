@@ -4,9 +4,9 @@ import { StreamIDResolver } from './StreamID';
 
 export const StreamScalars = {
     Date: DateResolver,
-    StreamID: StreamIDResolver,
     JSON: JSONResolver,
     JSONObject: JSONObjectResolver,
+    StreamID: StreamIDResolver,
     URL: URLResolver,
     UUID: UUIDResolver,
 };
