@@ -6,6 +6,8 @@
 	"scripts": {
 		"dev": "nodemon --inspect --experimental-specifier-resolution=node main.js",
 		"start": "node --experimental-specifier-resolution=node main.js"
+	},
+	"dependencies": {
+		"apollo-server": "^3.1.1"
 	}
-  }
-  
+}
