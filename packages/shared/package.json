@@ -7,6 +7,6 @@
   "author": "Luke Smetham <luke@smetham.dev>",
   "license": "MIT",
   "dependencies": {
-    "graphql-scalars": "^1.4.1"
+    "graphql-scalars": "^1.10.0"
   }
 }
