@@ -1,0 +1,11 @@
+{
+	"name": "server",
+	"type": "module",
+	"version": "0.1.0",
+	"main": "main.js",
+	"scripts": {
+		"dev": "nodemon --inspect --experimental-specifier-resolution=node main.js",
+		"start": "node --experimental-specifier-resolution=node main.js"
+	}
+  }
+  
