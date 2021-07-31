@@ -1,11 +1,17 @@
+import 'dotenv/config';
 import { ApolloServer } from 'apollo-server';
-import { schema } from '@stream-io/graphql-feeds';
+import { createFeedsContext, schema } from '@stream-io/graphql-feeds';
+
+const { PORT = 8080, STREAM_KEY, STREAM_SECRET, STREAM_ID } = process.env;
 
 const server = new ApolloServer({
+    context: () => {
+        return {
+            stream: createFeedsContext(STREAM_KEY, STREAM_SECRET, STREAM_ID),
+        };
+    },
     schema,
 });
-
-const { PORT = 8080 } = process.env;
 
 server.listen(PORT);
 
