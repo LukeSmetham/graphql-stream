@@ -11,11 +11,9 @@
   "scripts": {
     "build:clean": "lerna exec --parallel -- rm -rf lib",
     "build": "yarn build:js && yarn build:graphql",
-    "build:js": "lerna exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
-    "build:graphql": "lerna exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
-    "dev:chat": "yarn workspace @graphql-stream/apollo-server-chat-example dev",
-    "dev:feeds": "yarn workspace @graphql-stream/apollo-server-feeds-example dev",
-    "dev:user-events": "yarn workspace @graphql-stream/user-event-feeds dev"
+    "build:js": "lerna --scope @stream-io/* exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
+    "build:graphql": "lerna --scope @stream-io/* exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
+    "dev": "yarn workspace server dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
