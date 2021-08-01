@@ -42,4 +42,22 @@ type Mutation {
 		"""
 		user: String!
 	): StreamActivityReaction!
+
+	updateReaction(
+		"""
+		The ID of the reaction to update.
+		"""
+		id: UUID!,
+		"""
+		The extra data for the updated reaction.
+		"""
+		data: JSON
+	): StreamActivityReaction!
+	
+	deleteReaction(
+		"""
+		The ID of the reaction to delete.
+		"""
+		id: UUID!
+	): Boolean!
 }
