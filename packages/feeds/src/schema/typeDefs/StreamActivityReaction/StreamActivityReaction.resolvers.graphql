@@ -1,0 +1,24 @@
+type Query {
+    reactions(
+		"""
+		If provided, the query will only retrieve reactions of a certain kind (e.g. "like")
+		"""
+		kind: String,
+		"""
+		The activity to fetch reactions for.
+		"""
+		activity: UUID!,
+		"""
+		Retrieve reactions by user ID.
+		"""
+		user: String, 
+		"""
+		Retrieve child reactions by the parent reaction ID.
+		"""
+		parent: UUID, 
+		"""
+		Pagination options for the reactions query.
+		"""
+		options: StreamActivityReactionOptions
+	): [StreamActivityReaction!]
+}

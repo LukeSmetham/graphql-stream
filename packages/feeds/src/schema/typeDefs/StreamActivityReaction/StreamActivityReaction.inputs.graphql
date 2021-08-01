@@ -1,0 +1,22 @@
+input StreamActivityReactionOptions {
+	"""
+	Retrieve reactions created after the on with ID equal to the parameter (inclusive)
+    """
+    id_gte: String
+    """
+    Retrieve reactions created after the one with ID equal to the parameter.
+    """
+    id_gt: String
+    """
+    Retrieve reactions created before the one with ID equal to the parameter (inclusive)
+    """
+    id_lte: String
+    """
+    Retrieve reactions before the one with ID equal to the parameter
+    """
+    id_lt: String
+    """
+	The number of reactions to retrieve (default: 10)
+    """
+    limit: Int
+}
