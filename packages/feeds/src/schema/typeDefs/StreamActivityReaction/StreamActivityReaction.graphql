@@ -2,6 +2,10 @@
 The base interface for a Stream Feeds activity reaction. You can implement this interface in your own schema to construct types for your custom attributes.
 """
 interface StreamActivityReactionInterface {
+	"""
+	The unique identifier for this reaction.
+	"""
+	id: UUID!
     """
     The type of reaction (eg. like, comment, ...) 
     """
@@ -10,12 +14,28 @@ interface StreamActivityReactionInterface {
     The ID of the activity the reaction refers to.
     """
     activity_id: UUID!
+	"""
+	The date representing when this reaction was created.
+	"""
+	created_at: Date!
+	"""
+	The date representing when this reaction was updated.
+	"""
+	updated_at: Date!
+	"""
+	The ID of the user who created this reaction.
+	"""
+	user_id: String!
 }
 
 """
 The base type for a Reaction for a Stream Feed Activity. You can extend this type in your own schema to construct types for your custom attributes.
 """
 type StreamActivityReaction implements StreamActivityReactionInterface {
+	"""
+	The unique identifier for this reaction.
+	"""
+	id: UUID!
 	"""
     The type of reaction (eg. like, comment, ...) 
     """
@@ -24,6 +44,18 @@ type StreamActivityReaction implements StreamActivityReactionInterface {
     The ID of the activity the reaction refers to.
     """
     activity_id: UUID!
+	"""
+	The date representing when this reaction was created.
+	"""
+	created_at: Date!
+	"""
+	The date representing when this reaction was updated.
+	"""
+	updated_at: Date!
+	"""
+	The ID of the user who created this reaction.
+	"""
+	user_id: String!
     """
     Additional data attached to the reaction.
     """

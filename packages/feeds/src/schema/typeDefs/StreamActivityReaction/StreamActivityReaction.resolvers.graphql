@@ -22,3 +22,24 @@ type Query {
 		options: StreamActivityReactionOptions
 	): [StreamActivityReaction!]
 }
+
+type Mutation {
+	addReaction(
+		"""
+		If provided, the query will only retrieve reactions of a certain kind (e.g. "like")
+		"""
+		kind: String!,
+		"""
+		The activity to fetch reactions for.
+		"""
+		activity: UUID!,
+		"""
+		The extra data for the new reaction.
+		"""
+		data: JSON,
+		"""
+		The user performing the reaction.
+		"""
+		user: String!
+	): StreamActivityReaction!
+}
