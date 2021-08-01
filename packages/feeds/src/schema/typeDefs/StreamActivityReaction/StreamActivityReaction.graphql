@@ -1,0 +1,39 @@
+"""
+The base interface for a Stream Feeds activity reaction. You can implement this interface in your own schema to construct types for your custom attributes.
+"""
+interface StreamActivityReactionInterface {
+    """
+    The type of reaction (eg. like, comment, ...) 
+    """
+    kind: String!
+    """
+    The ID of the activity the reaction refers to.
+    """
+    activity_id: UUID!
+}
+
+"""
+The base type for a Reaction for a Stream Feed Activity. You can extend this type in your own schema to construct types for your custom attributes.
+"""
+type StreamActivityReaction implements StreamActivityReactionInterface {
+	"""
+    The type of reaction (eg. like, comment, ...) 
+    """
+    kind: String!
+    """
+    The ID of the activity the reaction refers to.
+    """
+    activity_id: UUID!
+    """
+    Additional data attached to the reaction.
+    """
+    data: JSON
+    """
+    The feeds that should receive a notification activity
+    """
+    target_feeds: [StreamID!]
+    """
+    Additional data to attach to the notification activities
+    """
+    target_feeds_extra_data: JSON
+}
