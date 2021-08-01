@@ -9,10 +9,12 @@
     "examples/*"
   ],
   "scripts": {
+	"build": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn build",
+	"watch": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn watch",
     "build:clean": "lerna exec --parallel -- rm -rf lib",
-    "build": "yarn build:js && yarn build:graphql",
-    "build:js": "lerna --scope @stream-io/* exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
-    "build:graphql": "lerna --scope @stream-io/* exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
+    "old:build": "yarn build:js && yarn build:graphql",
+    "old:build:js": "lerna --scope @stream-io/* exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
+    "old:build:graphql": "lerna --scope @stream-io/* exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
     "dev": "yarn workspace @examples/apollo-server dev"
   },
   "devDependencies": {

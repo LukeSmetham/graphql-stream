@@ -5,5 +5,9 @@
   "module": "src/index.js",
   "repository": "https://github.com/LukeSmetham/graphql-stream.git",
   "author": "Luke Smetham <luke@smetham.dev>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+	  "build": "echo \"No build script\"",
+	  "watch": "echo \"No watch script\""
+  }
 }
