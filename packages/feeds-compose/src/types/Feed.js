@@ -49,12 +49,25 @@ const createGetActivities = tc =>
         kind: 'query',
         resolve: () => [
             {
+                id: 0,
                 actor: 0,
                 verb: 'post',
                 object: 'video',
                 src: 'https://video.com',
             },
         ],
+    });
+
+const createGetFeedResolver = tc =>
+    tc.schemaComposer.createResolver({
+        name: 'getFeed',
+        type: tc,
+        kind: 'query',
+        resolve: () => ({
+            id: 'test:1',
+            followerCount: 0,
+            followingCount: 0,
+        }),
     });
 
 export const createActivityFeed = (opts = {}) => {
@@ -75,6 +88,7 @@ export const createActivityFeed = (opts = {}) => {
 
     const feedTC = schemaComposer.createObjectTC({
         name: `Stream${feedGroupName}${feedType}Feed`,
+        interfaces: [],
         fields: {
             activities: createGetActivities(activityTC),
             id: 'StreamID!',
@@ -85,5 +99,5 @@ export const createActivityFeed = (opts = {}) => {
         },
     });
 
-    return feedTC;
+    return createGetFeedResolver(feedTC);
 };
