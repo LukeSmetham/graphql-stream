@@ -1,4 +1,4 @@
-import request from './request';
+import request from 'utils/request';
 
 /**
  * Creates the getActivities resolver, using the given activity type composer.

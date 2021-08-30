@@ -14,20 +14,13 @@ const credentials = {
     region: 'us-east',
 };
 
-// Adds the generated schema to an existing schemaComposer
-// createActivityFeedsSchema(schemaComposer);
-
-// Creates a standalone schema (useful if the implementing server doesn't use gql-compose.)
-// const schema = createActivityFeedsSchema();
-
-// Creates an activity feed, allows customization opts across multiple feeds.
 schemaComposer.Query.addFields({
     feed: createActivityFeed(
         {
             feedGroup: 'user',
             type: 'flat',
             activityFields: {
-                // These fields are custom additions to the activity object in the Combase stream app.
+                // These fields are custom additions to the activity type from the Combase stream app as an example.
                 text: 'String!',
                 entity: 'String!',
             },
