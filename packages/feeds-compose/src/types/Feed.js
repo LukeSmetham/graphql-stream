@@ -3,8 +3,8 @@ import capitalize from 'capitalize';
 import { JSONResolver, UUIDResolver } from 'graphql-scalars';
 
 import { createActivity } from './Activity';
-
 import { StreamIDResolver } from '../scalars';
+import { createGetActivities, createGetFeed } from '../resolvers';
 
 /**
  * Checks the provided feed type is valid, can be either flat, aggregated or notification
@@ -37,40 +37,7 @@ const ensureScalars = schemaComposer => {
     }
 };
 
-/**
- * Creates the getActivities resolver, using the given activity type composer.
- * @param {TypeComposer} tc
- * @returns Resolver
- */
-const createGetActivities = tc =>
-    tc.schemaComposer.createResolver({
-        name: 'getActivities',
-        type: [tc],
-        kind: 'query',
-        resolve: () => [
-            {
-                id: 0,
-                actor: 0,
-                verb: 'post',
-                object: 'video',
-                src: 'https://video.com',
-            },
-        ],
-    });
-
-const createGetFeedResolver = tc =>
-    tc.schemaComposer.createResolver({
-        name: 'getFeed',
-        type: tc,
-        kind: 'query',
-        resolve: () => ({
-            id: 'test:1',
-            followerCount: 0,
-            followingCount: 0,
-        }),
-    });
-
-export const createActivityFeed = (opts = {}) => {
+export const createActivityFeed = (opts = {}, credentials) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     ensureScalars(schemaComposer);
@@ -90,7 +57,7 @@ export const createActivityFeed = (opts = {}) => {
         name: `Stream${feedGroupName}${feedType}Feed`,
         interfaces: [],
         fields: {
-            activities: createGetActivities(activityTC),
+            activities: createGetActivities(activityTC, credentials),
             id: 'StreamID!',
             followers: '[StreamID!]',
             following: '[StreamID!]',
@@ -99,5 +66,5 @@ export const createActivityFeed = (opts = {}) => {
         },
     });
 
-    return createGetFeedResolver(feedTC);
+    return createGetFeed(feedTC, credentials);
 };

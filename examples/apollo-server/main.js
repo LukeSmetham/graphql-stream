@@ -5,7 +5,13 @@ import { schemaComposer } from 'graphql-compose';
 
 import context from './context';
 
-const { PORT = 8080 } = process.env;
+const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;
+
+const credentials = {
+    api_key: STREAM_KEY,
+    api_secret: STREAM_SECRET,
+    app_id: STREAM_ID,
+};
 
 // Adds the generated schema to an existing schemaComposer
 // createActivityFeedsSchema(schemaComposer);
@@ -15,17 +21,23 @@ const { PORT = 8080 } = process.env;
 
 // Creates an activity feed, allows customization opts across multiple feeds.
 schemaComposer.Query.addFields({
-    userFeed: createActivityFeed({
-        feedGroup: 'user',
-        type: 'flat',
-    }),
-    timeline: createActivityFeed({
-        feedGroup: 'timeline',
-        type: 'aggregated',
-        activityFields: {
-            src: 'String!',
+    userFeed: createActivityFeed(
+        {
+            feedGroup: 'user',
+            type: 'flat',
         },
-    }),
+        credentials
+    ),
+    timeline: createActivityFeed(
+        {
+            feedGroup: 'timeline',
+            type: 'aggregated',
+            activityFields: {
+                src: 'String!',
+            },
+        },
+        credentials
+    ),
 });
 
 const server = new ApolloServer({
