@@ -6,6 +6,11 @@ import { createActivity } from './Activity';
 
 import { StreamIDResolver } from '../scalars';
 
+/**
+ * Checks the provided feed type is valid, can be either flat, aggregated or notification
+ * @param {String} type
+ * @returns the name of the feed type
+ */
 const validateFeedType = type => {
     if (type !== 'flat' && type !== 'aggregated' && type !== 'notification') {
         throw new Error('Unrecognized Feed Type • Choose either `flat` `aggregated` or `notification`');
@@ -14,6 +19,10 @@ const validateFeedType = type => {
     return type;
 };
 
+/**
+ * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
+ * @param {SchemaComposer} schemaComposer
+ */
 const ensureScalars = schemaComposer => {
     if (!schemaComposer.has('JSON')) {
         schemaComposer.add(JSONResolver);
@@ -28,6 +37,11 @@ const ensureScalars = schemaComposer => {
     }
 };
 
+/**
+ * Creates the getActivities resolver, using the given activity type composer.
+ * @param {TypeComposer} tc
+ * @returns Resolver
+ */
 const createGetActivities = tc =>
     tc.schemaComposer.createResolver({
         name: 'getActivities',
@@ -63,6 +77,11 @@ export const createActivityFeed = (opts = {}) => {
         name: `Stream${feedGroupName}${feedType}Feed`,
         fields: {
             activities: createGetActivities(activityTC),
+            id: 'StreamID!',
+            followers: '[StreamID!]',
+            following: '[StreamID!]',
+            followerCount: 'Int!',
+            followingCount: 'Int!',
         },
     });
 
