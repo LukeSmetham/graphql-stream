@@ -6,21 +6,6 @@ import { createActivity } from './Activity';
 
 import { StreamIDResolver } from '../scalars';
 
-const createGetActivities = tc =>
-    tc.schemaComposer.createResolver({
-        name: 'getActivities',
-        type: [tc],
-        kind: 'query',
-        resolve: () => [
-            {
-                actor: 0,
-                verb: 'post',
-                object: 'video',
-                src: 'https://video.com',
-            },
-        ],
-    });
-
 const validateFeedType = type => {
     if (type !== 'flat' && type !== 'aggregated' && type !== 'notification') {
         throw new Error('Unrecognized Feed Type • Choose either `flat` `aggregated` or `notification`');
@@ -42,6 +27,21 @@ const ensureScalars = schemaComposer => {
         schemaComposer.add(UUIDResolver);
     }
 };
+
+const createGetActivities = tc =>
+    tc.schemaComposer.createResolver({
+        name: 'getActivities',
+        type: [tc],
+        kind: 'query',
+        resolve: () => [
+            {
+                actor: 0,
+                verb: 'post',
+                object: 'video',
+                src: 'https://video.com',
+            },
+        ],
+    });
 
 export const createActivityFeed = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
