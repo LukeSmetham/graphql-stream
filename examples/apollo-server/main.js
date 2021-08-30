@@ -11,6 +11,7 @@ const credentials = {
     api_key: STREAM_KEY,
     api_secret: STREAM_SECRET,
     app_id: STREAM_ID,
+    region: 'us-east',
 };
 
 // Adds the generated schema to an existing schemaComposer
@@ -21,19 +22,14 @@ const credentials = {
 
 // Creates an activity feed, allows customization opts across multiple feeds.
 schemaComposer.Query.addFields({
-    userFeed: createActivityFeed(
+    feed: createActivityFeed(
         {
             feedGroup: 'user',
             type: 'flat',
-        },
-        credentials
-    ),
-    timeline: createActivityFeed(
-        {
-            feedGroup: 'timeline',
-            type: 'aggregated',
             activityFields: {
-                src: 'String!',
+                // These fields are custom additions to the activity object in the Combase stream app.
+                text: 'String!',
+                entity: 'String!',
             },
         },
         credentials

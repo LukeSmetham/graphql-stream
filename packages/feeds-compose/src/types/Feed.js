@@ -4,7 +4,14 @@ import { JSONResolver, UUIDResolver } from 'graphql-scalars';
 
 import { createActivity } from './Activity';
 import { StreamIDResolver } from '../scalars';
-import { createGetActivities, createGetFeed } from '../resolvers';
+import {
+    createGetActivities,
+    createGetFeed,
+    createGetFeedFollowers,
+    createGetFeedFollowing,
+    createGetFeedFollowersCount,
+    createGetFeedFollowingCount,
+} from '../resolvers';
 
 /**
  * Checks the provided feed type is valid, can be either flat, aggregated or notification
@@ -59,10 +66,10 @@ export const createActivityFeed = (opts = {}, credentials) => {
         fields: {
             activities: createGetActivities(activityTC, credentials),
             id: 'StreamID!',
-            followers: '[StreamID!]',
-            following: '[StreamID!]',
-            followerCount: 'Int!',
-            followingCount: 'Int!',
+            followers: createGetFeedFollowers(schemaComposer, credentials),
+            following: createGetFeedFollowing(schemaComposer, credentials),
+            followerCount: createGetFeedFollowersCount(schemaComposer, credentials),
+            followingCount: createGetFeedFollowingCount(schemaComposer, credentials),
         },
     });
 
