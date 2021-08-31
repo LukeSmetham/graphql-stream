@@ -79,6 +79,7 @@ const createActivityFeed = (opts = {}) => {
             unfollowFeed: () => unfollowFeed(FeedTC, opts),
             addActivity: () => addActivity(ActivityTC, opts),
             addActivities: () => addActivities(ActivityTC, opts),
+            // TODO: Implement the set/unset update behavior in GQL
             // updateActivity: () => 'Stream',
             removeActivity: () => removeActivity(ActivityTC, opts),
             addReaction: () => addReaction(ActivityReactionTC, opts),
