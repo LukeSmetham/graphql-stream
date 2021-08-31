@@ -14,6 +14,14 @@ const credentials = {
     region: 'us-east',
 };
 
+const UserTC = schemaComposer.createObjectTC({
+    name: 'User',
+    fields: {
+        id: 'String',
+        name: 'String',
+    },
+});
+
 const Feed = createActivityFeed(
     {
         feedGroup: 'user',
@@ -33,6 +41,7 @@ schemaComposer.Query.addFields({
 });
 
 schemaComposer.Mutation.addFields({
+    addActivity: Feed.activityFeedResolvers.addActivity(),
     followFeed: Feed.activityFeedResolvers.followFeed(),
     unfollowFeed: Feed.activityFeedResolvers.unfollowFeed(),
 });

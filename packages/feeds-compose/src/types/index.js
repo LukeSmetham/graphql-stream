@@ -1,24 +1,65 @@
 import { composer } from 'schema';
+import capitalize from 'capitalize';
+
+import { JSONResolver, UUIDResolver } from 'graphql-scalars';
+import { StreamIDResolver } from 'scalars';
 
 import { createFeed } from './Feed';
-import { createActivity } from './Activity';
-import { createGetActivities, createGetFeed } from '../resolvers';
+import { createActivity, createGroupedActivity } from './Activity';
 
-import { followFeed, unfollowFeed } from './Feed/resolvers';
+import { createActivityInterfaces } from 'interfaces/Activity';
+
+import { getFeed, followFeed, unfollowFeed } from './Feed/resolvers';
+import { getActivities, addActivity } from './Activity/resolvers';
+
+/**
+ * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
+ * @param {SchemaComposer} schemaComposer
+ */
+const ensureScalars = schemaComposer => {
+    if (!schemaComposer.has('JSON')) {
+        schemaComposer.add(JSONResolver);
+    }
+
+    if (!schemaComposer.has('StreamID')) {
+        schemaComposer.add(StreamIDResolver);
+    }
+
+    if (!schemaComposer.has('UUID')) {
+        schemaComposer.add(UUIDResolver);
+    }
+};
 
 const createActivityFeed = (opts = {}, credentials) => {
     const schemaComposer = opts.schemaComposer || composer;
-    // TODO?: Add Interfaces for feed and activity.
 
-    const FeedTC = createFeed(opts, credentials);
-    const ActivityTC = createActivity(opts, credentials);
+    if (!opts.feedGroup) {
+        throw new Error('Please provide the name of your feed group to opts.feedGroup.');
+    }
+
+    ensureScalars(schemaComposer);
+
+    // TODO?: Add Interfaces for feed and activity.
+    // Create interface types
+    createActivityInterfaces(schemaComposer);
+
+    // Add some additional options to the opts parameter
+    const options = {
+        ...opts,
+        schemaComposer,
+        feedGroupName: capitalize(opts.feedGroup),
+    };
+
+    const FeedTC = createFeed(options, credentials);
+    const ActivityTC = createActivity(options, credentials);
+    const GroupedActivityTC = createGroupedActivity(ActivityTC, options);
 
     FeedTC.activityFeedResolvers = {
-        getFeed: () => createGetFeed(FeedTC, credentials),
-        getActivities: () => createGetActivities(ActivityTC, credentials),
-        followFeed: () => followFeed(schemaComposer, credentials),
-        unfollowFeed: () => unfollowFeed(schemaComposer, credentials),
-        // addActivity: () => 'Stream',
+        getFeed: () => getFeed(FeedTC, credentials),
+        followFeed: () => followFeed(FeedTC, credentials),
+        unfollowFeed: () => unfollowFeed(FeedTC, credentials),
+        getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, credentials),
+        addActivity: () => addActivity(ActivityTC, credentials),
         // addActivities: () => 'Stream',
         // updateActivity: () => 'Stream',
         // removeActivity: () => 'Stream',

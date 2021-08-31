@@ -1,7 +1,7 @@
 import request from 'utils/request';
 
-export const unfollowFeed = (schemaComposer, credentials) =>
-    schemaComposer.createResolver({
+export const unfollowFeed = (tc, credentials) =>
+    tc.schemaComposer.createResolver({
         name: 'unfollow',
         kind: 'mutation',
         type: 'StreamID',
