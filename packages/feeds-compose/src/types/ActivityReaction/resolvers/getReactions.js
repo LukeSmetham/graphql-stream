@@ -22,9 +22,8 @@ export const getReactions = (tc, { credentials } = {}) =>
                 type: 'UUID',
                 description: 'Retrieve child reactions by the parent reaction ID.',
             },
-            options: tc.schemaComposer.createInputTC({
-                name: 'StreamActivityReactionOptions',
-                fields: {
+            options: tc.schemaComposer.getOrCreateITC('StreamActivityReactionOptions', tc => {
+                tc.addFields({
                     id_gte: {
                         type: 'String',
                         description: 'Retrieve reactions created after the on with ID equal to the parameter (inclusive)',
@@ -45,7 +44,7 @@ export const getReactions = (tc, { credentials } = {}) =>
                         type: 'Int',
                         description: 'The number of reactions to retrieve (default: 10)',
                     },
-                },
+                });
             }),
         },
         resolve: async ({ args }) => {
