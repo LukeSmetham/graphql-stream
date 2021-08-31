@@ -6,11 +6,13 @@ import { StreamIDResolver } from 'scalars';
 
 import { createFeed } from './Feed';
 import { createActivity, createGroupedActivity } from './Activity';
+import { createActivityReaction } from './ActivityReaction';
 
 import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { getFeed, followFeed, unfollowFeed } from './Feed/resolvers';
 import { getActivities, addActivity, addActivities, removeActivity } from './Activity/resolvers';
+import { addReaction, getReactions } from './ActivityReaction/resolvers';
 
 /**
  * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
@@ -53,17 +55,21 @@ const createActivityFeed = (opts = {}) => {
     const FeedTC = createFeed(options);
     const ActivityTC = createActivity(options);
     const GroupedActivityTC = createGroupedActivity(ActivityTC, options);
+    const ActivityReactionTC = createActivityReaction(ActivityTC, options);
 
     // TODO: Collection resolvers
+    // TODO: User Resolvers
     // TODO: Subscription resolvers
     // Create the final data object returned from createActivityFeed
     const data = {
         FeedTC,
         ActivityTC,
+        ActivityReactionTC,
         GroupedActivityTC,
         query: {
             getFeed: () => getFeed(FeedTC, opts),
             getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, opts),
+            getReactions: () => getReactions(ActivityReactionTC, opts),
             // getUser: () => 'Stream',
             // getOrCreateUser: () => 'Stream',
             // getReactions: () => 'Stream',
@@ -73,9 +79,9 @@ const createActivityFeed = (opts = {}) => {
             unfollowFeed: () => unfollowFeed(FeedTC, opts),
             addActivity: () => addActivity(ActivityTC, opts),
             addActivities: () => addActivities(ActivityTC, opts),
-            removeActivity: () => removeActivity(ActivityTC, opts),
             // updateActivity: () => 'Stream',
-            // addReaction: () => 'Stream',
+            removeActivity: () => removeActivity(ActivityTC, opts),
+            addReaction: () => addReaction(ActivityReactionTC, opts),
             // updateReaction: () => 'Stream',
             // removeReaction: () => 'Stream',
             // addUser: () => 'Stream',

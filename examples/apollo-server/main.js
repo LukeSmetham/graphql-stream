@@ -26,6 +26,7 @@ const userFeed = createActivityFeed({
 
 schemaComposer.Query.addFields({
     userFeed: userFeed.query.getFeed(),
+    reactions: userFeed.query.getReactions(),
 });
 
 schemaComposer.Mutation.addFields({
