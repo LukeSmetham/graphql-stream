@@ -66,6 +66,10 @@ const createActivityFeed = (opts = {}) => {
         ActivityTC,
         ActivityReactionTC,
         GroupedActivityTC,
+        interfaces: {
+            StreamActivityInterface: schemaComposer.getIFTC('StreamActivityInterface'),
+            StreamGroupedActivityInterface: schemaComposer.getIFTC('StreamGroupedActivityInterface'),
+        },
         query: {
             getFeed: () => getFeed(FeedTC, opts),
             getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, opts),
@@ -93,9 +97,6 @@ const createActivityFeed = (opts = {}) => {
     };
 
     // Relate types together where applicable
-
-    // Add the activities field to the FeedTC here as we need the ActivityTC or GroupedActivityTC to be created first.
-    // Doing it via a relation allows us to re-use the same resolver we use for fetching just the activities without other feed fields
     FeedTC.addRelation('activities', {
         prepareArgs: {
             feed: source => source.id,
