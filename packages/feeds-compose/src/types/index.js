@@ -10,7 +10,7 @@ import { createActivity, createGroupedActivity } from './Activity';
 import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { getFeed, followFeed, unfollowFeed } from './Feed/resolvers';
-import { getActivities, addActivity } from './Activity/resolvers';
+import { getActivities, addActivity, addActivities } from './Activity/resolvers';
 
 /**
  * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
@@ -60,7 +60,7 @@ const createActivityFeed = (opts = {}, credentials) => {
         unfollowFeed: () => unfollowFeed(FeedTC, credentials),
         getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, credentials),
         addActivity: () => addActivity(ActivityTC, credentials),
-        // addActivities: () => 'Stream',
+        addActivities: () => addActivities(ActivityTC, credentials),
         // updateActivity: () => 'Stream',
         // removeActivity: () => 'Stream',
         // addReaction: () => 'Stream',

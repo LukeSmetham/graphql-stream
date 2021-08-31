@@ -41,6 +41,7 @@ schemaComposer.Query.addFields({
 });
 
 schemaComposer.Mutation.addFields({
+    addActivities: Feed.activityFeedResolvers.addActivities(),
     addActivity: Feed.activityFeedResolvers.addActivity(),
     followFeed: Feed.activityFeedResolvers.followFeed(),
     unfollowFeed: Feed.activityFeedResolvers.unfollowFeed(),
