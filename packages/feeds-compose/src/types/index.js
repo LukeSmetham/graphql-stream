@@ -119,7 +119,7 @@ const createActivityFeed = (opts = {}) => {
         },
         projection: { id: true },
         resolver: () => data.query.getReactions().makeArgNullable('activity'),
-        description: 'Get the list of reactions for this activity',
+        description: 'Get the list of child reactions for this reaction',
     });
 
     return data;
