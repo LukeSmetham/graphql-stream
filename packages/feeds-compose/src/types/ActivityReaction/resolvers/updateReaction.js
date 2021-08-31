@@ -27,7 +27,7 @@ export const updateReaction = (tc, { credentials } = {}) =>
                     method: 'PUT',
                     data: {
                         data: args.data,
-                        target_feeds: args.target_feeds,
+                        target_feeds: args.target_feeds.map(id => id.toString()),
                     },
                 });
 
