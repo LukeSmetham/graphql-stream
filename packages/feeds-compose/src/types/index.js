@@ -102,25 +102,11 @@ const createActivityFeed = (opts = {}, credentials) => {
         description: '[MUTATION] Unfollow a feed.',
     });
 
-    return FeedTC;
+    return {
+        FeedTC,
+        ActivityTC,
+        GroupedActivityTC,
+    };
 };
 
-const composeActivityFeed = (tc, opts, credentials) => {
-    const { fieldName = 'feed' } = opts;
-
-    const FeedTC = createActivityFeed(opts, credentials);
-
-    tc.addFields({
-        [fieldName]: FeedTC.activityFeedResolvers.getFeed(),
-    });
-
-    Object.keys(FeedTC.activityFeedResolvers).forEach(k => {
-        const createResolver = FeedTC.activityFeedResolvers[k];
-
-        tc.setResolver(k, createResolver());
-    });
-
-    return tc;
-};
-
-export { createActivityFeed, composeActivityFeed };
+export { createActivityFeed };

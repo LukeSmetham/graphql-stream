@@ -4,21 +4,21 @@ import { createActivityFeed } from 'types';
 export const createActivityFeedsSchema = (composer, opts) => {
     const schemaComposer = composer || new SchemaComposer();
 
-    const Feed = createActivityFeed({
+    const { FeedTC } = createActivityFeed({
         ...opts,
         schemaComposer,
     });
 
     schemaComposer.Query.addFields({
-        feed: Feed.activityFeedResolvers.getFeed(),
+        feed: FeedTC.activityFeedResolvers.getFeed(),
     });
 
     schemaComposer.Mutation.addFields({
-        addActivities: Feed.activityFeedResolvers.addActivities(),
-        addActivity: Feed.activityFeedResolvers.addActivity(),
-        followFeed: Feed.activityFeedResolvers.followFeed(),
-        removeActivity: Feed.activityFeedResolvers.removeActivity(),
-        unfollowFeed: Feed.activityFeedResolvers.unfollowFeed(),
+        addActivities: FeedTC.activityFeedResolvers.addActivities(),
+        addActivity: FeedTC.activityFeedResolvers.addActivity(),
+        followFeed: FeedTC.activityFeedResolvers.followFeed(),
+        removeActivity: FeedTC.activityFeedResolvers.removeActivity(),
+        unfollowFeed: FeedTC.activityFeedResolvers.unfollowFeed(),
     });
 
     const schema = schemaComposer.buildSchema();
