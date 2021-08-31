@@ -3,8 +3,6 @@ import { ApolloServer } from 'apollo-server';
 import { createActivityFeed } from '@graphql-stream/feeds';
 import { schemaComposer } from 'graphql-compose';
 
-import context from './context';
-
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;
 
 const credentials = {
@@ -14,23 +12,25 @@ const credentials = {
     region: 'us-east',
 };
 
-schemaComposer.Query.addFields({
-    feed: createActivityFeed(
-        {
-            feedGroup: 'user',
-            type: 'flat',
-            activityFields: {
-                // These fields are custom additions to the activity type from the Combase stream app as an example.
-                text: 'String!',
-                entity: 'String!',
-            },
+const Feed = createActivityFeed(
+    {
+        feedGroup: 'user',
+        type: 'flat',
+        activityFields: {
+            // These fields are custom additions to the activity type from the Combase stream app as an example.
+            text: 'String!',
+            entity: 'String!',
         },
-        credentials
-    ),
+    },
+    credentials
+);
+
+schemaComposer.Query.addFields({
+    feed: Feed.activityFeedResolvers.getFeed(),
+    activities: Feed.activityFeedResolvers.getActivities(),
 });
 
 const server = new ApolloServer({
-    context,
     schema: schemaComposer.buildSchema(),
 });
 

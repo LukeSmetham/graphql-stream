@@ -2,16 +2,9 @@ import { composer } from 'schema';
 import capitalize from 'capitalize';
 import { JSONResolver, UUIDResolver } from 'graphql-scalars';
 
-import { createActivity } from './Activity';
-import { StreamIDResolver } from '../scalars';
-import {
-    createGetActivities,
-    createGetFeed,
-    createGetFeedFollowers,
-    createGetFeedFollowing,
-    createGetFeedFollowersCount,
-    createGetFeedFollowingCount,
-} from '../resolvers';
+import { StreamIDResolver } from '../../scalars';
+
+import { createGetFeedFollowers, createGetFeedFollowing, createGetFeedFollowersCount, createGetFeedFollowingCount } from './fields';
 
 /**
  * Checks the provided feed type is valid, can be either flat, aggregated or notification
@@ -44,7 +37,7 @@ const ensureScalars = schemaComposer => {
     }
 };
 
-export const createActivityFeed = (opts = {}, credentials) => {
+export const createFeed = (opts = {}, credentials) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     ensureScalars(schemaComposer);
@@ -55,16 +48,13 @@ export const createActivityFeed = (opts = {}, credentials) => {
         throw new Error('Please provide the name of your feed group to opts.feedGroup.');
     }
 
-    const activityTC = createActivity(opts);
-
     const feedGroupName = capitalize(feedGroup);
     const feedType = capitalize(validateFeedType(type));
 
-    const feedTC = schemaComposer.createObjectTC({
+    const FeedTC = schemaComposer.createObjectTC({
         name: `Stream${feedGroupName}${feedType}Feed`,
         interfaces: [],
         fields: {
-            activities: createGetActivities(activityTC, credentials),
             id: 'StreamID!',
             followers: createGetFeedFollowers(schemaComposer, credentials),
             following: createGetFeedFollowing(schemaComposer, credentials),
@@ -73,5 +63,5 @@ export const createActivityFeed = (opts = {}, credentials) => {
         },
     });
 
-    return createGetFeed(feedTC, credentials);
+    return FeedTC;
 };
