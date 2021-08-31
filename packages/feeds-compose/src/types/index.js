@@ -11,6 +11,22 @@ const createActivityFeed = (opts = {}, credentials) => {
     FeedTC.activityFeedResolvers = {
         getFeed: () => createGetFeed(FeedTC, credentials),
         getActivities: () => createGetActivities(ActivityTC, credentials),
+        // follow: () => 'Stream',
+        // unfollow: () => 'Stream',
+        // addActivity: () => 'Stream',
+        // addActivities: () => 'Stream',
+        // updateActivity: () => 'Stream',
+        // removeActivity: () => 'Stream',
+        // addReaction: () => 'Stream',
+        // updateReaction: () => 'Stream',
+        // removeReaction: () => 'Stream',
+        // getReactions: () => 'Stream',
+        // addUser: () => 'Stream',
+        // updateUser: () => 'Stream',
+        // removeUser: () => 'Stream',
+        // getUser: () => 'Stream',
+        // getOrCreateUser: () => 'Stream',
+        // TODO: Collections
     };
 
     FeedTC.addRelation('activities', {
