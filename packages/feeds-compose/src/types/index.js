@@ -4,7 +4,7 @@ import { createFeed } from './Feed';
 import { createActivity } from './Activity';
 import { createGetActivities, createGetFeed } from '../resolvers';
 
-import { followFeed } from './Feed/resolvers';
+import { followFeed, unfollowFeed } from './Feed/resolvers';
 
 const createActivityFeed = (opts = {}, credentials) => {
     const schemaComposer = opts.schemaComposer || composer;
@@ -17,7 +17,7 @@ const createActivityFeed = (opts = {}, credentials) => {
         getFeed: () => createGetFeed(FeedTC, credentials),
         getActivities: () => createGetActivities(ActivityTC, credentials),
         followFeed: () => followFeed(schemaComposer, credentials),
-        // unfollow: () => 'Stream',
+        unfollowFeed: () => unfollowFeed(schemaComposer, credentials),
         // addActivity: () => 'Stream',
         // addActivities: () => 'Stream',
         // updateActivity: () => 'Stream',

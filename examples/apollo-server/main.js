@@ -34,6 +34,7 @@ schemaComposer.Query.addFields({
 
 schemaComposer.Mutation.addFields({
     followFeed: Feed.activityFeedResolvers.followFeed(),
+    unfollowFeed: Feed.activityFeedResolvers.unfollowFeed(),
 });
 
 const server = new ApolloServer({
