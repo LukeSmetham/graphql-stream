@@ -12,7 +12,7 @@ import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { getFeed, followFeed, unfollowFeed } from './Feed/resolvers';
 import { getActivities, addActivity, addActivities, removeActivity } from './Activity/resolvers';
-import { addReaction, getReactions } from './ActivityReaction/resolvers';
+import { addReaction, getReactions, updateReaction } from './ActivityReaction/resolvers';
 
 /**
  * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
@@ -82,7 +82,7 @@ const createActivityFeed = (opts = {}) => {
             // updateActivity: () => 'Stream',
             removeActivity: () => removeActivity(ActivityTC, opts),
             addReaction: () => addReaction(ActivityReactionTC, opts),
-            // updateReaction: () => 'Stream',
+            updateReaction: () => updateReaction(ActivityReactionTC, opts),
             // removeReaction: () => 'Stream',
             // addUser: () => 'Stream',
             // updateUser: () => 'Stream',
@@ -90,6 +90,8 @@ const createActivityFeed = (opts = {}) => {
         },
         subscription: {},
     };
+
+    // Relate types together where applicable
 
     // Add the activities field to the FeedTC here as we need the ActivityTC or GroupedActivityTC to be created first.
     // Doing it via a relation allows us to re-use the same resolver we use for fetching just the activities without other feed fields
@@ -100,6 +102,24 @@ const createActivityFeed = (opts = {}) => {
         projection: { id: true },
         resolver: () => data.query.getActivities(),
         description: 'Get the list of activities for this feed',
+    });
+
+    ActivityTC.addRelation('reactions', {
+        prepareArgs: {
+            activity: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => data.query.getReactions(),
+        description: 'Get the list of reactions for this activity',
+    });
+
+    ActivityReactionTC.addRelation('childReactions', {
+        prepareArgs: {
+            parent: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => data.query.getReactions().makeArgNullable('activity'),
+        description: 'Get the list of reactions for this activity',
     });
 
     return data;
