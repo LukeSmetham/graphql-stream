@@ -12,7 +12,7 @@ import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { getFeed, followFeed, unfollowFeed } from './Feed/resolvers';
 import { getActivities, addActivity, addActivities, removeActivity } from './Activity/resolvers';
-import { addReaction, getReactions, updateReaction } from './ActivityReaction/resolvers';
+import { addReaction, getReactions, updateReaction, removeReaction } from './ActivityReaction/resolvers';
 
 /**
  * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
@@ -83,7 +83,7 @@ const createActivityFeed = (opts = {}) => {
             removeActivity: () => removeActivity(ActivityTC, opts),
             addReaction: () => addReaction(ActivityReactionTC, opts),
             updateReaction: () => updateReaction(ActivityReactionTC, opts),
-            // removeReaction: () => 'Stream',
+            removeReaction: () => removeReaction(ActivityReactionTC, opts),
             // addUser: () => 'Stream',
             // updateUser: () => 'Stream',
             // removeUser: () => 'Stream',
