@@ -18,6 +18,7 @@ module.exports = {
     "node/no-extraneous-import": 0,
     "node/no-unpublished-import": 0,
     "spaced-comment": 0,
-	"sort-keys": 0
+	"sort-keys": 0,
+	"unicorn/filename-case": 0
   },
 };

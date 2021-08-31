@@ -32,6 +32,10 @@ schemaComposer.Query.addFields({
     activities: Feed.activityFeedResolvers.getActivities(),
 });
 
+schemaComposer.Mutation.addFields({
+    followFeed: Feed.activityFeedResolvers.followFeed(),
+});
+
 const server = new ApolloServer({
     schema: schemaComposer.buildSchema(),
 });

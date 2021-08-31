@@ -1,8 +1,13 @@
+import { composer } from 'schema';
+
 import { createFeed } from './Feed';
 import { createActivity } from './Activity';
 import { createGetActivities, createGetFeed } from '../resolvers';
 
+import { followFeed } from './Feed/resolvers';
+
 const createActivityFeed = (opts = {}, credentials) => {
+    const schemaComposer = opts.schemaComposer || composer;
     // TODO?: Add Interfaces for feed and activity.
 
     const FeedTC = createFeed(opts, credentials);
@@ -11,7 +16,7 @@ const createActivityFeed = (opts = {}, credentials) => {
     FeedTC.activityFeedResolvers = {
         getFeed: () => createGetFeed(FeedTC, credentials),
         getActivities: () => createGetActivities(ActivityTC, credentials),
-        // follow: () => 'Stream',
+        followFeed: () => followFeed(schemaComposer, credentials),
         // unfollow: () => 'Stream',
         // addActivity: () => 'Stream',
         // addActivities: () => 'Stream',
