@@ -70,7 +70,7 @@ const createGetFeedFollowing = (schemaComposer, credentials) =>
                     params: args,
                 });
 
-                return body.results.map(({ feed_id }) => feed_id);
+                return body.results.map(({ target_id }) => target_id);
             } catch (error) {
                 console.error(error.message);
             }
