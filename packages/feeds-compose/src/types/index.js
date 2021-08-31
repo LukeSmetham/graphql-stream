@@ -30,7 +30,7 @@ const ensureScalars = schemaComposer => {
     }
 };
 
-const createActivityFeed = (opts = {}, credentials) => {
+const createActivityFeed = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     if (!opts.feedGroup) {
@@ -39,74 +39,64 @@ const createActivityFeed = (opts = {}, credentials) => {
 
     ensureScalars(schemaComposer);
 
-    // TODO?: Add Interfaces for feed and activity.
     // Create interface types
     createActivityInterfaces(schemaComposer);
 
-    // Add some additional options to the opts parameter
+    // Add some additional options to the opts object
     const options = {
         ...opts,
         schemaComposer,
         feedGroupName: capitalize(opts.feedGroup),
     };
 
-    const FeedTC = createFeed(options, credentials);
-    const ActivityTC = createActivity(options, credentials);
+    // Create TypeComposers
+    const FeedTC = createFeed(options);
+    const ActivityTC = createActivity(options);
     const GroupedActivityTC = createGroupedActivity(ActivityTC, options);
 
-    FeedTC.activityFeedResolvers = {
-        getFeed: () => getFeed(FeedTC, credentials),
-        followFeed: () => followFeed(FeedTC, credentials),
-        unfollowFeed: () => unfollowFeed(FeedTC, credentials),
-        getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, credentials),
-        addActivity: () => addActivity(ActivityTC, credentials),
-        addActivities: () => addActivities(ActivityTC, credentials),
-        // updateActivity: () => 'Stream',
-        removeActivity: () => removeActivity(ActivityTC, credentials),
-        // addReaction: () => 'Stream',
-        // updateReaction: () => 'Stream',
-        // removeReaction: () => 'Stream',
-        // getReactions: () => 'Stream',
-        // addUser: () => 'Stream',
-        // updateUser: () => 'Stream',
-        // removeUser: () => 'Stream',
-        // getUser: () => 'Stream',
-        // getOrCreateUser: () => 'Stream',
-        // TODO: Collections
+    // TODO: Collection resolvers
+    // TODO: Subscription resolvers
+    // Create the final data object returned from createActivityFeed
+    const data = {
+        FeedTC,
+        ActivityTC,
+        GroupedActivityTC,
+        query: {
+            getFeed: () => getFeed(FeedTC, opts),
+            getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, opts),
+            // getUser: () => 'Stream',
+            // getOrCreateUser: () => 'Stream',
+            // getReactions: () => 'Stream',
+        },
+        mutation: {
+            followFeed: () => followFeed(FeedTC, opts),
+            unfollowFeed: () => unfollowFeed(FeedTC, opts),
+            addActivity: () => addActivity(ActivityTC, opts),
+            addActivities: () => addActivities(ActivityTC, opts),
+            removeActivity: () => removeActivity(ActivityTC, opts),
+            // updateActivity: () => 'Stream',
+            // addReaction: () => 'Stream',
+            // updateReaction: () => 'Stream',
+            // removeReaction: () => 'Stream',
+            // addUser: () => 'Stream',
+            // updateUser: () => 'Stream',
+            // removeUser: () => 'Stream',
+        },
+        subscription: {},
     };
 
+    // Add the activities field to the FeedTC here as we need the ActivityTC or GroupedActivityTC to be created first.
+    // Doing it via a relation allows us to re-use the same resolver we use for fetching just the activities without other feed fields
     FeedTC.addRelation('activities', {
         prepareArgs: {
             feed: source => source.id,
         },
         projection: { id: true },
-        resolver: () => FeedTC.activityFeedResolvers.getActivities(),
+        resolver: () => data.query.getActivities(),
         description: 'Get the list of activities for this feed',
     });
 
-    FeedTC.addRelation('follow', {
-        prepareArgs: {
-            feed: source => source.id,
-        },
-        projection: { id: true },
-        resolver: () => FeedTC.activityFeedResolvers.followFeed(),
-        description: '[MUTATION] Follow a feed.',
-    });
-
-    FeedTC.addRelation('unfollow', {
-        prepareArgs: {
-            feed: source => source.id,
-        },
-        projection: { id: true },
-        resolver: () => FeedTC.activityFeedResolvers.unfollowFeed(),
-        description: '[MUTATION] Unfollow a feed.',
-    });
-
-    return {
-        FeedTC,
-        ActivityTC,
-        GroupedActivityTC,
-    };
+    return data;
 };
 
 export { createActivityFeed };

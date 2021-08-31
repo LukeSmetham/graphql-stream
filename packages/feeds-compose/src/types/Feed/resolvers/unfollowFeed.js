@@ -1,6 +1,6 @@
 import request from 'utils/request';
 
-export const unfollowFeed = (tc, credentials) =>
+export const unfollowFeed = (tc, { credentials } = {}) =>
     tc.schemaComposer.createResolver({
         name: 'unfollow',
         kind: 'mutation',

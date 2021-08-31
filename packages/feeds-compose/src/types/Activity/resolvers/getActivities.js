@@ -5,7 +5,7 @@ import request from 'utils/request';
  * @param {TypeComposer} tc
  * @returns Resolver
  */
-export const getActivities = (tc, credentials) =>
+export const getActivities = (tc, { credentials } = {}) =>
     tc.schemaComposer.createResolver({
         name: 'getActivities',
         type: [tc],

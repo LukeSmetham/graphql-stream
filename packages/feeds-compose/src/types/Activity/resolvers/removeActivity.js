@@ -1,6 +1,6 @@
 import request from 'utils/request';
 
-export const removeActivity = (tc, credentials) =>
+export const removeActivity = (tc, { credentials } = {}) =>
     tc.schemaComposer.createResolver({
         name: 'removeActivity',
         kind: 'mutation',

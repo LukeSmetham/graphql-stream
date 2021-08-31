@@ -1,6 +1,6 @@
 import request from 'utils/request';
 
-export const followFeed = (tc, credentials) =>
+export const followFeed = (tc, { credentials } = {}) =>
     tc.schemaComposer.createResolver({
         name: 'follow',
         kind: 'mutation',
