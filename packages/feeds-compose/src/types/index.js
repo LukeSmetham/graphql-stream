@@ -81,6 +81,25 @@ const createActivityFeed = (opts = {}, credentials) => {
         },
         projection: { id: true },
         resolver: () => FeedTC.activityFeedResolvers.getActivities(),
+        description: 'Get the list of activities for this feed',
+    });
+
+    FeedTC.addRelation('follow', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.activityFeedResolvers.followFeed(),
+        description: '[MUTATION] Follow a feed.',
+    });
+
+    FeedTC.addRelation('unfollow', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.activityFeedResolvers.unfollowFeed(),
+        description: '[MUTATION] Unfollow a feed.',
     });
 
     return FeedTC;
@@ -89,9 +108,19 @@ const createActivityFeed = (opts = {}, credentials) => {
 const composeActivityFeed = (tc, opts, credentials) => {
     const { fieldName = 'feed' } = opts;
 
+    const FeedTC = createActivityFeed(opts, credentials);
+
     tc.addFields({
-        [fieldName]: createActivityFeed(opts, credentials),
+        [fieldName]: FeedTC.activityFeedResolvers.getFeed(),
     });
+
+    Object.keys(FeedTC.activityFeedResolvers).forEach(k => {
+        const createResolver = FeedTC.activityFeedResolvers[k];
+
+        tc.setResolver(k, createResolver());
+    });
+
+    return tc;
 };
 
 export { createActivityFeed, composeActivityFeed };

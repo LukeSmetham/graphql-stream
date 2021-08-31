@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ApolloServer } from 'apollo-server';
-import { createActivityFeed } from '@graphql-stream/feeds';
+import { createActivityFeedsSchema } from '@graphql-stream/feeds';
 import { schemaComposer } from 'graphql-compose';
 
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;
@@ -14,15 +14,8 @@ const credentials = {
     region: 'us-east',
 };
 
-const UserTC = schemaComposer.createObjectTC({
-    name: 'User',
-    fields: {
-        id: 'String',
-        name: 'String',
-    },
-});
-
-const Feed = createActivityFeed(
+const feedsSchema = createActivityFeedsSchema(
+    schemaComposer,
     {
         feedGroup: 'user',
         type: 'flat',
@@ -35,21 +28,8 @@ const Feed = createActivityFeed(
     credentials
 );
 
-schemaComposer.Query.addFields({
-    feed: Feed.activityFeedResolvers.getFeed(),
-    activities: Feed.activityFeedResolvers.getActivities(),
-});
-
-schemaComposer.Mutation.addFields({
-    addActivities: Feed.activityFeedResolvers.addActivities(),
-    addActivity: Feed.activityFeedResolvers.addActivity(),
-    followFeed: Feed.activityFeedResolvers.followFeed(),
-    removeActivity: Feed.activityFeedResolvers.removeActivity(),
-    unfollowFeed: Feed.activityFeedResolvers.unfollowFeed(),
-});
-
 const server = new ApolloServer({
-    schema: schemaComposer.buildSchema(),
+    schema: feedsSchema,
 });
 
 server.listen(PORT);
