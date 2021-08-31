@@ -12,7 +12,7 @@ export const addActivities = (tc, credentials) =>
             },
             activities: {
                 type: [tc.getInputType()],
-                description: 'The activity to add to the chosen feed.',
+                description: 'The array of activities to add to the chosen feed.',
             },
         },
         resolve: async ({ args }) => {
