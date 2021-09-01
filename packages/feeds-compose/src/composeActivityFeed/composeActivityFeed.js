@@ -40,10 +40,10 @@ export const composeActivityFeed = (opts = {}) => {
         });
     }
 
+    // Create StreamUser types and resolvers
     const users = createUsers(options);
 
     // TODO: Collection resolvers
-    // TODO: User Resolvers
     return {
         interfaces: {
             StreamActivityInterface: schemaComposer.getIFTC('StreamActivityInterface'),
