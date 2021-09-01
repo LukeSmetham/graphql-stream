@@ -26,11 +26,6 @@ const { feeds, users } = composeActivityFeed({
         {
             feedGroup: 'notification',
             type: 'notification',
-            activityFields: {
-                // These fields are custom additions to the activity type from the Combase stream app as an example.
-                text: 'String!',
-                entity: 'String!',
-            },
         },
     ],
     schemaComposer,
@@ -39,6 +34,7 @@ const { feeds, users } = composeActivityFeed({
 
 schemaComposer.Query.addFields({
     getUser: users.query.getUser(),
+    getOrCreateUser: users.query.getOrCreateUser(),
     userFeed: feeds.userFeed.query.getFeed(),
     notificationFeed: feeds.notificationFeed.query.getFeed(),
 });
