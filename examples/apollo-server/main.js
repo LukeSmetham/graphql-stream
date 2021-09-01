@@ -40,12 +40,11 @@ const { feeds } = composeActivityFeed({
 schemaComposer.Query.addFields({
     userFeed: feeds.userFeed.query.getFeed(),
     notificationFeed: feeds.notificationFeed.query.getFeed(),
-    reactions: feeds.userFeed.query.getReactions(),
 });
 
 schemaComposer.Mutation.addFields({
     addUserActivity: feeds.userFeed.mutation.addActivity(),
-    removeUserActivity: feeds.userFeed.mutation.addActivity(),
+    removeUserActivity: feeds.userFeed.mutation.removeActivity(),
 });
 
 // TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
