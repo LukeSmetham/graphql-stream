@@ -24,15 +24,6 @@ const { feeds } = composeActivityFeed({
             },
         },
         {
-            feedGroup: 'timeline',
-            type: 'aggregated',
-            activityFields: {
-                // These fields are custom additions to the activity type from the Combase stream app as an example.
-                text: 'String!',
-                entity: 'String!',
-            },
-        },
-        {
             feedGroup: 'notification',
             type: 'notification',
             activityFields: {
@@ -48,13 +39,13 @@ const { feeds } = composeActivityFeed({
 
 schemaComposer.Query.addFields({
     userFeed: feeds.userFeed.query.getFeed(),
-    timelineFeed: feeds.timelineFeed.query.getFeed(),
     notificationFeed: feeds.notificationFeed.query.getFeed(),
     reactions: feeds.userFeed.query.getReactions(),
 });
 
 schemaComposer.Mutation.addFields({
-    ...feeds.userFeed.mutation,
+    addUserActivity: feeds.userFeed.mutation.addActivity(),
+    removeUserActivity: feeds.userFeed.mutation.addActivity(),
 });
 
 // TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
