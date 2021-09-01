@@ -1,6 +1,6 @@
 import { createUserTC } from 'types/User';
 
-import { addUser, getUser } from 'types/User/resolvers';
+import { addUser, getUser, removeUser } from 'types/User/resolvers';
 
 export const createUsers = options => {
     const UserTC = createUserTC(options);
@@ -14,7 +14,7 @@ export const createUsers = options => {
         mutation: {
             addUser: () => addUser(UserTC, options),
             // updateUser: () => 'Stream',
-            // removeUser: () => 'Stream',
+            removeUser: () => removeUser(UserTC, options),
         },
         subscription: {},
     };

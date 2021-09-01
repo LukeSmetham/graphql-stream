@@ -1,33 +1,25 @@
 import request from 'utils/request';
 
-export const addUser = (tc, { credentials } = {}) =>
+export const removeUser = (tc, { credentials } = {}) =>
     tc.schemaComposer.createResolver({
-        name: 'addUser',
+        name: 'removeUser',
         kind: 'mutation',
-        type: tc,
+        type: 'ID',
         args: {
             id: {
                 type: 'ID!',
                 description: 'The ID for the user you want to create.',
             },
-            data: {
-                type: 'JSON',
-                description: 'Any extra data to be attached to the new User.',
-            },
         },
         resolve: async ({ args }) => {
             try {
-                const { body } = await request({
+                await request({
                     credentials,
-                    url: `user`,
-                    method: 'POST',
-                    data: {
-                        id: args.id,
-                        data: args.data,
-                    },
+                    url: `user/${args.id}`,
+                    method: 'DELETE',
                 });
 
-                return body;
+                return args.id;
             } catch (error) {
                 console.error(error.message);
 
