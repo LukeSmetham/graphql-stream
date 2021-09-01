@@ -49,7 +49,10 @@ const createGroupedActivity = (ActivityTC, opts = {}) => {
             interfaces: [schemaComposer.getIFTC('StreamGroupedActivityInterface')],
             fields: {
                 id: 'ID!',
-                activities: [ActivityTC],
+                activities: {
+                    type: [ActivityTC],
+                    description: 'The list of activities for this aggregated response.',
+                },
                 ...groupedActivityInterfaceFields,
             },
         });
@@ -61,10 +64,19 @@ const createGroupedActivity = (ActivityTC, opts = {}) => {
             interfaces: [schemaComposer.getIFTC('StreamGroupedActivityInterface')],
             fields: {
                 id: 'ID!',
-                activities: [ActivityTC],
+                activities: {
+                    type: [ActivityTC],
+                    description: 'The list of activities for this aggregated response.',
+                },
                 ...groupedActivityInterfaceFields,
-                is_read: 'Boolean!',
-                is_seen: 'Boolean!',
+                is_read: {
+                    type: 'Boolean!',
+                    description: 'Flag showing whether this notification group has been read.',
+                },
+                is_seen: {
+                    type: 'Boolean!',
+                    description: 'Flag showing whether this notification group has been seen.',
+                },
             },
         });
     }
