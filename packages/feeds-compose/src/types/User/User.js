@@ -9,7 +9,9 @@ export const createUserTC = opts => {
         tc.addFields({
             id: 'ID!',
             data: 'JSON',
-            token: createTokenField(schemaComposer),
+            created_at: 'Date!',
+            updated_at: 'Date!',
+            token: createTokenField(schemaComposer, opts),
         });
     });
 
