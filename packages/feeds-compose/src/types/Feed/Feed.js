@@ -16,7 +16,7 @@ const validateFeedType = type => {
     return type;
 };
 
-export const createFeed = (opts = {}) => {
+export const createFeedTC = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
     const credentials = opts.credentials;
 

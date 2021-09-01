@@ -7,6 +7,7 @@ import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { ensureScalars } from './ensureScalars';
 import { createActivityFeed } from './createActivityFeed';
+import { createUsers } from './createUsers';
 
 export const composeActivityFeed = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
@@ -31,13 +32,15 @@ export const composeActivityFeed = (opts = {}) => {
     const feeds = {};
 
     for (let i = 0; i < options.feed.length; i++) {
-        const name = camelCase(`${options[i].feed.feedGroupName}Feed`);
+        const name = camelCase(`${options.feed[i].feedGroupName}Feed`);
 
         feeds[name] = createActivityFeed({
             ...options,
             feed: options.feed[i],
         });
     }
+
+    const users = createUsers(options);
 
     // TODO: Collection resolvers
     // TODO: User Resolvers
@@ -47,18 +50,7 @@ export const composeActivityFeed = (opts = {}) => {
             StreamGroupedActivityInterface: schemaComposer.getIFTC('StreamGroupedActivityInterface'),
         },
         feeds,
-        users: {
-            query: {
-                // getUser: () => 'Stream',
-                // getOrCreateUser: () => 'Stream',
-            },
-            mutation: {
-                // addUser: () => 'Stream',
-                // updateUser: () => 'Stream',
-                // removeUser: () => 'Stream',
-            },
-            subscription: {},
-        },
+        users,
         collections: {
             query: {},
             mutation: {},

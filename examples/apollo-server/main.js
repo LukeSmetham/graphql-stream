@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { feeds } = composeActivityFeed({
+const { feeds, users } = composeActivityFeed({
     feed: [
         {
             feedGroup: 'user',
@@ -38,6 +38,7 @@ const { feeds } = composeActivityFeed({
 });
 
 schemaComposer.Query.addFields({
+    getUser: users.query.getUser(),
     userFeed: feeds.userFeed.query.getFeed(),
     notificationFeed: feeds.notificationFeed.query.getFeed(),
 });

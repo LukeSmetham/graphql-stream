@@ -39,7 +39,7 @@ const reactionFields = {
     },
 };
 
-export const createActivityReaction = opts => {
+export const createActivityReactionTC = opts => {
     const schemaComposer = opts.schemaComposer || composer;
 
     const ActivityReactionTC = schemaComposer.getOrCreateOTC(`StreamActivityReaction`, tc => {

@@ -1,6 +1,6 @@
-import { createFeed } from 'types/Feed';
-import { createActivity, createGroupedActivity } from 'types/Activity';
-import { createActivityReaction } from 'types/ActivityReaction';
+import { createFeedTC } from 'types/Feed';
+import { createActivityTC, createGroupedActivityTC } from 'types/Activity';
+import { createActivityReactionTC } from 'types/ActivityReaction';
 
 import { getFeed, followFeed, unfollowFeed } from 'types/Feed/resolvers';
 import { getActivities, addActivity, addActivities, removeActivity } from 'types/Activity/resolvers';
@@ -12,10 +12,10 @@ export const createActivityFeed = options => {
     }
 
     // Create TypeComposers
-    const FeedTC = createFeed(options);
-    const ActivityTC = createActivity(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
-    const GroupedActivityTC = createGroupedActivity(ActivityTC, options);
-    const ActivityReactionTC = createActivityReaction(ActivityTC, options);
+    const FeedTC = createFeedTC(options);
+    const ActivityTC = createActivityTC(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
+    const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
+    const ActivityReactionTC = createActivityReactionTC(ActivityTC, options);
 
     // TODO: Subscription resolvers
     const data = {

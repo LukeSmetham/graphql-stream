@@ -2,7 +2,7 @@ import { composer } from 'schema';
 
 import { activityInterfaceFields, activityInputFields, groupedActivityInterfaceFields } from 'interfaces/Activity';
 
-const createActivity = (opts = {}) => {
+const createActivityTC = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     const { feedGroupName, activityFields } = opts.feed;
@@ -36,7 +36,7 @@ const createActivity = (opts = {}) => {
     return ActivityTC;
 };
 
-const createGroupedActivity = (ActivityTC, opts = {}) => {
+const createGroupedActivityTC = (ActivityTC, opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     const { feedGroupName, type } = opts.feed;
@@ -90,4 +90,4 @@ const createGroupedActivity = (ActivityTC, opts = {}) => {
     return tc;
 };
 
-export { createActivity, createGroupedActivity };
+export { createActivityTC, createGroupedActivityTC };
