@@ -3,9 +3,6 @@ import { camelCase } from 'graphql-compose';
 import capitalize from 'capitalize';
 import castArray from 'lodash.castarray';
 
-import { JSONResolver, UUIDResolver } from 'graphql-scalars';
-import { StreamIDResolver } from 'scalars';
-
 import { createFeed } from 'types/Feed';
 import { createActivity, createGroupedActivity } from 'types/Activity';
 import { createActivityReaction } from 'types/ActivityReaction';
@@ -16,23 +13,7 @@ import { getFeed, followFeed, unfollowFeed } from 'types/Feed/resolvers';
 import { getActivities, addActivity, addActivities, removeActivity } from 'types/Activity/resolvers';
 import { addReaction, getReactions, updateReaction, removeReaction } from 'types/ActivityReaction/resolvers';
 
-/**
- * Ensures the schema composer contains the required schemas we need to create Stream types & resolvers.
- * @param {SchemaComposer} schemaComposer
- */
-const ensureScalars = schemaComposer => {
-    if (!schemaComposer.has('JSON')) {
-        schemaComposer.add(JSONResolver);
-    }
-
-    if (!schemaComposer.has('StreamID')) {
-        schemaComposer.add(StreamIDResolver);
-    }
-
-    if (!schemaComposer.has('UUID')) {
-        schemaComposer.add(UUIDResolver);
-    }
-};
+import { ensureScalars } from './ensureScalars';
 
 const createFeedTypes = opts => {
     const feeds = {};
