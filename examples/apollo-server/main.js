@@ -46,6 +46,7 @@ schemaComposer.Query.addFields({
 schemaComposer.Mutation.addFields({
     addUser: users.mutation.addUser(),
     removeUser: users.mutation.removeUser(),
+    updateUser: users.mutation.updateUser(),
     addUserActivity: feeds.userFeed.mutation.addActivity(),
     removeUserActivity: feeds.userFeed.mutation.removeActivity(),
 });
