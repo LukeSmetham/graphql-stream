@@ -19,8 +19,6 @@ export const getUser = (tc, { credentials } = {}) =>
                     method: 'GET',
                 });
 
-                console.log(body);
-
                 return body;
             } catch (error) {
                 console.error(error.message);
