@@ -5,7 +5,7 @@ import { activityInterfaceFields, activityInputFields, groupedActivityInterfaceF
 const createActivity = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
-    const { feedGroupName, activityFields } = opts;
+    const { feedGroupName, activityFields } = opts.feed;
 
     const typeName = `Stream${feedGroupName}Activity`;
 
@@ -39,13 +39,13 @@ const createActivity = (opts = {}) => {
 const createGroupedActivity = (ActivityTC, opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
-    const { feedGroupName, type } = opts;
+    const { feedGroupName, type } = opts.feed;
 
     let tc;
 
     if (type === 'aggregated') {
         tc = schemaComposer.createObjectTC({
-            name: `Stream${feedGroupName}AggregatedActivity`,
+            name: `Stream${feedGroupName}ActivityGroup`,
             interfaces: [schemaComposer.getIFTC('StreamGroupedActivityInterface')],
             fields: {
                 id: 'ID!',
@@ -57,7 +57,7 @@ const createGroupedActivity = (ActivityTC, opts = {}) => {
 
     if (type === 'notification') {
         tc = schemaComposer.createObjectTC({
-            name: `Stream${feedGroupName === 'Notification' ? 'Grouped' : feedGroupName}NotificationActivity`,
+            name: `Stream${feedGroupName === 'Notification' ? 'Grouped' : feedGroupName}NotificationGroup`,
             interfaces: [schemaComposer.getIFTC('StreamGroupedActivityInterface')],
             fields: {
                 id: 'ID!',

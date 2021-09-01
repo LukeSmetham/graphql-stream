@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "capitalize": "^2.0.3",
-    "graphql-compose": "^9.0.2"
+    "graphql-compose": "^9.0.2",
+    "lodash.castarray": "^4.4.0"
   }
 }
