@@ -21,6 +21,8 @@ export const composeActivityFeed = (opts = {}) => {
     createActivityInterfaces(schemaComposer);
     createCollectionInterfaces(schemaComposer);
 
+    // TODO: Error handling for GET resolvers that return 200 but with an error response (i.e. collections)
+
     // Cast feed & collection property to an array if it's not already an array and add the feedGroupName to each
     // TODO: Remove the map here and instead just castArray and then calc the capitalized name within the create* functions.
     const options = {
@@ -36,6 +38,7 @@ export const composeActivityFeed = (opts = {}) => {
         schemaComposer,
     };
 
+    // Feeds
     // Create the various feed and activity types & resolvers for each feed config object.
     let feeds = {};
 
@@ -51,12 +54,15 @@ export const composeActivityFeed = (opts = {}) => {
         };
     }
 
+    // Reactions
     // Create ActivityReaction types and resolvers
     const StreamActivityReactionTC = createActivityReaction(options);
 
+    // Users
     // Create StreamUser types and resolvers
     const StreamUserTC = createUser(options);
 
+    // Collections
     // Create the various Collection types & resolvers for each collection config object.
     let collections = {};
 
@@ -66,15 +72,12 @@ export const composeActivityFeed = (opts = {}) => {
             collection: options.collection[i],
         });
 
-        console.log(options.collection[i]);
-
         collections = {
             ...collections,
             ...collectionTypes,
         };
     }
 
-    // TODO: Collection resolvers
     return {
         interfaces: {
             StreamCollectionEntityInterface: schemaComposer.getIFTC('StreamCollectionEntityInterface'),
