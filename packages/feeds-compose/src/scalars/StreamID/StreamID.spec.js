@@ -11,6 +11,18 @@ describe('StreamID', () => {
         expect(streamId).toBeInstanceOf(StreamID);
         expect(parts[0]).toBe('messaging');
         expect(parts[1]).toBe('123');
+        expect(streamId.toString()).toBe(channelId);
+    });
+
+    test('Selector can be provided as an Array', () => {
+        const selector = channelId.split(':');
+        const streamId = new StreamID(selector);
+        const parts = [...streamId];
+
+        expect(streamId).toBeInstanceOf(StreamID);
+        expect(parts[0]).toBe('messaging');
+        expect(parts[1]).toBe('123');
+        expect(streamId.toString()).toBe(channelId);
     });
 
     test('Throws an error if an invalid selector is provided', () => {
