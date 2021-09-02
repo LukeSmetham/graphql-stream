@@ -1,7 +1,7 @@
 import { createActivityReactionTC } from 'types/ActivityReaction';
 import * as resolvers from 'types/ActivityReaction/resolvers';
 
-export const createActivityReactions = options => {
+export const createActivityReaction = options => {
     const ActivityReactionTC = createActivityReactionTC(options);
 
     Object.keys(resolvers).forEach(k => {

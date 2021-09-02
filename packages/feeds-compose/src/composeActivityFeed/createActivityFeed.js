@@ -3,11 +3,9 @@ import capitalize from 'capitalize';
 
 import { createFeedTC } from 'types/Feed';
 import { createActivityTC, createGroupedActivityTC } from 'types/Activity';
-import { createActivityReactionTC } from 'types/ActivityReaction';
 
 import * as feedResolvers from 'types/Feed/resolvers';
 import * as activityResolvers from 'types/Activity/resolvers';
-import * as activityReactionResolvers from 'types/ActivityReaction/resolvers';
 
 export const createActivityFeed = options => {
     const schemaComposer = options.schemaComposer || composer;

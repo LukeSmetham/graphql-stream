@@ -6,8 +6,8 @@ import { createActivityInterfaces } from 'interfaces/Activity';
 
 import { ensureScalars } from './ensureScalars';
 import { createActivityFeed } from './createActivityFeed';
-import { createActivityReactions } from './createActivityReactions';
-import { createUsers } from './createUsers';
+import { createActivityReaction } from './createActivityReaction';
+import { createUser } from './createUser';
 
 export const composeActivityFeed = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
@@ -44,10 +44,10 @@ export const composeActivityFeed = (opts = {}) => {
     }
 
     // Create ActivityReaction types and resolvers
-    const StreamActivityReactionsTC = createActivityReactions(options);
+    const StreamActivityReactionsTC = createActivityReaction(options);
 
     // Create StreamUser types and resolvers
-    const StreamUserTC = createUsers(options);
+    const StreamUserTC = createUser(options);
 
     // TODO: Collection resolvers
     return {
