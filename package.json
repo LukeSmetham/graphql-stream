@@ -15,10 +15,7 @@
     "old:build": "yarn build:js && yarn build:graphql",
     "old:build:js": "lerna --scope @stream-io/* exec --parallel -- babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
     "old:build:graphql": "lerna --scope @stream-io/* exec --parallel -- rsync -r --include 'src/*' --include '*.graphql' --exclude='*.js' --exclude='*.spec.js' --prune-empty-dirs 'src/' 'lib/'",
-    "dev": "yarn workspace @examples/apollo-server dev",
-	"test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --maxWorkers 4",
-	"test": "yarn test:coverage"
+    "dev": "yarn workspace @examples/apollo-server dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",

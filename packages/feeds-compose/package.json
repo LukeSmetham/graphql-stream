@@ -12,7 +12,10 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf lib && babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js",
-    "watch": "yarn build -w"
+    "watch": "yarn build -w",
+	"test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --maxWorkers 4",
+	"test": "yarn test:coverage"
   },
   "dependencies": {
     "capitalize": "^2.0.3",
