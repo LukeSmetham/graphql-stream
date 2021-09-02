@@ -44,7 +44,7 @@ export const composeActivityFeed = (opts = {}) => {
     }
 
     // Create ActivityReaction types and resolvers
-    const StreamActivityReactionsTC = createActivityReaction(options);
+    const StreamActivityReactionTC = createActivityReaction(options);
 
     // Create StreamUser types and resolvers
     const StreamUserTC = createUser(options);
@@ -56,8 +56,8 @@ export const composeActivityFeed = (opts = {}) => {
             StreamGroupedActivityInterface: schemaComposer.getIFTC('StreamGroupedActivityInterface'),
         },
         ...feeds,
-        StreamUserTC,
-        StreamActivityReactionsTC,
+        [`${StreamUserTC.getTypeName()}TC`]: StreamUserTC,
+        [`${StreamActivityReactionTC.getTypeName()}TC`]: StreamActivityReactionTC,
         // collections: {
         //     query: {},
         //     mutation: {},
