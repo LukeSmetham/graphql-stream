@@ -23,6 +23,8 @@ export const createCollectionTC = (opts = {}) => {
         },
     });
 
+    CollectionTC.setInputTypeComposer(EntityTC.getInputTypeComposer());
+
     return {
         CollectionTC,
         EntityTC,

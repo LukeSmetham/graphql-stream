@@ -3,7 +3,7 @@ import capitalize from 'capitalize';
 
 import { createCollectionTC } from 'types/Collection';
 
-// import * as collectionResolvers from 'types/Collection/resolvers';
+import * as resolvers from 'types/Collection/resolvers';
 
 export const createCollection = options => {
     const schemaComposer = options.schemaComposer || composer;
@@ -17,10 +17,13 @@ export const createCollection = options => {
     }
 
     // Create TypeComposers
-    const { CollectionTC, EntityTC } = createCollectionTC(options);
+    const { CollectionTC } = createCollectionTC(options);
+
+    Object.keys(resolvers).forEach(k => {
+        CollectionTC.addResolver(resolvers[k](CollectionTC, options));
+    });
 
     return {
         [`${CollectionTC.getTypeName()}TC`]: CollectionTC,
-        [`${EntityTC.getTypeName()}TC`]: EntityTC,
     };
 };

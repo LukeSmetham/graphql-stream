@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, ...rest } = composeActivityFeed({
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC } = composeActivityFeed({
     feed: [
         {
             feedGroup: 'user',
@@ -43,7 +43,6 @@ const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, ...rest } = co
     credentials,
 });
 
-console.log(Object.keys(rest));
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
 // You can provide your own type to the field like so: (See line#75-76 also)
@@ -73,6 +72,7 @@ StreamUserTC.setField('data', {
 
 // Add everything to your schema
 schemaComposer.Query.addFields({
+    getPost: StreamPostEntityTC.getResolver('getEntity'),
     getUser: StreamUserTC.getResolver('getUser'),
     getOrCreateUser: StreamUserTC.getResolver('getOrCreateUser'),
     userFeed: StreamUserFeedTC.getResolver('getFeed'),
@@ -80,6 +80,9 @@ schemaComposer.Query.addFields({
 });
 
 schemaComposer.Mutation.addFields({
+    addPost: StreamPostEntityTC.getResolver('addEntity'),
+    updatePost: StreamPostEntityTC.getResolver('updateEntity'),
+    removePost: StreamPostEntityTC.getResolver('removeEntity'),
     addUser: StreamUserTC.getResolver('addUser').setArg('data', { type: CustomUserDataTC.getInputType() }), // getInputType will automatically create the input type for you (you can create a custom one too and set the type property to that instead)
     updateUser: StreamUserTC.getResolver('updateUser').setArg('data', { type: CustomUserDataTC.getInputType() }),
     removeUser: StreamUserTC.getResolver('removeUser'),
