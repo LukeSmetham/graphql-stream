@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC } = composeActivityFeed({
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, ...rest } = composeActivityFeed({
     feed: [
         {
             feedGroup: 'user',
@@ -22,6 +22,10 @@ const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC } = composeActi
                 text: 'String!',
                 entity: 'String!',
             },
+        },
+        {
+            feedGroup: 'timeline',
+            type: 'aggregated',
         },
         {
             feedGroup: 'notification',

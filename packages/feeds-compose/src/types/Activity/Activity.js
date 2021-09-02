@@ -60,7 +60,7 @@ const createGroupedActivityTC = (ActivityTC, opts = {}) => {
 
     if (type === 'notification') {
         tc = schemaComposer.createObjectTC({
-            name: `Stream${feedGroupName === 'Notification' ? 'Grouped' : feedGroupName}NotificationGroup`,
+            name: `Stream${feedGroupName}ActivityGroup`,
             interfaces: [schemaComposer.getIFTC('StreamGroupedActivityInterface')],
             fields: {
                 id: 'ID!',
