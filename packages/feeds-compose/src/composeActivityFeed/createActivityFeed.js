@@ -1,12 +1,17 @@
+import { composer } from 'schema';
+import capitalize from 'capitalize';
+
 import { createFeedTC } from 'types/Feed';
 import { createActivityTC, createGroupedActivityTC } from 'types/Activity';
 import { createActivityReactionTC } from 'types/ActivityReaction';
 
-import { getFeed, followFeed, unfollowFeed } from 'types/Feed/resolvers';
-import { getActivities, addActivity, addActivities, removeActivity } from 'types/Activity/resolvers';
-import { addReaction, getReactions, updateReaction, removeReaction } from 'types/ActivityReaction/resolvers';
+import * as feedResolvers from 'types/Feed/resolvers';
+import * as activityResolvers from 'types/Activity/resolvers';
+import * as activityReactionResolvers from 'types/ActivityReaction/resolvers';
 
 export const createActivityFeed = options => {
+    const schemaComposer = options.schemaComposer || composer;
+
     if (!options.feed.feedGroup) {
         throw new Error('Please provide the name of your feed group to opts.feedGroup.');
     }
@@ -15,33 +20,24 @@ export const createActivityFeed = options => {
     const FeedTC = createFeedTC(options);
     const ActivityTC = createActivityTC(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
     const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
-    const ActivityReactionTC = createActivityReactionTC(ActivityTC, options);
+
+    Object.keys(feedResolvers).forEach(k => {
+        FeedTC.addResolver(feedResolvers[k](FeedTC, options));
+    });
+
+    Object.keys(activityResolvers).forEach(k => {
+        FeedTC.addResolver(activityResolvers[k](ActivityTC, options));
+    });
 
     // TODO: Subscription resolvers
     const data = {
-        FeedTC,
-        ActivityTC,
-        ActivityReactionTC,
-        GroupedActivityTC,
-        query: {
-            getFeed: () => getFeed(FeedTC, options),
-            getActivities: () => getActivities(GroupedActivityTC ?? ActivityTC, options),
-            getReactions: () => getReactions(ActivityReactionTC, options),
-        },
-        mutation: {
-            followFeed: () => followFeed(FeedTC, options),
-            unfollowFeed: () => unfollowFeed(FeedTC, options),
-            addActivity: () => addActivity(ActivityTC, options),
-            addActivities: () => addActivities(ActivityTC, options),
-            // TODO: Implement the set/unset update behavior in GQL
-            // updateActivity: () => 'Stream',
-            removeActivity: () => removeActivity(ActivityTC, options),
-            addReaction: () => addReaction(ActivityReactionTC, options),
-            updateReaction: () => updateReaction(ActivityReactionTC, options),
-            removeReaction: () => removeReaction(ActivityReactionTC, options),
-        },
-        subscription: {},
+        [capitalize(`${FeedTC.getTypeName()}TC`, true)]: FeedTC,
+        [capitalize(`${ActivityTC.getTypeName()}TC`, true)]: ActivityTC,
     };
+
+    if (GroupedActivityTC) {
+        data[capitalize(`${GroupedActivityTC.getTypeName()}TC`, true)] = GroupedActivityTC;
+    }
 
     // Relate types together where applicable
     FeedTC.addRelation('activities', {
@@ -49,7 +45,7 @@ export const createActivityFeed = options => {
             feed: source => source.id,
         },
         projection: { id: true },
-        resolver: () => data.query.getActivities(),
+        resolver: () => FeedTC.getResolver('getActivities'),
         description: 'Get the list of activities for this feed',
     });
 
@@ -58,17 +54,8 @@ export const createActivityFeed = options => {
             activity: source => source.id,
         },
         projection: { id: true },
-        resolver: () => data.query.getReactions(),
+        resolver: () => schemaComposer.getOTC('StreamActivityReaction').getResolver('getReactions'),
         description: 'Get the list of reactions for this activity',
-    });
-
-    ActivityReactionTC.addRelation('childReactions', {
-        prepareArgs: {
-            parent: source => source.id,
-        },
-        projection: { id: true },
-        resolver: () => data.query.getReactions().makeArgNullable('activity'),
-        description: 'Get the list of child reactions for this reaction',
     });
 
     return data;
