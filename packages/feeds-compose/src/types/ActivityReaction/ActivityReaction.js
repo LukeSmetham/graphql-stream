@@ -14,11 +14,11 @@ const reactionFields = {
         description: 'The ID of the activity the reaction refers to.',
     },
     created_at: {
-        type: 'Date!',
+        type: 'DateTime!',
         description: 'The date representing when this reaction was created.',
     },
     updated_at: {
-        type: 'Date!',
+        type: 'DateTime!',
         description: 'The date representing when this reaction was updated.',
     },
     user_id: {

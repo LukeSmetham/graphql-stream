@@ -17,7 +17,7 @@ const activityInterfaceFields = {
         description: 'The object of the activity',
     },
     time: {
-        type: 'Date',
+        type: 'DateTime',
         description:
             'The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID',
     },
@@ -46,7 +46,7 @@ const activityInputFields = {
         description: 'The object of the activity',
     },
     time: {
-        type: 'Date',
+        type: 'DateTime',
         description:
             'The time of the activity, iso format (UTC local time). Required to ensure activity uniqueness and also to later update activities by Time + Foreign ID',
     },
@@ -70,7 +70,7 @@ const groupedActivityInterfaceFields = {
         description: 'The number of actors in the aggregated response.',
     },
     created_at: {
-        type: 'Date!',
+        type: 'DateTime!',
         description: 'The date this activity group was created.',
     },
     group: {
@@ -78,7 +78,7 @@ const groupedActivityInterfaceFields = {
         description: 'The group this activity group belongs to.',
     },
     updated_at: {
-        type: 'Date!',
+        type: 'DateTime!',
         description: 'The date this activity group was updated.',
     },
     verb: {
