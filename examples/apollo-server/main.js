@@ -32,13 +32,21 @@ const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, ...rest } = co
             type: 'notification',
         },
     ],
+    collection: {
+        name: 'post',
+        fields: {
+            text: 'String!',
+            coverImage: 'String!',
+        },
+    },
     schemaComposer,
     credentials,
 });
 
+console.log(Object.keys(rest));
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
-// You can provide your own type to the field like so: (See line#71-72 also)
+// You can provide your own type to the field like so: (See line#75-76 also)
 const CustomUserDataTC = schemaComposer.createObjectTC({
     name: 'StreamCustomUserData', // Name here is arbitrary
     fields: {
@@ -51,9 +59,9 @@ StreamUserTC.setField('data', {
     type: CustomUserDataTC,
 });
 
-// As an alternative here, e.g. with graphql-compose-mongoose, you could do something like the following
-// by overriding the data property to return your mongo document for the user. This removes the need to store
-// anything more than the user id in Stream itself
+// As an alternative here if you have existing user data elsewhere, e.g. with graphql-compose-mongoose, you could do
+// something like the following, by overriding the data property to return your mongo document for the user.
+// This removes the need to store anything more than the user id in Stream itself and auto-enriches your user data.
 //
 // StreamUserTC.addRelation('data', {
 // 	prepareArgs: {

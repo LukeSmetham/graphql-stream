@@ -27,16 +27,6 @@ export const createActivityFeed = options => {
         FeedTC.addResolver(activityResolvers[k](ActivityTC, options));
     });
 
-    // TODO: Subscription resolvers
-    const data = {
-        [capitalize(`${FeedTC.getTypeName()}TC`, true)]: FeedTC,
-        [capitalize(`${ActivityTC.getTypeName()}TC`, true)]: ActivityTC,
-    };
-
-    if (GroupedActivityTC) {
-        data[capitalize(`${GroupedActivityTC.getTypeName()}TC`, true)] = GroupedActivityTC;
-    }
-
     // Relate types together where applicable
     FeedTC.addRelation('activities', {
         prepareArgs: {
@@ -55,6 +45,15 @@ export const createActivityFeed = options => {
         resolver: () => schemaComposer.getOTC('StreamActivityReaction').getResolver('getReactions'),
         description: 'Get the list of reactions for this activity',
     });
+
+    const data = {
+        [capitalize(`${FeedTC.getTypeName()}TC`, true)]: FeedTC,
+        [capitalize(`${ActivityTC.getTypeName()}TC`, true)]: ActivityTC,
+    };
+
+    if (GroupedActivityTC) {
+        data[capitalize(`${GroupedActivityTC.getTypeName()}TC`, true)] = GroupedActivityTC;
+    }
 
     return data;
 };

@@ -1,5 +1,4 @@
 import { composer } from 'schema';
-import capitalize from 'capitalize';
 
 import { createGetFeedFollowers, createGetFeedFollowing, createGetFeedFollowersCount, createGetFeedFollowingCount } from './fields';
 
@@ -20,7 +19,10 @@ export const createFeedTC = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
     const credentials = opts.credentials;
 
-    const { feedGroupName } = opts.feed;
+    const { feedGroupName, type } = opts.feed;
+
+    // Will throw if the type is invalid
+    validateFeedType(type);
 
     const typeName = `Stream${feedGroupName}Feed`;
 
