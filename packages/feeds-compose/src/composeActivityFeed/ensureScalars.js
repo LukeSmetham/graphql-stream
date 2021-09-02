@@ -1,4 +1,4 @@
-import { DateTimeResolver, JSONResolver, UUIDResolver } from 'graphql-scalars';
+import { DateTimeResolver, JSONResolver, JWTResolver, UUIDResolver } from 'graphql-scalars';
 import { StreamIDResolver } from 'scalars';
 
 /**
@@ -20,5 +20,9 @@ export const ensureScalars = schemaComposer => {
 
     if (!schemaComposer.has('DateTime')) {
         schemaComposer.add(DateTimeResolver);
+    }
+
+    if (!schemaComposer.has('JWT')) {
+        schemaComposer.add(JWTResolver);
     }
 };

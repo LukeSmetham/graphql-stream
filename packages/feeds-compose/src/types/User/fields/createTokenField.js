@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 export const createTokenField = (schemaComposer, { credentials } = {}) =>
     schemaComposer.createResolver({
         name: 'getToken',
-        type: 'String',
+        type: 'JWT',
         kind: 'query',
         projection: { id: true },
         resolve: ({ source }) =>
