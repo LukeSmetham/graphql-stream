@@ -20,12 +20,9 @@ export const createFeedTC = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
     const credentials = opts.credentials;
 
-    const { feedGroupName, type = 'flat' } = opts.feed;
+    const { feedGroupName } = opts.feed;
 
-    const feedType = capitalize(validateFeedType(type));
-
-    const typeName =
-        feedType === 'Notification' && feedGroupName === 'Notification' ? `Stream${feedType}Feed` : `Stream${feedGroupName}${feedType}Feed`;
+    const typeName = `Stream${feedGroupName}Feed`;
 
     const FeedTC = schemaComposer.createObjectTC({
         name: typeName,
