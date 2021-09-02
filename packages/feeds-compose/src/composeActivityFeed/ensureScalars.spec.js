@@ -1,5 +1,5 @@
 import { schemaComposer } from 'graphql-compose';
-import { ensureScalars } from '../ensureScalars';
+import { ensureScalars } from '../composeActivityFeed/ensureScalars';
 
 describe('ensureScalars', () => {
     afterAll(() => {
