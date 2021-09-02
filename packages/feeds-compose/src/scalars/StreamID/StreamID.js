@@ -10,7 +10,7 @@ export class StreamID extends Array {
 
         if (!entity.includes(':') || parts?.length !== 2) {
             throw new TypeError(
-                `Invalid Stream Selector provided: ${selector}, must contain only two parts, separated by a colon - feedType:feedId | channelType:channelId`
+                `Invalid Stream Selector provided: ${selector}, must contain only two parts separated by a colon - feedType:feedId | channelType:channelId`
             );
         }
 
