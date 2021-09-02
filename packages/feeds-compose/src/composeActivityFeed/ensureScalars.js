@@ -18,7 +18,7 @@ export const ensureScalars = schemaComposer => {
         schemaComposer.add(UUIDResolver);
     }
 
-    if (!schemaComposer.has('Date')) {
+    if (!schemaComposer.has('DateTime')) {
         schemaComposer.add(DateTimeResolver);
     }
 };
