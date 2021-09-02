@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { feeds, users } = composeActivityFeed({
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC } = composeActivityFeed({
     feed: [
         {
             feedGroup: 'user',
@@ -32,19 +32,47 @@ const { feeds, users } = composeActivityFeed({
     credentials,
 });
 
+// Adding custom user data
+// By default, the user data is of type JSON to allow any arbitrary data to be stored.
+// You can provide your own type to the field like so: (See line#71-72 also)
+const CustomUserDataTC = schemaComposer.createObjectTC({
+    name: 'StreamCustomUserData', // Name here is arbitrary
+    fields: {
+        name: 'String!',
+        email: 'String!',
+    },
+});
+
+StreamUserTC.setField('data', {
+    type: CustomUserDataTC,
+});
+
+// As an alternative here, e.g. with graphql-compose-mongoose, you could do something like the following
+// by overriding the data property to return your mongo document for the user. This removes the need to store
+// anything more than the user id in Stream itself
+//
+// StreamUserTC.addRelation('data', {
+// 	prepareArgs: {
+// 		_id: (source) => source.id,
+// 	},
+// 	projection: { id: true },
+// 	resolver: () => YourMongoUserTC.mongooseResolvers.findById(),
+// });
+
+// Add everything to your schema
 schemaComposer.Query.addFields({
-    getUser: users.query.getUser(),
-    getOrCreateUser: users.query.getOrCreateUser(),
-    userFeed: feeds.userFeed.query.getFeed(),
-    notificationFeed: feeds.notificationFeed.query.getFeed(),
+    getUser: StreamUserTC.getResolver('getUser'),
+    getOrCreateUser: StreamUserTC.getResolver('getOrCreateUser'),
+    userFeed: StreamUserFeedTC.getResolver('getFeed'),
+    notificationFeed: StreamNotificationFeedTC.getResolver('getFeed'),
 });
 
 schemaComposer.Mutation.addFields({
-    addUser: users.mutation.addUser(),
-    removeUser: users.mutation.removeUser(),
-    updateUser: users.mutation.updateUser(),
-    addUserActivity: feeds.userFeed.mutation.addActivity(),
-    removeUserActivity: feeds.userFeed.mutation.removeActivity(),
+    addUser: StreamUserTC.getResolver('addUser').setArg('data', { type: CustomUserDataTC.getInputType() }), // getInputType will automatically create the input type for you (you can create a custom one too and set the type property to that instead)
+    updateUser: StreamUserTC.getResolver('updateUser').setArg('data', { type: CustomUserDataTC.getInputType() }),
+    removeUser: StreamUserTC.getResolver('removeUser'),
+    addUserActivity: StreamUserFeedTC.getResolver('addActivity'),
+    removeUserActivity: StreamUserFeedTC.getResolver('removeActivity'),
 });
 
 // TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
