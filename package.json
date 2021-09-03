@@ -13,7 +13,7 @@
     "watch": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn watch",
     "build:clean": "lerna exec --parallel -- rm -rf lib",
     "dev": "yarn workspace @examples/apollo-server dev",
-	"test": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn test"
+    "test": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn test"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
@@ -35,6 +35,7 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "faye": "^1.4.0",
     "getstream": "^7.2.10",
     "graphql": "^15.5.1",
     "graphql-scalars": "^1.10.0",
