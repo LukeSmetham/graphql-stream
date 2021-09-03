@@ -1,4 +1,0 @@
-type StreamUser {
-    id: String!
-    token: String
-}

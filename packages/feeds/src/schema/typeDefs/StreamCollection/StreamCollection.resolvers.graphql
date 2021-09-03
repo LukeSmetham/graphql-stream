@@ -1,9 +1,0 @@
-type Query {
-    get(collection: String!, id: String!): JSON
-}
-
-type Mutation {
-    add(collection: String!, id: String, data: JSON!): JSON!
-    delete(collection: String!, id: String!): String!
-    update(collection: String!, id: String!, data: JSON!): JSON!
-}

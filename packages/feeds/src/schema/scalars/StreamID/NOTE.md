@@ -1,1 +1,0 @@
-> This is temporary. There is no need to publish @graphql-stream/shared just yet as this is the only thing in there right now other than the shared context which won't work until @graphl-stream/chat is published. Once chat is ready, we can delete this folder and import everything in here from the @graphql-stream/shared library.
