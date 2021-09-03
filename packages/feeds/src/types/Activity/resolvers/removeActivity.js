@@ -11,7 +11,7 @@ export const removeActivity = (tc, { credentials } = {}) =>
                 description: 'The feed to remove the activity from.',
             },
             id: {
-                type: 'String!',
+                type: 'ID!',
                 description: 'The id or foreign_id of the activity to delete.',
             },
         },

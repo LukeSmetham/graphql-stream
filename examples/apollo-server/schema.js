@@ -50,7 +50,13 @@ const config = {
     credentials,
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed(config);
+const { 
+	StreamUserFeedTC, 
+	StreamNotificationFeedTC, 
+	StreamUserTC, 
+	StreamPostEntityTC, 
+	StreamVideoEntityTC 
+} = composeActivityFeed(config);
 
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
@@ -104,15 +110,7 @@ schemaComposer.Mutation.addFields({
 });
 
 schemaComposer.Subscription.addFields({
-    subscribeUserFeed: {
-		name: 'subscribeFeed',
-		type: 'JSON',
-		args: { id: 'StreamID!' },
-		resolve: data => data,
-		subscribe: (_, args) => {
-			return new FeedSubscription(credentials).asyncIterator(args.id.together)
-		}
-	},
+    subscribeUserFeed: StreamUserFeedTC.subscription,
 });
 
 const schema = schemaComposer.buildSchema();
