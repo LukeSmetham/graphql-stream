@@ -33,7 +33,7 @@ export const createActivityFeed = options => {
             feed: source => source.id,
         },
         projection: { id: true },
-        resolver: () => FeedTC.getResolver('getActivities').setType(GroupedActivityTC ?? ActivityTC),
+        resolver: () => FeedTC.getResolver('getActivities').setType(GroupedActivityTC ? [GroupedActivityTC] : [ActivityTC]),
         description: 'Get the list of activities for this feed',
     });
 
