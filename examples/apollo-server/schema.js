@@ -1,4 +1,4 @@
-import { composeActivityFeed } from '@graphql-stream/feeds';
+import { composeActivityFeed, FeedSubscription } from '@graphql-stream/feeds';
 import { schemaComposer } from 'graphql-compose';
 
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;
@@ -104,7 +104,15 @@ schemaComposer.Mutation.addFields({
 });
 
 schemaComposer.Subscription.addFields({
-    subscribeUserFeed: StreamUserFeedTC.getResolver('subscribeFeed'),
+    subscribeUserFeed: {
+		name: 'subscribeFeed',
+		type: 'JSON',
+		args: { id: 'StreamID!' },
+		resolve: data => data,
+		subscribe: (_, args) => {
+			return new FeedSubscription(credentials).asyncIterator(args.id.together)
+		}
+	},
 });
 
 const schema = schemaComposer.buildSchema();
