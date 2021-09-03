@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC } = composeActivityFeed({
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed({
     feed: [
         {
             feedGroup: 'user',
@@ -32,13 +32,22 @@ const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEnti
             type: 'notification',
         },
     ],
-    collection: {
-        name: 'post',
-        fields: {
-            text: 'String!',
-            coverImage: 'String!',
+    collection: [
+        {
+            name: 'post',
+            fields: {
+                text: 'String!',
+                coverImage: 'String!',
+            },
         },
-    },
+        {
+            name: 'video',
+            fields: {
+                description: 'String!',
+                src: 'String!',
+            },
+        },
+    ],
     schemaComposer,
     credentials,
 });
@@ -73,6 +82,7 @@ StreamUserTC.setField('data', {
 // Add everything to your schema
 schemaComposer.Query.addFields({
     getPost: StreamPostEntityTC.getResolver('getEntity'),
+    getVideo: StreamVideoEntityTC.getResolver('getEntity'),
     getUser: StreamUserTC.getResolver('getUser'),
     getOrCreateUser: StreamUserTC.getResolver('getOrCreateUser'),
     userFeed: StreamUserFeedTC.getResolver('getFeed'),
@@ -83,6 +93,9 @@ schemaComposer.Mutation.addFields({
     addPost: StreamPostEntityTC.getResolver('addEntity'),
     updatePost: StreamPostEntityTC.getResolver('updateEntity'),
     removePost: StreamPostEntityTC.getResolver('removeEntity'),
+    addVideo: StreamVideoEntityTC.getResolver('addEntity'),
+    updateVideo: StreamVideoEntityTC.getResolver('updateEntity'),
+    removeVideo: StreamVideoEntityTC.getResolver('removeEntity'),
     addUser: StreamUserTC.getResolver('addUser').setArg('data', { type: CustomUserDataTC.getInputType() }), // getInputType will automatically create the input type for you (you can create a custom one too and set the type property to that instead)
     updateUser: StreamUserTC.getResolver('updateUser').setArg('data', { type: CustomUserDataTC.getInputType() }),
     removeUser: StreamUserTC.getResolver('removeUser'),
