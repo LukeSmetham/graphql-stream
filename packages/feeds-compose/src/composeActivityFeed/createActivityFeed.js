@@ -33,7 +33,7 @@ export const createActivityFeed = options => {
             feed: source => source.id,
         },
         projection: { id: true },
-        resolver: () => FeedTC.getResolver('getActivities').setType(GroupedActivityTC ? [GroupedActivityTC] : [ActivityTC]),
+        resolver: () => FeedTC.getResolver('getActivities').setType(GroupedActivityTC?.getTypePlural() ?? ActivityTC.getTypePlural()),
         description: 'Get the list of activities for this feed',
     });
 
@@ -46,14 +46,14 @@ export const createActivityFeed = options => {
         description: 'Get the list of reactions for this activity',
     });
 
-    const data = {
+    const tcs = {
         [capitalize(`${FeedTC.getTypeName()}TC`, true)]: FeedTC,
         [capitalize(`${ActivityTC.getTypeName()}TC`, true)]: ActivityTC,
     };
 
     if (GroupedActivityTC) {
-        data[capitalize(`${GroupedActivityTC.getTypeName()}TC`, true)] = GroupedActivityTC;
+        tcs[capitalize(`${GroupedActivityTC.getTypeName()}TC`, true)] = GroupedActivityTC;
     }
 
-    return data;
+    return tcs;
 };
