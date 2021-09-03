@@ -58,8 +58,6 @@ export const getReactions = (tc, { credentials } = {}) =>
                     credentials,
                 });
 
-                console.log(body);
-
                 return body.results;
             } catch (error) {
                 console.error(error);
