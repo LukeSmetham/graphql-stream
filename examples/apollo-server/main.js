@@ -1,5 +1,9 @@
 import 'dotenv/config';
-import { ApolloServer } from 'apollo-server';
+import { createServer } from 'http';
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
 import { composeActivityFeed } from '@graphql-stream/feeds';
 import { schemaComposer } from 'graphql-compose';
 
@@ -105,12 +109,46 @@ schemaComposer.Mutation.addFields({
     removeUserActivity: StreamUserFeedTC.getResolver('removeActivity'),
 });
 
-// TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
-const server = new ApolloServer({
-    schema: schemaComposer.buildSchema(),
+schemaComposer.Subscription.addFields({
+    subscribeUserFeed: StreamUserFeedTC.getResolver('subscribeFeed'),
 });
 
-server.listen(PORT);
+const schema = schemaComposer.buildSchema();
 
-// eslint-disable-next-line no-console
-console.log('🚀::8080');
+const app = express();
+
+const httpServer = createServer(app);
+
+// TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
+const server = new ApolloServer({
+    schema,
+	plugins: [{
+		async serverWillStart() {
+		  return {
+			async drainServer() {
+			  subscriptionServer.close();
+			}
+		  };
+		}
+	  }],
+});
+
+const subscriptionServer = SubscriptionServer.create(
+    {
+        schema,
+        execute,
+        subscribe,
+    },
+    {
+        server: httpServer,
+        path: server.graphqlPath,
+    }
+);
+
+await server.start();
+
+server.applyMiddleware({ app });
+
+httpServer.listen(PORT, () =>
+	console.log(`🚀::${PORT}`)
+);
