@@ -25,7 +25,7 @@ const parseCredentials = credentials => {
 };
 
 const request = ({ credentials, data, method = 'GET', params = {}, url }) => {
-    const { baseUrl, headers } = parseCredentials(credentials, params);
+    const { baseUrl, headers } = parseCredentials(credentials);
 
     const paramString = Object.keys(params)
         .map(k => `${encodeURIComponent(k)}=${params[k]}`)
@@ -33,7 +33,7 @@ const request = ({ credentials, data, method = 'GET', params = {}, url }) => {
 
     return phin({
         data,
-        url: `${baseUrl}/${url}?api_key=${credentials.api_key}&${paramString ?? ''}`,
+        url: `${baseUrl}/${url}?api_key=${credentials.api_key}${paramString ? `&${paramString}` : ''}`,
         method,
         headers,
         parse: 'json',
