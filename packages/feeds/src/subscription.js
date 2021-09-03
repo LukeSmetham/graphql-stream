@@ -29,7 +29,6 @@ export class FeedSubscription extends PubSubEngine {
     _getFayeAuthorization() {
         return {
             incoming: (message, callback) => {
-				console.log('incoming',message);
 				return callback(message)
 			},
             outgoing: (message, callback) => {
@@ -43,7 +42,6 @@ export class FeedSubscription extends PubSubEngine {
                         signature: subscription.token,
                     };
 
-					console.log(message.ext)
                 }
 
                 callback(message);
