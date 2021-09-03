@@ -12,7 +12,7 @@ const credentials = {
     region: 'us-east',
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed({
+const config = {
     feed: [
         {
             feedGroup: 'user',
@@ -50,7 +50,9 @@ const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEnti
     ],
     schemaComposer,
     credentials,
-});
+};
+
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed(config);
 
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
