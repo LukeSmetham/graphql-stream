@@ -4,6 +4,7 @@ import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
+
 import schema from './schema';
 
 const { PORT = 8080 } = process.env;
