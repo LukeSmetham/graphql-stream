@@ -45,9 +45,20 @@ const {
 
 // Add everything to your schema
 schemaComposer.Query.addFields({
-    userFeed: StreamUserFeedTC.getResolver('getFeed'),
-    timeline: StreamTimelineFeedTC.getResolver('getFeed'),
-    notificationFeed: StreamNotificationFeedTC.getResolver('getFeed'),
+    timeline: StreamTimelineFeedTC.getResolver('getFeed')
+		.removeArg('id')
+		.wrapResolve(next => rp => {
+			const { user } = rp.context;
+			rp.args.id = `timeline:${user}`;
+			return next(rp);
+		}),
+    notificationFeed: StreamNotificationFeedTC.getResolver('getFeed')
+		.removeArg('id')
+		.wrapResolve(next => rp => {
+			const { user } = rp.context;
+			rp.args.id = `notification:${user}`;
+			return next(rp);
+		}),
 	login: UserTC.getResolver('login'),
 	me: UserTC.getResolver('me'),
 });
