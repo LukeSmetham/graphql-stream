@@ -34,12 +34,14 @@ const config = {
 
 const { 
 	StreamUserFeedTC, 
+	StreamTimelineFeedTC,
 	StreamNotificationFeedTC,
 } = composeActivityFeed(config);
 
 // Add everything to your schema
 schemaComposer.Query.addFields({
     userFeed: StreamUserFeedTC.getResolver('getFeed'),
+    timeline: StreamTimelineFeedTC.getResolver('getFeed'),
     notificationFeed: StreamNotificationFeedTC.getResolver('getFeed'),
 });
 
