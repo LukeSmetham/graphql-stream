@@ -3,6 +3,7 @@ import { schemaComposer } from 'graphql-compose';
 
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID } = process.env;
 
+// Stream Credentials
 const credentials = {
     api_key: STREAM_KEY,
     api_secret: STREAM_SECRET,
@@ -10,6 +11,7 @@ const credentials = {
     region: 'us-east',
 };
 
+// Translate your feed configs from the Stream Dashboard into the below structure.
 const config = {
     feed: [
         {
@@ -32,6 +34,7 @@ const config = {
     credentials,
 };
 
+// Create activity feeds from the config
 const { 
 	StreamUserFeedTC, 
 	StreamTimelineFeedTC,
