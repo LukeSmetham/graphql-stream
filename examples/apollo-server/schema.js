@@ -106,11 +106,12 @@ schemaComposer.Mutation.addFields({
     updateUser: StreamUserTC.getResolver('updateUser').setArg('data', { type: CustomUserDataTC.getInputType() }),
     removeUser: StreamUserTC.getResolver('removeUser'),
     addUserActivity: StreamUserFeedTC.getResolver('addActivity'),
+    addUserActivities: StreamUserFeedTC.getResolver('addActivities'),
     removeUserActivity: StreamUserFeedTC.getResolver('removeActivity'),
 });
 
 schemaComposer.Subscription.addFields({
-    subscribeUserFeed: StreamUserFeedTC.subscription,
+    subscribeNotifications: StreamNotificationFeedTC.subscription,
 });
 
 const schema = schemaComposer.buildSchema();

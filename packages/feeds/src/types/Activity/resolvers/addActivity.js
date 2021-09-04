@@ -17,6 +17,12 @@ export const addActivity = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             try {
+				const activity = args.activity;
+
+				if (activity.to.length) {
+					activity.to = activity.to.map(to => to.toString());
+				}
+
                 const { body } = await request({
                     credentials,
                     url: `feed/${args.feed.uri}`,
