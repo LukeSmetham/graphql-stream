@@ -26,8 +26,5 @@ UserSchema.plugin(bcrypt);
 const UserModel = mongoose.model('User', UserSchema);
 
 export default composeMongoose(UserModel, {
-	inputType:{
-		fields: ['password']
-	},
 	removeFields: ['password'], // Here we remove the password field from the GQL type so it can never be returned to the client.
 });
