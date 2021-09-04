@@ -1,0 +1,12 @@
+{
+	"verbose": true,
+	"ignore": [
+	  ".git",
+	  "node_modules"
+	],
+	"watch": [
+	  "../../packages/**/*",
+	  "**/*"
+	]
+  }
+  
