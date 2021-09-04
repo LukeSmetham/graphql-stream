@@ -38,12 +38,11 @@ const config = {
 
 // Create activity feeds from the config
 const { 
-	StreamUserFeedTC, 
 	StreamTimelineFeedTC,
 	StreamNotificationFeedTC,
 } = composeActivityFeed(config);
 
-// Add everything to your schema
+// Add everything resolvers to the schema
 schemaComposer.Query.addFields({
     timeline: StreamTimelineFeedTC.getResolver('getFeed')
 		.removeArg('id')
