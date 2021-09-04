@@ -14,6 +14,7 @@ export const signup = tc => tc.mongooseResolvers
 		return resolver;
 	})
 	.wrapResolve(next => async rp => {
+		// Check if a user already exists with the provided email address before we run the resolver.
 		const exists = await mongoose.model('User').find({
 			email: rp.args.record.email,
 		}).lean()
