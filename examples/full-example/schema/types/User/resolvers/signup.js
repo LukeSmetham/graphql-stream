@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { createToken } from '../utils/createToken';
 
 export const signup = tc => tc.mongooseResolvers
 	.createOne()
@@ -9,20 +10,24 @@ export const signup = tc => tc.mongooseResolvers
 
 		itc.addFields({
 			password: 'String!',
-		})
+		});
 
 		return resolver;
 	})
 	.wrapResolve(next => async rp => {
 		// Check if a user already exists with the provided email address before we run the resolver.
-		const exists = await mongoose.model('User').find({
+		const exists = await mongoose.model('User').countDocuments({
 			email: rp.args.record.email,
-		}).lean()
+		})
 
 		if (exists) {
 			throw new Error('An account with this email already exists.')
 		}
+		
+		const data = await next(rp);
 
-		return next(rp);
+		data.record.token = createToken(data.record)
+
+		return data;
 	})
 	.clone({ name: 'signup' });
