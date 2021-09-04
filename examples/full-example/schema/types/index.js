@@ -1,1 +1,1 @@
-export * from './User';
+export { default as UserTC } from './User';
