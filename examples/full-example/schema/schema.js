@@ -51,6 +51,10 @@ schemaComposer.Query.addFields({
 	login: UserTC.getResolver('login'),
 });
 
+schemaComposer.Mutation.addFields({
+	signup: UserTC.getResolver('signup'),
+})
+
 const schema = schemaComposer.buildSchema();
 
 export default schema;
