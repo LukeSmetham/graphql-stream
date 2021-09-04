@@ -33,7 +33,7 @@ export const addActivities = (tc, { credentials } = {}) =>
                         activities,
                     },
                 });
-				console.log(body);
+
                 return body.activities;
             } catch (error) {
                 console.error(error.message);
