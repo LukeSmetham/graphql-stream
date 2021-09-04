@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export const signup = tc => tc.mongooseResolvers
 	.createOne()
 	.wrap(resolver => {
@@ -10,5 +12,16 @@ export const signup = tc => tc.mongooseResolvers
 		})
 
 		return resolver;
+	})
+	.wrapResolve(next => async rp => {
+		const exists = await mongoose.model('User').find({
+			email: rp.args.record.email,
+		}).lean()
+
+		if (exists) {
+			throw new Error('An account with this email already exists.')
+		}
+
+		return next(rp);
 	})
 	.clone({ name: 'signup' });
