@@ -49,6 +49,7 @@ schemaComposer.Query.addFields({
     timeline: StreamTimelineFeedTC.getResolver('getFeed'),
     notificationFeed: StreamNotificationFeedTC.getResolver('getFeed'),
 	login: UserTC.getResolver('login'),
+	me: UserTC.getResolver('me'),
 });
 
 schemaComposer.Mutation.addFields({
