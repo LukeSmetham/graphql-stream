@@ -1,6 +1,8 @@
 import { composeActivityFeed } from '@graphql-stream/feeds';
 import { schemaComposer } from 'graphql-compose';
 
+import { UserTC } from './types';
+
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID } = process.env;
 
 // Stream Credentials
@@ -46,6 +48,7 @@ schemaComposer.Query.addFields({
     userFeed: StreamUserFeedTC.getResolver('getFeed'),
     timeline: StreamTimelineFeedTC.getResolver('getFeed'),
     notificationFeed: StreamNotificationFeedTC.getResolver('getFeed'),
+	login: UserTC.getResolver('login'),
 });
 
 const schema = schemaComposer.buildSchema();
