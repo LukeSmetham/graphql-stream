@@ -23,7 +23,7 @@ const authorizeRequest = async ({ req, connection }) => {
 
 		const { sub, aud: type } = jwt.verify(token, process.env.AUTH_SECRET);
 
-		if (!user) {
+		if (!sub) {
 			return {};
 		}
 

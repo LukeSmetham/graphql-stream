@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import mongoose from 'mongoose';
 
+import context from './context';
 import schema from './schema';
 
 const { MONGODB_URI, PORT = 8080 } = process.env;
@@ -25,6 +26,7 @@ const httpServer = createServer(app);
 
 // Init ApolloServer instance
 const server = new ApolloServer({
+	context,
     schema,
 	plugins: [{
 		async serverWillStart() {
