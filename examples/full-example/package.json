@@ -1,6 +1,6 @@
 {
 	"name": "@examples/full-example",
-	"description": "An full example with MongoDB, User Authentication and relational data implementation examples.",
+	"description": "An full twitter-style example with MongoDB, User Authentication and examples for relating different sources together with the power of GraphQL.",
 	"type": "module",
 	"version": "0.1.0",
 	"main": "main.js",
@@ -11,6 +11,10 @@
 	"dependencies": {
 		"apollo-server": "^3.1.1",
 		"apollo-server-express": "^3.3.0",
+		"dotenv": "^10.0.0",
 		"subscriptions-transport-ws": "^0.9.19"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.12"
 	}
 }

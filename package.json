@@ -12,7 +12,8 @@
     "build": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn build",
     "watch": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn watch",
     "build:clean": "lerna exec --parallel -- rm -rf lib",
-    "dev": "yarn workspace @examples/apollo-server dev",
+    "dev:apollo-server": "yarn workspace @examples/apollo-server dev",
+    "dev": "yarn workspace @examples/full-example dev",
     "test": "lerna --scope @graphql-stream/feeds exec --parallel -- yarn test"
   },
   "devDependencies": {
