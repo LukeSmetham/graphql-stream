@@ -8,11 +8,11 @@ export const unfollowFeed = (tc, { credentials } = {}) =>
         args: {
             feed: {
                 type: 'StreamID!',
-                description: 'The feed that should perform the follow operation',
+                description: 'The feed that should perform the unfollow operation',
             },
             target: {
                 type: 'StreamID!',
-                description: 'The target feed that should be followed.',
+                description: 'The target feed that should be unfollowed.',
             },
             keepHistory: {
                 type: 'Boolean',

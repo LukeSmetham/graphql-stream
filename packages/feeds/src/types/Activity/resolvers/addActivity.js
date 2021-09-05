@@ -19,7 +19,7 @@ export const addActivity = (tc, { credentials } = {}) =>
             try {
 				const activity = args.activity;
 
-				if (activity.to.length) {
+				if (activity.to?.length) {
 					activity.to = activity.to.map(to => to.toString());
 				}
 
