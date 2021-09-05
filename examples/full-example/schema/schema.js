@@ -1,5 +1,5 @@
-import { composeActivityFeed } from '@graphql-stream/feeds';
-import { schemaComposer } from 'graphql-compose';
+import { composeActivityFeed, StreamID } from '@graphql-stream/feeds';
+import { deepmerge, schemaComposer } from 'graphql-compose';
 
 import { UserTC } from './types';
 
@@ -38,6 +38,7 @@ const config = {
 
 // Create activity feeds from the config
 const { 
+	StreamUserFeedTC,
 	StreamTimelineFeedTC,
 	StreamNotificationFeedTC,
 } = composeActivityFeed(config);
@@ -48,14 +49,18 @@ schemaComposer.Query.addFields({
 		.removeArg('id')
 		.wrapResolve(next => rp => {
 			const { user } = rp.context;
-			rp.args.id = `timeline:${user}`;
-			return next(rp);
+			const newRp = deepmerge(rp, {
+				args: {
+					id: new StreamID(`timeline:${user}`)
+				}
+			});
+			return next(newRp);
 		}),
-    notificationFeed: StreamNotificationFeedTC.getResolver('getFeed')
+    notifications: StreamNotificationFeedTC.getResolver('getFeed')
 		.removeArg('id')
 		.wrapResolve(next => rp => {
 			const { user } = rp.context;
-			rp.args.id = `notification:${user}`;
+			rp.args.id = new StreamID(`notification:${user}`);
 			return next(rp);
 		}),
 	login: UserTC.getResolver('login'),
@@ -63,6 +68,15 @@ schemaComposer.Query.addFields({
 });
 
 schemaComposer.Mutation.addFields({
+	tweet: StreamUserFeedTC.getResolver('addActivity')
+		.removeArg('feed')
+		.wrapResolve(next => rp => {
+			// Ensures a user can only add to their own feed
+			// by forcing the feed arg to be the user's feedId
+			const { user } = rp.context;
+			rp.args.feed = new StreamID(`user:${user}`);
+			return next(rp);
+		}),
 	signup: UserTC.getResolver('signup'),
 })
 

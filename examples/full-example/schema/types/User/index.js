@@ -1,3 +1,4 @@
+import { StreamID } from '@graphql-stream/feeds';
 import UserTC from './User';
 import * as resolvers from './resolvers';
 
@@ -9,7 +10,7 @@ UserTC.addFields({
 
 UserTC.addRelation('feed', {
 	prepareArgs: {
-		id: (source) => `user:${source._id.toString()}`
+		id: (source) => new StreamID(`user:${source._id.toString()}`)
 	},
 	projection: { _id: true },
 	resolver: () => UserTC.schemaComposer.getOTC('StreamUserFeed').getResolver('getFeed')
