@@ -1,4 +1,5 @@
 import { deepmerge } from 'graphql-compose';
+import capitalize from 'capitalize';
 import { composer } from 'schema';
 
 import { collectionEntityInterfaceFields } from 'interfaces/Collection';
@@ -8,7 +9,7 @@ export const createCollectionTC = (options = {}) => {
 
 	const opts = deepmerge(options, {
 		collection: {
-			collectionName: capitalize(options.name)
+			collectionName: capitalize(options.collection.name)
 		}
 	});
 

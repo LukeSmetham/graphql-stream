@@ -1,9 +1,17 @@
+import { deepmerge } from 'graphql-compose';
+import capitalize from 'capitalize';
 import { composer } from 'schema';
 
 import { activityInterfaceFields, activityInputFields, groupedActivityInterfaceFields } from 'interfaces/Activity';
 
-const createActivityTC = (opts = {}) => {
-    const schemaComposer = opts.schemaComposer || composer;
+const createActivityTC = (options = {}) => {
+    const schemaComposer = options.schemaComposer || composer;
+
+	const opts = deepmerge(options, {
+		feed: {
+			feedGroupName: capitalize(options.feed.feedGroup)
+		}
+	})
 
     const { feedGroupName, activityFields } = opts.feed;
 

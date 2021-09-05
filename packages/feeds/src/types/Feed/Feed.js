@@ -1,4 +1,5 @@
 import { deepmerge } from 'graphql-compose';
+import capitalize from 'capitalize';
 import { composer } from 'schema';
 
 import { createGetFeedFollowers, createGetFeedFollowing, createGetFeedFollowersCount, createGetFeedFollowingCount } from './fields';
