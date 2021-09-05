@@ -6,7 +6,7 @@ const activityInterfaceFields = {
     foreign_id: {
         type: 'String',
         description:
-            'A unique ID from you application for this activity. i,e.: pin:1 or like:300. Required to later update activities by Time + Foreign ID.',
+            'A unique ID from your application for this activity. i,e.: pin:1 or like:300. Required to later update activities by Time + Foreign ID.',
     },
     id: {
         type: 'ID!',
