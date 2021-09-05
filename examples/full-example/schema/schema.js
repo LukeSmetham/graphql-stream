@@ -48,6 +48,7 @@ const {
 
 // Add everything resolvers to the schema
 schemaComposer.Query.addFields({
+	user: UserTC.mongooseResolvers.findById(),
     timeline: StreamTimelineFeedTC.getResolver('getFeed')
 		.removeArg('id')
 		.wrapResolve(next => rp => {

@@ -12,12 +12,20 @@ export const getActivities = (tc, { credentials } = {}) =>
         kind: 'query',
         args: {
             feed: 'StreamID!',
+			limit: 'Int',
+			offset: 'Int',
+			id_gt: 'ID',
+			id_gte: 'ID',
+			id_lt: 'ID',
+			id_lte: 'ID',
         },
         resolve: async ({ args }) => {
+			const { feed, ...params  } = args;
             try {
                 const { body } = await request({
-                    url: `feed/${args.feed.uri}`,
+                    url: `feed/${feed.uri}`,
                     credentials,
+					params,
                 });
 
                 return body.results;
