@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const createTokenField = (schemaComposer, { credentials } = {}) =>
+export const createTokenField = (schemaComposer, options) =>
     schemaComposer.createResolver({
         name: 'getToken',
         type: 'JWT',
@@ -11,6 +11,6 @@ export const createTokenField = (schemaComposer, { credentials } = {}) =>
                 {
                     user_id: source.id,
                 },
-                credentials.api_secret
+                options?.credentials?.api_secret
             ),
     });
