@@ -36,7 +36,7 @@ const createActivityTC = (opts = {}) => {
     return ActivityTC;
 };
 
-const createGroupedActivityTC = (ActivityTC, opts = {}) => {
+const createGroupedActivityTC = (ActivityUTC, opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
 
     const { feedGroupName, type } = opts.feed;
@@ -50,7 +50,7 @@ const createGroupedActivityTC = (ActivityTC, opts = {}) => {
             fields: {
                 id: 'ID!',
                 activities: {
-                    type: [ActivityTC],
+                    type: [ActivityUTC],
                     description: 'The list of activities for this aggregated response.',
                 },
                 ...groupedActivityInterfaceFields,
@@ -65,7 +65,7 @@ const createGroupedActivityTC = (ActivityTC, opts = {}) => {
             fields: {
                 id: 'ID!',
                 activities: {
-                    type: [ActivityTC],
+                    type: [ActivityUTC],
                     description: 'The list of activities for this aggregated response.',
                 },
                 ...groupedActivityInterfaceFields,
@@ -79,12 +79,6 @@ const createGroupedActivityTC = (ActivityTC, opts = {}) => {
                 },
             },
         });
-    }
-
-    // If type is not defined and we are using "GroupedActivities", set the input composer to the ActivityInputTC
-    // This is just a convenience so we can call GroupedActivityTC.getInputType() if necessary
-    if (tc) {
-        tc.setInputTypeComposer(ActivityTC.getInputType());
     }
 
     return tc;

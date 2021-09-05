@@ -96,13 +96,13 @@ const createActivityInterfaces = schemaComposer => {
 
         schemaComposer.addSchemaMustHaveType(ActivityIFTC);
     }
-
+	
     if (!schemaComposer.has('StreamGroupedActivityInterface')) {
-        const GroupedActivityIFTC = schemaComposer.createInterfaceTC({
-            name: 'StreamGroupedActivityInterface',
+		const GroupedActivityIFTC = schemaComposer.createInterfaceTC({
+			name: 'StreamGroupedActivityInterface',
             fields: groupedActivityInterfaceFields,
         });
-
+		
         schemaComposer.addSchemaMustHaveType(GroupedActivityIFTC);
     }
 };
