@@ -2,15 +2,6 @@ import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
 
 import { createUserTC } from './User';
 
-const mockOpts = {
-	schemaComposer,
-	credentials: {
-		api_key: 'STREAM_API_KEY',
-		api_secret: 'STREAM_API_SECRET',
-		app_id: 'STREAM_APP_ID',
-	}	
-};
-
 describe('User', () => {
 	beforeAll(() => {
 		schemaComposer.clear();

@@ -1,3 +1,4 @@
+import { deepmerge } from 'graphql-compose';
 import { composer } from 'schema';
 
 import { createGetFeedFollowers, createGetFeedFollowing, createGetFeedFollowersCount, createGetFeedFollowingCount } from './fields';
@@ -15,9 +16,15 @@ const validateFeedType = type => {
     return type;
 };
 
-export const createFeedTC = (opts = {}) => {
-    const schemaComposer = opts.schemaComposer || composer;
-    const credentials = opts.credentials;
+export const createFeedTC = (options = {}) => {
+    const schemaComposer = options.schemaComposer || composer;
+    const credentials = options.credentials;
+
+	const opts = deepmerge(options, {
+		feed: {
+			feedGroupName: capitalize(options.feed.feedGroup)
+		}
+	});
 
     const { feedGroupName, type } = opts.feed;
 

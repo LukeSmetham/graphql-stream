@@ -1,9 +1,16 @@
+import { deepmerge } from 'graphql-compose';
 import { composer } from 'schema';
 
 import { collectionEntityInterfaceFields } from 'interfaces/Collection';
 
-export const createCollectionTC = (opts = {}) => {
-    const schemaComposer = opts.schemaComposer || composer;
+export const createCollectionTC = (options = {}) => {
+    const schemaComposer = options.schemaComposer || composer;
+
+	const opts = deepmerge(options, {
+		collection: {
+			collectionName: capitalize(options.name)
+		}
+	});
 
     const { collectionName, fields } = opts.collection;
 

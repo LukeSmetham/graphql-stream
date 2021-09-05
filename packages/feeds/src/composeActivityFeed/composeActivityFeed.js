@@ -24,17 +24,10 @@ export const composeActivityFeed = (opts = {}) => {
     // TODO: Error handling for GET resolvers that return 200 but with an error response (i.e. collections)
 
     // Cast feed & collection property to an array if it's not already an array and add the feedGroupName to each
-    // TODO: Remove the map here and instead just castArray and then calc the capitalized name within the create* functions.
     const options = {
         ...opts,
-        feed: castArray(feed).map(feedConfig => ({
-            ...feedConfig,
-            feedGroupName: capitalize(feedConfig.feedGroup),
-        })),
-        collection: castArray(collection || []).map(collectionConfig => ({
-            ...collectionConfig,
-            collectionName: capitalize(collectionConfig.name),
-        })),
+        feed: castArray(feed),
+        collection: castArray(collection || []),
         schemaComposer,
     };
 
