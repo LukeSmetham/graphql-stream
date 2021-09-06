@@ -12,6 +12,10 @@ export const getUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
+			if (!credentials) {
+				throw new Error('Missing Stream Credentials')
+			}
+
             const { body } = await request({
 				credentials,
 				url: `user/${args.id}`,
