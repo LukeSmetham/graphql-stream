@@ -1,6 +1,7 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const updateUser = (tc, { credentials } = {}) =>
+export const updateUser = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'updateUser',
         kind: 'mutation',
@@ -17,7 +18,7 @@ export const updateUser = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `user/${args.id}`,
 				method: 'PUT',
 				data: {
@@ -31,4 +32,6 @@ export const updateUser = (tc, { credentials } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'updateUser' });
