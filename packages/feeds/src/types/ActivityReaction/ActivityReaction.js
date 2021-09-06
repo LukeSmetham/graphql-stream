@@ -2,7 +2,7 @@ import { composer } from 'schema';
 
 const reactionFields = {
     id: {
-        type: 'UUID!',
+        type: 'ID!',
         description: 'The unique identifier for the reaction.',
     },
     kind: {
@@ -10,7 +10,7 @@ const reactionFields = {
         description: 'The type of reaction (e.g. like, comment, ...)',
     },
     activity_id: {
-        type: 'UUID!',
+        type: 'ID!',
         description: 'The ID of the activity the reaction refers to.',
     },
     created_at: {
