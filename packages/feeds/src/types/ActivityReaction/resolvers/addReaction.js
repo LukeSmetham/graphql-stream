@@ -1,6 +1,7 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const addReaction = (tc, { credentials } = {}) =>
+export const addReaction = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'addReaction',
         type: tc,
@@ -29,7 +30,7 @@ export const addReaction = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
 			const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `reaction`,
 				method: 'POST',
 				data: {
@@ -47,4 +48,6 @@ export const addReaction = (tc, { credentials } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'addReaction' });
