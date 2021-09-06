@@ -40,7 +40,7 @@ describe('getOrCreateUser Resolver', () => {
 
 		resolver.resolve(resolverParams).then((response) => {
 			expect(response.method).toEqual('POST');
-			expect(response.url).toEqual('https://api.stream-io-api.com/api/v1.0/user?api_key=STREAM_API_KEY&get_or_create=true');
+			expect(response.url).toEqual(`https://api.stream-io-api.com/api/v1.0/user?api_key=${credentials.api_key}&get_or_create=true`);
 			expect(response.data).toEqual(resolverParams.args);
 		})
 	})
