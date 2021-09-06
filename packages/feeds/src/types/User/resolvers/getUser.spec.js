@@ -35,8 +35,6 @@ describe('getUser Resolver', () => {
 	test('makes a GET request to the /users/:id endpoint', () => {
 		const resolver = getUser(UserTC, { credentials });
 
-		phin.mockImplementationOnce(options => Promise.resolve({ body: options }));
-
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('GET');
 			expect(response.url).toEqual(`https://api.stream-io-api.com/api/v1.0/user/${resolveParams.args.id}?api_key=${credentials.api_key}`);
