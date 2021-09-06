@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { checkCredentials } from 'middleware/checkCredentials';
+
 export const getToken = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'getToken',
@@ -14,4 +16,6 @@ export const getToken = (tc, options) =>
                 },
                 options?.credentials?.api_secret
             ),
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'getToken' });

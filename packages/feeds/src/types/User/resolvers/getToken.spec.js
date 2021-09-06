@@ -41,12 +41,4 @@ describe('getToken Resolver', () => {
 
 		expect(resolver.resolve(resolverParams)).toEqual(expectedToken);
 	});
-
-	test('should throw an error if no credentials are provided.', () => {	
-		const resolver = getToken(UserTC, {});
-
-		expect(() => {
-			resolver.resolve(resolverParams)
-		}).toThrow('secretOrPrivateKey must have a value');
-	});
 });
