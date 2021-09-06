@@ -1,6 +1,6 @@
 import { composer } from 'schema';
 
-import { createTokenField } from './fields';
+import { getToken } from './resolvers';
 
 export const createUserTC = opts => {
     const schemaComposer = opts.schemaComposer || composer;
@@ -11,7 +11,6 @@ export const createUserTC = opts => {
             data: 'JSON',
             created_at: 'DateTime!',
             updated_at: 'DateTime!',
-            token: createTokenField(schemaComposer, opts),
         });
     });
 

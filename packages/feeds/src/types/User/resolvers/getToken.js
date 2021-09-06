@@ -1,15 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-export const createTokenField = (schemaComposer, options) =>
-    schemaComposer.createResolver({
+export const getToken = (tc, options) =>
+    tc.schemaComposer.createResolver({
         name: 'getToken',
         type: 'JWT',
         kind: 'query',
         projection: { id: true },
-        resolve: ({ source }) =>
+		args: { id: 'ID!' },
+        resolve: ({ args }) =>
             jwt.sign(
                 {
-                    user_id: source.id,
+                    user_id: args.id,
                 },
                 options?.credentials?.api_secret
             ),

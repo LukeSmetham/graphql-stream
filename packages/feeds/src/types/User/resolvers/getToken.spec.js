@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { schemaComposer } from 	'graphql-compose';
+import { Resolver, schemaComposer } from 'graphql-compose';
 
-import { createTokenField } from './createTokenField';
+import { createUserTC } from '../User';
+import { getToken } from './getToken';
 
 const credentials = {
 	api_key: 'STREAM_API_KEY',
@@ -10,37 +11,36 @@ const credentials = {
 };
 
 const resolverParams = {
-	source: {
+	source: {}, 
+	args: {
 		id: 1,
-	}, 
-	args: {},
+	},
 	context: {},
 	info: {},
 };
 
-describe('createTokenField', () => {
+describe('getToken Resolver', () => {
 	beforeAll(() => {
 		schemaComposer.clear();
 	});
 
 	test('returns a token from the resolve method based on the source id', () => {		
 		const expectedToken = jwt.sign({
-			user_id: resolverParams.source.id
+			user_id: resolverParams.args.id
 		}, credentials.api_secret);
 
-		const resolver = createTokenField(schemaComposer, { credentials });
+		const UserTC = createUserTC(schemaComposer);
 
+		const resolver = getToken(UserTC, { credentials });
+
+		expect(resolver).toBeInstanceOf(Resolver);
 		expect(resolver.resolve(resolverParams)).toEqual(expectedToken);
 	});
-	
-	test('should throw an error if no schemaComposer is provided.', () => {		
-		expect(() => {
-			createTokenField();
-		}).toThrow(/Cannot read property 'createResolver'/);
-	});
 
-	test('should throw an error if no credentials are provided.', () => {		
-		const resolver = createTokenField(schemaComposer, {});
+	test('should throw an error if no credentials are provided.', () => {	
+		const UserTC = createUserTC(schemaComposer);
+
+		const resolver = getToken(UserTC, {});
 
 		expect(() => {
 			resolver.resolve(resolverParams)
