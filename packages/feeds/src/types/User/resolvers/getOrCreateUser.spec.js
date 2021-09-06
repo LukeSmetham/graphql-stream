@@ -1,3 +1,4 @@
+import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
 
 import { createUserTC } from '../User';
@@ -9,7 +10,7 @@ const credentials = {
 	app_id: 'STREAM_APP_ID',
 };
 
-const resolverParams = {
+const resolveParams = {
 	source: {}, 
 	args: {
 		id: 1,
@@ -38,15 +39,15 @@ describe('getOrCreateUser Resolver', () => {
 	test('makes a POST request to the /user endpoint with the get_or_create parameter', () => {
 		const resolver = getOrCreateUser(UserTC, { credentials });
 
-		resolver.resolve(resolverParams).then((response) => {
+		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('POST');
 			expect(response.url).toEqual(`https://api.stream-io-api.com/api/v1.0/user?api_key=${credentials.api_key}&get_or_create=true`);
-			expect(response.data).toEqual(resolverParams.args);
+			expect(response.data).toEqual(resolveParams.args);
 		})
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = getUser(UserTC, { credentials });
+		const resolver = getOrCreateUser(UserTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
@@ -59,7 +60,7 @@ describe('getOrCreateUser Resolver', () => {
 	});
 	
 	test('throws an error if no credentials are passed to the resolver creator function', () => {
-		const resolver = getUser(UserTC);
+		const resolver = getOrCreateUser(UserTC);
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
