@@ -16,6 +16,10 @@ export const addUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
+			if (!credentials) {
+				throw new Error('Missing Stream Credentials: Check the credentials passed to composeActivityFeed')
+			}
+			
             const { body } = await request({
 				credentials,
 				url: `user`,
