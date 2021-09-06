@@ -1,13 +1,15 @@
 import request from 'utils/request';
 
-export const updateReaction = (tc, { credentials } = {}) =>
+import { checkCredentials } from 'middleware/checkCredentials';
+
+export const updateReaction = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'updateReaction',
         type: tc,
         kind: 'mutation',
         args: {
             id: {
-                type: 'UUID!',
+                type: 'ID!',
                 description: 'The reactions to be updated.',
             },
             data: {
@@ -21,7 +23,7 @@ export const updateReaction = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `reaction/${args.id}`,
 				method: 'PUT',
 				data: {
@@ -36,4 +38,6 @@ export const updateReaction = (tc, { credentials } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'updateReaction' });
