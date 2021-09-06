@@ -1,19 +1,26 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const removeReaction = (tc, { credentials } = {}) =>
+export const removeReaction = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'removeReaction',
-        type: 'UUID!',
+        type: tc.schemaComposer.createObjectTC({
+			name: 'StreamRemoveReactionPayload',
+			fields: {
+				duration: 'String!',
+				removed: 'ID!'
+			}
+		}),
         kind: 'mutation',
         args: {
             id: {
-                type: 'UUID!',
+                type: 'ID!',
                 description: 'The reactions to be updated.',
             },
         },
         resolve: async ({ args }) => {
-            await request({
-				credentials,
+            const { body } = await request({
+				credentials: options.credentials,
 				url: `reaction/${args.id}`,
 				method: 'DELETE',
 			});
@@ -22,6 +29,11 @@ export const removeReaction = (tc, { credentials } = {}) =>
 				throw new Error(body.detail);
 			}
 
-			return args.id;
+			return {
+				...body,
+				removed: args.id,
+			};
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'removeReaction' });
