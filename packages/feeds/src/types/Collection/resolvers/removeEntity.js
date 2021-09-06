@@ -14,11 +14,15 @@ export const removeEntity = (tc, { credentials, collection } = {}) =>
         },
         resolve: async ({ args }) => {
             try {
-                await request({
+                const { body } = await request({
                     url: `collections/${pluralize(collection.name)}/${args.id}`,
                     credentials,
                     method: 'DELETE',
                 });
+
+				if (body.status_code !== undefined) {
+					throw new Error(body.detail);
+				}
 
                 return `${pluralize(collection.name)}/${args.id}`;
             } catch (error) {

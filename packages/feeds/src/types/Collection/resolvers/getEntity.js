@@ -1,4 +1,3 @@
-import { ApolloError } from 'apollo-server';
 import { pluralize } from 'graphql-compose';
 import request from 'utils/request';
 
@@ -17,7 +16,7 @@ export const getEntity = (tc, { credentials, collection } = {}) =>
 			});
 
 			if (body.status_code !== undefined) {
-				throw new ApolloError(body.detail);
+				throw new Error(body.detail);
 			}
 
 			return body;

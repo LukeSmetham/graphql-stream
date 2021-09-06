@@ -14,21 +14,19 @@ export const updateEntity = (tc, { credentials, collection } = {}) =>
             data: () => tc.getInputType(),
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    url: `collections/${pluralize(collection.name)}/${args.id}`,
-                    credentials,
-                    method: 'PUT',
-                    data: {
-                        data: args.data,
-                    },
-                });
+            const { body } = await request({
+				url: `collections/${pluralize(collection.name)}/${args.id}`,
+				credentials,
+				method: 'PUT',
+				data: {
+					data: args.data,
+				},
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error);
-            }
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-            return undefined;
+			return body;
         },
     });
