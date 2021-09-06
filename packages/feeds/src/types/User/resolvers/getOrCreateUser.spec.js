@@ -44,4 +44,30 @@ describe('getOrCreateUser Resolver', () => {
 			expect(response.data).toEqual(resolverParams.args);
 		})
 	})
+
+	test('throws an error if the body contains a status_code property', () => {
+		const resolver = getUser(UserTC, { credentials });
+
+		phin.mockImplementationOnce(() => Promise.resolve({ 
+			body: {
+				status_code: 404,
+				detail: 'User does not exist.'
+			} 
+		}));
+
+		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/User does not exist./);
+	});
+	
+	test('throws an error if no credentials are passed to the resolver creator function', () => {
+		const resolver = getUser(UserTC);
+
+		phin.mockImplementationOnce(() => Promise.resolve({ 
+			body: {
+				status_code: 404,
+				detail: 'User does not exist.'
+			} 
+		}));
+
+		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/Missing Stream Credentials/);
+	});
 });
