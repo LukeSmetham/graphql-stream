@@ -58,17 +58,4 @@ describe('addUser Resolver', () => {
 
 		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/User already exists./);
 	});
-	
-	test('throws an error if no credentials are passed to the resolver creator function', () => {
-		const resolver = addUser(UserTC);
-
-		phin.mockImplementationOnce(() => Promise.resolve({ 
-			body: {
-				status_code: 404,
-				detail: 'User already exists.'
-			} 
-		}));
-
-		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/Missing Stream Credentials/);
-	});
 });

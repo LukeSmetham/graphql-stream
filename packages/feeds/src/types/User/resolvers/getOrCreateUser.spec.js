@@ -32,7 +32,6 @@ describe('getOrCreateUser Resolver', () => {
 
 	test('returns a graphql-compose resolver instance', () => {
 		const resolver = getOrCreateUser(UserTC, { credentials });
-
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 
@@ -57,18 +56,5 @@ describe('getOrCreateUser Resolver', () => {
 		}));
 
 		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/User does not exist./);
-	});
-	
-	test('throws an error if no credentials are passed to the resolver creator function', () => {
-		const resolver = getOrCreateUser(UserTC);
-
-		phin.mockImplementationOnce(() => Promise.resolve({ 
-			body: {
-				status_code: 404,
-				detail: 'User does not exist.'
-			} 
-		}));
-
-		expect(() => resolver.resolve(resolveParams)).rejects.toThrow(/Missing Stream Credentials/);
 	});
 });

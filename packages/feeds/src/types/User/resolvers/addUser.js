@@ -1,6 +1,8 @@
 import request from 'utils/request';
 
-export const addUser = (tc, { credentials } = {}) =>
+import { checkCredentials } from 'middleware/checkCredentials';
+
+export const addUser = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'addUser',
         kind: 'mutation',
@@ -15,13 +17,9 @@ export const addUser = (tc, { credentials } = {}) =>
                 description: 'Any extra data to be attached to the new User.',
             },
         },
-        resolve: async ({ args }) => {
-			if (!credentials) {
-				throw new Error('Missing Stream Credentials: Check the credentials passed to composeActivityFeed')
-			}
-			
+        resolve: async ({ args }) => {			
             const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `user`,
 				method: 'POST',
 				data: {
@@ -36,4 +34,6 @@ export const addUser = (tc, { credentials } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'addUser' });
