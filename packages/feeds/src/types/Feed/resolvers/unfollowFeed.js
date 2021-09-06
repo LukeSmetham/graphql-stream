@@ -21,21 +21,19 @@ export const unfollowFeed = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                await request({
-                    credentials,
-                    url: `feed/${args.feed.uri}/following/${args.target.toString()}`,
-                    method: 'DELETE',
-                    params: {
-                        keep_history: args.keepHistory,
-                    },
-                });
+            await request({
+				credentials,
+				url: `feed/${args.feed.uri}/following/${args.target.toString()}`,
+				method: 'DELETE',
+				params: {
+					keep_history: args.keepHistory,
+				},
+			});
 
-                return args.target;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return args.target;
         },
     });

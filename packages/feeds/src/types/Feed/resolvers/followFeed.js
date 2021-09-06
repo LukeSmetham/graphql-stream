@@ -21,24 +21,22 @@ export const followFeed = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                await request({
-                    credentials,
-                    url: `feed/${args.feed.uri}/follows`,
-                    method: 'POST',
-                    data: {
-                        target: args.target.toString(),
-                    },
-                    params: {
-                        activity_copy_limit: args.activityCopyLimit,
-                    },
-                });
+            await request({
+				credentials,
+				url: `feed/${args.feed.uri}/follows`,
+				method: 'POST',
+				data: {
+					target: args.target.toString(),
+				},
+				params: {
+					activity_copy_limit: args.activityCopyLimit,
+				},
+			});
 
-                return args.target;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return args.target;
         },
     });
