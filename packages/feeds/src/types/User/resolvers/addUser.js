@@ -16,22 +16,20 @@ export const addUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `user`,
-                    method: 'POST',
-                    data: {
-                        id: args.id,
-                        data: args.data,
-                    },
-                });
+            const { body } = await request({
+				credentials,
+				url: `user`,
+				method: 'POST',
+				data: {
+					id: args.id,
+					data: args.data,
+				},
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body;
         },
     });

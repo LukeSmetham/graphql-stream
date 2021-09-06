@@ -12,18 +12,16 @@ export const removeUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                await request({
-                    credentials,
-                    url: `user/${args.id}`,
-                    method: 'DELETE',
-                });
+            await request({
+				credentials,
+				url: `user/${args.id}`,
+				method: 'DELETE',
+			});
 
-                return args.id;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return args.id;
         },
     });

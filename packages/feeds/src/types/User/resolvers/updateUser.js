@@ -16,21 +16,19 @@ export const updateUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `user/${args.id}`,
-                    method: 'PUT',
-                    data: {
-                        data: args.data,
-                    },
-                });
+            const { body } = await request({
+				credentials,
+				url: `user/${args.id}`,
+				method: 'PUT',
+				data: {
+					data: args.data,
+				},
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body;
         },
     });

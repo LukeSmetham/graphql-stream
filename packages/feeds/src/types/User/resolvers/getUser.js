@@ -12,18 +12,16 @@ export const getUser = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `user/${args.id}`,
-                    method: 'GET',
-                });
+            const { body } = await request({
+				credentials,
+				url: `user/${args.id}`,
+				method: 'GET',
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body;
         },
     });
