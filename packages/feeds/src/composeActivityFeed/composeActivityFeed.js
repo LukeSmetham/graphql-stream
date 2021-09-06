@@ -21,8 +21,6 @@ export const composeActivityFeed = (opts = {}) => {
     createActivityInterfaces(schemaComposer);
     createCollectionInterfaces(schemaComposer);
 
-    // TODO: Error handling for GET resolvers that return 200 but with an error response (i.e. collections)
-
     // Cast feed & collection property to an array if it's not already an array and add the feedGroupName to each
     const options = {
         ...opts,
