@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-server';
 import { pluralize } from 'graphql-compose';
 import request from 'utils/request';
 
@@ -10,17 +11,15 @@ export const getEntity = (tc, { credentials, collection } = {}) =>
             id: 'ID!',
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    url: `collections/${pluralize(collection.name)}/${args.id}`,
-                    credentials,
-                });
+            const { body } = await request({
+				url: `collections/${pluralize(collection.name)}/${args.id}`,
+				credentials,
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error);
-            }
+			if (body.status_code !== undefined) {
+				throw new ApolloError(body.detail);
+			}
 
-            return undefined;
+			return body;
         },
     });
