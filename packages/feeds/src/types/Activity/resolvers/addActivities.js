@@ -16,29 +16,36 @@ export const addActivities = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-				const activities = args.activities.map(activity => {
-					if (activity.to.length) {
-						activity.to = activity.to.map(to => to.toString());
-					}
+            const activities = args.activities.map(activity => {
+				if (activity.to.length) {
+					activity.to = activity.to.map(to => to.toString());
+				}
 
-					return activity;
-				});
+				return activity;
+			});
 
-                const { body } = await request({
-                    credentials,
-                    url: `feed/${args.feed.uri}`,
-                    method: 'POST',
-                    data: {
-                        activities,
-                    },
-                });
+			const { body } = await request({
+				credentials,
+				url: `feed/${args.feed.uri}`,
+				method: 'POST',
+				data: {
+					activities,
+				},
+			});
 
-                return body.activities;
-            } catch (error) {
-                console.error(error.message);
+			const { body } = await request({
+				url: `collections/${pluralize(collection.name)}/${args.id}`,
+				credentials,
+				method: 'PUT',
+				data: {
+					data: args.data,
+				},
+			});
 
-                return undefined;
-            }
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
+
+			return body.activities;
         },
     });

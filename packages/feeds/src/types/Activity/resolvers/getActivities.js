@@ -21,18 +21,17 @@ export const getActivities = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
 			const { feed, ...params  } = args;
-            try {
-                const { body } = await request({
-                    url: `feed/${feed.uri}`,
-                    credentials,
-					params,
-                });
 
-                return body.results;
-            } catch (error) {
-                console.error(error);
-            }
+            const { body } = await request({
+				url: `feed/${feed.uri}`,
+				credentials,
+				params,
+			});
 
-            return [];
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
+
+			return body.results;
         },
     });

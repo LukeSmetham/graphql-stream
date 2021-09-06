@@ -16,18 +16,16 @@ export const removeActivity = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `feed/${args.feed.uri}/${args.id}`,
-                    method: 'DELETE',
-                });
+            const { body } = await request({
+				credentials,
+				url: `feed/${args.feed.uri}/${args.id}`,
+				method: 'DELETE',
+			});
 
-                return body.removed;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body.removed;
         },
     });

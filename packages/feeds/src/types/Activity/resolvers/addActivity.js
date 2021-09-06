@@ -16,25 +16,23 @@ export const addActivity = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-				const activity = args.activity;
+			const activity = args.activity;
 
-				if (activity.to?.length) {
-					activity.to = activity.to.map(to => to.toString());
-				}
+			if (activity.to?.length) {
+				activity.to = activity.to.map(to => to.toString());
+			}
 
-                const { body } = await request({
-                    credentials,
-                    url: `feed/${args.feed.uri}`,
-                    method: 'POST',
-                    data: args.activity,
-                });
+			const { body } = await request({
+				credentials,
+				url: `feed/${args.feed.uri}`,
+				method: 'POST',
+				data: args.activity,
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body;
         },
     });
