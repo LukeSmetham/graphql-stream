@@ -48,21 +48,19 @@ export const getReactions = (tc, { credentials } = {}) =>
             }),
         },
         resolve: async ({ args }) => {
-            try {
-                const lookupType = (args.user && 'user_id') || (args.activity && 'activity_id') || (args.parent && 'reaction_id');
-                const value = args.user || args.activity || args.parent;
+            const lookupType = (args.user && 'user_id') || (args.activity && 'activity_id') || (args.parent && 'reaction_id');
+			const value = args.user || args.activity || args.parent;
 
-                const { body } = await request({
-                    url: `reaction/${lookupType}/${value}${args.kind ? `/${args.kind}` : ''}`,
-                    params: args.options,
-                    credentials,
-                });
+			const { body } = await request({
+				url: `reaction/${lookupType}/${value}${args.kind ? `/${args.kind}` : ''}`,
+				params: args.options,
+				credentials,
+			});
 
-                return body.results;
-            } catch (error) {
-                console.error(error);
-            }
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-            return [];
+			return body.results;
         },
     });

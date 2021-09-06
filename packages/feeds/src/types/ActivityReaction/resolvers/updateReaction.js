@@ -20,22 +20,20 @@ export const updateReaction = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `reaction/${args.id}`,
-                    method: 'PUT',
-                    data: {
-                        data: args.data,
-                        target_feeds: args.target_feeds.map(id => id.toString()),
-                    },
-                });
+            const { body } = await request({
+				credentials,
+				url: `reaction/${args.id}`,
+				method: 'PUT',
+				data: {
+					data: args.data,
+					target_feeds: args.target_feeds.map(id => id.toString()),
+				},
+			});
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return undefined;
-            }
+			return body;
         },
     });

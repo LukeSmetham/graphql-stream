@@ -28,27 +28,23 @@ export const addReaction = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            try {
-                const { body } = await request({
-                    credentials,
-                    url: `reaction`,
-                    method: 'POST',
-                    data: {
-                        activity_id: args.activity,
-                        kind: args.kind,
-                        data: args.data,
-                        user_id: args.user,
-                        parent: args.parent,
-                    },
-                });
+			const { body } = await request({
+				credentials,
+				url: `reaction`,
+				method: 'POST',
+				data: {
+					activity_id: args.activity,
+					kind: args.kind,
+					data: args.data,
+					user_id: args.user,
+					parent: args.parent,
+				},
+			});
 
-                console.log(body);
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
 
-                return body;
-            } catch (error) {
-                console.error(error.message);
-
-                return undefined;
-            }
+			return body;
         },
     });
