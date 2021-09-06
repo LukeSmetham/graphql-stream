@@ -20,26 +20,29 @@ const resolverParams = {
 };
 
 describe('getToken Resolver', () => {
+	let UserTC;
 	beforeAll(() => {
 		schemaComposer.clear();
+		UserTC = createUserTC(schemaComposer);
 	});
+
+	test('returns a graphql-compose resolver instance', () => {
+		const resolver = getToken(UserTC, { credentials });
+
+		expect(resolver).toBeInstanceOf(Resolver)
+	})
 
 	test('returns a token from the resolve method based on the source id', () => {		
 		const expectedToken = jwt.sign({
 			user_id: resolverParams.args.id
 		}, credentials.api_secret);
 
-		const UserTC = createUserTC(schemaComposer);
-
 		const resolver = getToken(UserTC, { credentials });
 
-		expect(resolver).toBeInstanceOf(Resolver);
 		expect(resolver.resolve(resolverParams)).toEqual(expectedToken);
 	});
 
 	test('should throw an error if no credentials are provided.', () => {	
-		const UserTC = createUserTC(schemaComposer);
-
 		const resolver = getToken(UserTC, {});
 
 		expect(() => {
