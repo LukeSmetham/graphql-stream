@@ -1,6 +1,7 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const getReactions = (tc, { credentials } = {}) =>
+export const getReactions = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'getReactions',
         type: [tc],
@@ -54,7 +55,7 @@ export const getReactions = (tc, { credentials } = {}) =>
 			const { body } = await request({
 				url: `reaction/${lookupType}/${value}${args.kind ? `/${args.kind}` : ''}`,
 				params: args.options,
-				credentials,
+				credentials: options.credentials,
 			});
 
 			if (body.status_code !== undefined) {
@@ -63,4 +64,6 @@ export const getReactions = (tc, { credentials } = {}) =>
 
 			return body.results;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'getReactions' });
