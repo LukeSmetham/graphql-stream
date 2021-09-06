@@ -13,7 +13,6 @@ const app = express();
 
 const httpServer = createServer(app);
 
-// TODO: Add example for optional context that we can auth the stream user from (i.e. emulate client side auth for protection against certain actions from the client)
 const server = new ApolloServer({
     schema,
 	plugins: [{
