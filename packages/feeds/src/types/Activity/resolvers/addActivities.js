@@ -33,15 +33,6 @@ export const addActivities = (tc, { credentials } = {}) =>
 				},
 			});
 
-			const { body } = await request({
-				url: `collections/${pluralize(collection.name)}/${args.id}`,
-				credentials,
-				method: 'PUT',
-				data: {
-					data: args.data,
-				},
-			});
-
 			if (body.status_code !== undefined) {
 				throw new Error(body.detail);
 			}
