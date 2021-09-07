@@ -54,7 +54,7 @@ describe('addActivities Resolver', () => {
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 	
-	test('makes a POST request to the /activity endpoint', () => {
+	test('makes a POST request to the /feed/:feed/:id endpoint', () => {
 		const resolver = addActivities(ActivityTC, { credentials });
 
 		phin.mockImplementationOnce((options) => Promise.resolve({ 
