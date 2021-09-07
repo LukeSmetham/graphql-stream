@@ -14,7 +14,7 @@ export const createCollection = options => {
     }
 
     // Create TypeComposers
-    const { CollectionTC } = createCollectionTC(options);
+    const CollectionTC = createCollectionTC(options);
 
     Object.keys(resolvers).forEach(k => {
         CollectionTC.addResolver(resolvers[k](CollectionTC, options));

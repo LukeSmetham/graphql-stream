@@ -4,7 +4,11 @@ import { composer } from 'schema';
 
 import { collectionEntityInterfaceFields } from 'interfaces/Collection';
 
-export const createCollectionTC = (options = {}) => {
+export const createCollectionTC = (options) => {
+	if (!options) {
+		throw new Error('No options were provided to createCollectionTC');
+	}
+
     const schemaComposer = options.schemaComposer || composer;
 
 	const opts = deepmerge(options, {
@@ -33,8 +37,5 @@ export const createCollectionTC = (options = {}) => {
 
     CollectionTC.setInputTypeComposer(EntityTC.getInputTypeComposer());
 
-    return {
-        CollectionTC,
-        EntityTC,
-    };
+    return CollectionTC;
 };
