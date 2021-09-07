@@ -22,7 +22,7 @@ const resolveParams = {
 			actor: '1',
 			object: '2',
 			verb: 'post',
-			to: ['timeline:1']
+			to: [new StreamID('timeline:1')]
 		}, {
 			actor: '1',
 			object: '2',
