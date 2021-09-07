@@ -17,7 +17,11 @@ const validateFeedType = type => {
     return type;
 };
 
-export const createFeedTC = (options = {}) => {
+export const createFeedTC = (options) => {
+	if (!options) {
+		throw new Error('No options were provided to createFeedTC');
+	}
+
     const schemaComposer = options.schemaComposer || composer;
     const credentials = options.credentials;
 
