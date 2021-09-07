@@ -1,10 +1,18 @@
-import request from 'utils/request';
 
-export const followFeed = (tc, { credentials } = {}) =>
+import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
+
+export const followFeed = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'follow',
         kind: 'mutation',
-        type: 'StreamID',
+        type: tc.schemaComposer.createObjectTC({
+			name: 'StreamFollowFeedPayload',
+			fields: {
+				duration: 'String!',
+				followed: 'StreamID!'
+			}
+		}),
         args: {
             feed: {
                 type: 'StreamID!',
@@ -21,22 +29,27 @@ export const followFeed = (tc, { credentials } = {}) =>
             },
         },
         resolve: async ({ args }) => {
-            await request({
-				credentials,
+            const { body } = await request({
+				credentials: options.credentials,
 				url: `feed/${args.feed.uri}/follows`,
 				method: 'POST',
 				data: {
 					target: args.target.toString(),
 				},
-				params: {
+				params: args.activityCopyLimit ? {
 					activity_copy_limit: args.activityCopyLimit,
-				},
+				} : undefined,
 			});
 
 			if (body.status_code !== undefined) {
 				throw new Error(body.detail);
 			}
 
-			return args.target;
+			return {
+				...body,
+				followed: args.target,
+			};
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'follow' });
