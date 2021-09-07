@@ -7,6 +7,7 @@ import { createFeedTC } from './Feed';
 describe('Feed', () => {
 	beforeEach(() => {
 		schemaComposer.clear();
+		composer.clear();
 	});
 
 	test('Should return an ObjectTypeComposer', () => {
