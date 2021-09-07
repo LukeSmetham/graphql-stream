@@ -1,11 +1,12 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
 /**
  * Creates the getActivities resolver, using the given activity type composer.
  * @param {TypeComposer} tc
  * @returns Resolver
  */
-export const getActivities = (tc, { credentials } = {}) =>
+export const getActivities = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'getActivities',
         type: [tc],
@@ -24,7 +25,7 @@ export const getActivities = (tc, { credentials } = {}) =>
 
             const { body } = await request({
 				url: `feed/${feed.uri}`,
-				credentials,
+				credentials: options.credentials,
 				params,
 			});
 
@@ -34,4 +35,6 @@ export const getActivities = (tc, { credentials } = {}) =>
 
 			return body.results;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'getActivities' });

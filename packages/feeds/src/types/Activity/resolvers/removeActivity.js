@@ -1,10 +1,17 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const removeActivity = (tc, { credentials } = {}) =>
+export const removeActivity = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'removeActivity',
         kind: 'mutation',
-        type: 'String!',
+        type: tc.schemaComposer.createObjectTC({
+			name: 'StreamRemoveActivityPayload',
+			fields: {
+				duration: 'String!',
+				removed: 'ID!'
+			}
+		}),
         args: {
             feed: {
                 type: 'StreamID!',
@@ -17,7 +24,7 @@ export const removeActivity = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `feed/${args.feed.uri}/${args.id}`,
 				method: 'DELETE',
 			});
@@ -26,6 +33,8 @@ export const removeActivity = (tc, { credentials } = {}) =>
 				throw new Error(body.detail);
 			}
 
-			return body.removed;
+			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'removeActivity' });

@@ -1,6 +1,7 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const addActivities = (tc, { credentials } = {}) =>
+export const addActivities = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'addActivities',
         kind: 'mutation',
@@ -17,7 +18,7 @@ export const addActivities = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             const activities = args.activities.map(activity => {
-				if (activity.to.length) {
+				if (activity.to?.length) {
 					activity.to = activity.to.map(to => to.toString());
 				}
 
@@ -25,7 +26,7 @@ export const addActivities = (tc, { credentials } = {}) =>
 			});
 
 			const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `feed/${args.feed.uri}`,
 				method: 'POST',
 				data: {
@@ -39,4 +40,6 @@ export const addActivities = (tc, { credentials } = {}) =>
 
 			return body.activities;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'addActivities' });

@@ -1,6 +1,7 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const addActivity = (tc, { credentials } = {}) =>
+export const addActivity = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'addActivity',
         kind: 'mutation',
@@ -23,7 +24,7 @@ export const addActivity = (tc, { credentials } = {}) =>
 			}
 
 			const { body } = await request({
-				credentials,
+				credentials: options.credentials,
 				url: `feed/${args.feed.uri}`,
 				method: 'POST',
 				data: args.activity,
@@ -35,4 +36,6 @@ export const addActivity = (tc, { credentials } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'addActivity' });
