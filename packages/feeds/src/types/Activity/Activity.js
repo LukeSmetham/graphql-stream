@@ -4,8 +4,26 @@ import { composer } from 'schema';
 
 import { activityInterfaceFields, activityInputFields, groupedActivityInterfaceFields } from 'interfaces/Activity';
 
+const addToActivityUnion = ActivityTC => {
+	let createdUnion = false;
+	const ActivityUTC = ActivityTC.schemaComposer.getOrCreateUTC('StreamActivity', tc => {
+		createdUnion = true;
+		tc.addType(ActivityTC)
+	});
+
+	if (!createdUnion) {
+		ActivityUTC.addType(ActivityTC);
+	}
+
+	return ActivityUTC;
+}
+
 const createActivityTC = (options = {}) => {
     const schemaComposer = options.schemaComposer || composer;
+
+	if (!options.feed) {
+		throw new Error('No feed config provided.');
+	}
 
 	const opts = deepmerge(options, {
 		feed: {
@@ -44,10 +62,22 @@ const createActivityTC = (options = {}) => {
     return ActivityTC;
 };
 
-const createGroupedActivityTC = (ActivityUTC, opts = {}) => {
-    const schemaComposer = opts.schemaComposer || composer;
+const createGroupedActivityTC = (ActivityTC, options = {}) => {
+    const schemaComposer = options.schemaComposer || composer;
+
+	if (!options.feed) {
+		throw new Error('No feed config provided.');
+	}
+
+	const opts = deepmerge(options, {
+		feed: {
+			feedGroupName: capitalize(options.feed.feedGroup)
+		}
+	})
 
     const { feedGroupName, type } = opts.feed;
+
+	const ActivityUTC = addToActivityUnion(ActivityTC);
 
     let tc;
 

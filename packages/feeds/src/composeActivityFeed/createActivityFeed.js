@@ -9,20 +9,6 @@ import * as activityResolvers from 'types/Activity/resolvers';
 
 import { createFeedSubscription } from 'types/Feed/createFeedSubscription';
 
-const addToActivityUnion = ActivityTC => {
-	let createdUnion = false;
-	const ActivityUTC = ActivityTC.schemaComposer.getOrCreateUTC('StreamActivity', tc => {
-		createdUnion = true;
-		tc.addType(ActivityTC)
-	});
-
-	if (!createdUnion) {
-		ActivityUTC.addType(ActivityTC);
-	}
-
-	return ActivityUTC;
-}
-
 export const createActivityFeed = options => {
     const schemaComposer = options.schemaComposer || composer;
 
@@ -33,10 +19,7 @@ export const createActivityFeed = options => {
     // Create TypeComposers
     const FeedTC = createFeedTC(options);
     const ActivityTC = createActivityTC(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
-    
-	const ActivityUTC = addToActivityUnion(ActivityTC);
-
-	const GroupedActivityTC = createGroupedActivityTC(ActivityUTC, options);
+	const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
     
 	// Subscription
 	// Subscriptions aren't really support in graphql-compose, because of this the only way to add them is via a plain object resolver rather than via schemaComposer.createResolver.
