@@ -1,10 +1,17 @@
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const unfollowFeed = (tc, { credentials } = {}) =>
+export const unfollowFeed = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'unfollow',
         kind: 'mutation',
-        type: 'StreamID',
+        type: tc.schemaComposer.createObjectTC({
+			name: 'StreamUnfollowFeedPayload',
+			fields: {
+				duration: 'String!',
+				unfollowed: 'StreamID!'
+			}
+		}),
         args: {
             feed: {
                 type: 'StreamID!',
@@ -22,18 +29,23 @@ export const unfollowFeed = (tc, { credentials } = {}) =>
         },
         resolve: async ({ args }) => {
             await request({
-				credentials,
+				credentials: options.credentials,
 				url: `feed/${args.feed.uri}/following/${args.target.toString()}`,
 				method: 'DELETE',
-				params: {
+				params: args.keepHistory ? {
 					keep_history: args.keepHistory,
-				},
+				} : null,
 			});
 
 			if (body.status_code !== undefined) {
 				throw new Error(body.detail);
 			}
 
-			return args.target;
+			return {
+				...body,
+				unfollowed: args.target
+			};
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'unfollow' });
