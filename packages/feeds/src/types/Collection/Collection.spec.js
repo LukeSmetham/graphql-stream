@@ -2,7 +2,7 @@ import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
 import capitalize from 'capitalize';
 import { composer } from 'schema';
 
-import { createCollectionInterfaces } from 'interfaces/Collection';
+import { collectionEntityInterfaceFields, createCollectionInterfaces } from 'interfaces/Collection';
 import { createCollectionTC } from './Collection';
 
 describe('Collection', () => {
@@ -38,23 +38,57 @@ describe('Collection', () => {
 		expect(createCollectionTC(options).getTypeName()).toBe(`Stream${capitalize(options.collection.name)}Entity`);
 	});
 
-	// test('Should include all of the correct fields for a StreamCollection Entity.', () => {
-	// 	const CollectionTC = createCollectionTC(options);
+	test('Should include all of the correct fields for a StreamCollection Entity.', () => {
+		const options = {
+			schemaComposer,
+			collection: {
+				name: 'post',
+				fields: {
+					text: 'String!',
+				},
+			}
+		}
+
+		const CollectionTC = createCollectionTC(options);
 		
-	// 	const fields = {
-	// 		id: 'StreamID!',
-	// 		followers: '[StreamID!]',
-	// 		following: '[StreamID!]',
-	// 		followerCount: 'Int!',
-	// 		followingCount: 'Int!',
-	// 	}
+		const dataTypeName = `Stream${capitalize(options.collection.name)}`;
 
-	// 	const fieldNames = Object.keys(fields);
+		const fields = {
+			...collectionEntityInterfaceFields,			
+			data: dataTypeName,
+		}
 
-	// 	expect(CollectionTC.getFieldNames()).toEqual(fieldNames);
+		// Collection Entity
+		const fieldNames = Object.keys(fields);
 
-	// 	Object.keys(fields).forEach(name => expect(CollectionTC.getFieldTypeName(name)).toBe(fields[name]));
-	// });
+		expect(CollectionTC.getFieldNames()).toEqual(fieldNames);
+
+		Object.keys(fields).forEach(name => expect(CollectionTC.getFieldTypeName(name)).toBe(fields[name].type ?? fields[name]));
+	});
+	
+	test('Should create a ObjectType for the data property, including all of the fields from the collection config.', () => {
+		const options = {
+			schemaComposer,
+			collection: {
+				name: 'post',
+				fields: {
+					text: 'String!',
+				},
+			}
+		}
+
+		const CollectionTC = createCollectionTC(options);
+		const dataTypeName = `Stream${capitalize(options.collection.name)}`;
+		const CollectionDataTC = schemaComposer.getOTC(dataTypeName);
+
+		// Collection Entity
+		const { fields } = options.collection;
+		const fieldNames = Object.keys(fields);
+
+		expect(CollectionDataTC.getFieldNames()).toEqual(fieldNames);
+
+		Object.keys(fields).forEach(name => expect(CollectionDataTC.getFieldTypeName(name)).toBe(fields[name].type ?? fields[name]));
+	});
 
 	test('Should use libs schemaComposer if none is provided in the options object.', () => {
 		createCollectionInterfaces(composer);
