@@ -77,7 +77,7 @@ describe('Collection', () => {
 			}
 		}
 
-		const CollectionTC = createCollectionTC(options);
+		createCollectionTC(options);
 		const dataTypeName = `Stream${capitalize(options.collection.name)}`;
 		const CollectionDataTC = schemaComposer.getOTC(dataTypeName);
 
