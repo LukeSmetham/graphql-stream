@@ -1,7 +1,8 @@
 import { pluralize } from 'graphql-compose';
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const addEntity = (tc, { credentials, collection } = {}) =>
+export const addEntity = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'addEntity',
         type: tc,
@@ -9,14 +10,14 @@ export const addEntity = (tc, { credentials, collection } = {}) =>
         args: {
             id: {
                 type: 'ID',
-                description: `The id of the ${collection.name}. Stream will generate one if you leave this arg empty.`,
+                description: `The id of the ${options.collection.name}. Stream will generate one if you leave this arg empty.`,
             },
             data: () => tc.getInputType(),
         },
         resolve: async ({ args }) => {
             const { body } = await request({
-				url: `collections/${pluralize(collection.name)}`,
-				credentials,
+				url: `collections/${pluralize(options.collection.name)}`,
+				credentials: options.credentials,
 				method: 'POST',
 				data: args,
 			});
@@ -27,4 +28,6 @@ export const addEntity = (tc, { credentials, collection } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'addEntity' });
