@@ -37,5 +37,5 @@ export const removeEntity = (tc, options) =>
 			};
         },
     })
-	.withMiddleware([checkCredentials(options)])
+	.withMiddlewares([checkCredentials(options)])
 	.clone({ name: 'removeEntity' });
