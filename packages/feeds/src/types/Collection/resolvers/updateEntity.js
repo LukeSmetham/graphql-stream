@@ -1,7 +1,8 @@
 import { pluralize } from 'graphql-compose';
 import request from 'utils/request';
+import { checkCredentials } from 'middleware/checkCredentials';
 
-export const updateEntity = (tc, { credentials, collection } = {}) =>
+export const updateEntity = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'updateEntity',
         type: tc,
@@ -9,14 +10,14 @@ export const updateEntity = (tc, { credentials, collection } = {}) =>
         args: {
             id: {
                 type: 'ID!',
-                description: `The id of the ${collection.name} you want to update.`,
+                description: `The id of the ${options.collection.name} you want to update.`,
             },
             data: () => tc.getInputType(),
         },
         resolve: async ({ args }) => {
             const { body } = await request({
-				url: `collections/${pluralize(collection.name)}/${args.id}`,
-				credentials,
+				url: `collections/${pluralize(options.collection.name)}/${args.id}`,
+				credentials: options.credentials,
 				method: 'PUT',
 				data: {
 					data: args.data,
@@ -29,4 +30,6 @@ export const updateEntity = (tc, { credentials, collection } = {}) =>
 
 			return body;
         },
-    });
+    })
+	.withMiddlewares([checkCredentials(options)])
+	.clone({ name: 'updateEntity' });
