@@ -28,13 +28,13 @@ export const unfollowFeed = (tc, options) =>
             },
         },
         resolve: async ({ args }) => {
-            await request({
+            const { body } = await request({
 				credentials: options.credentials,
 				url: `feed/${args.feed.uri}/following/${args.target.toString()}`,
 				method: 'DELETE',
 				params: args.keepHistory !== undefined ? {
 					keep_history: args.keepHistory,
-				} : null,
+				} : undefined,
 			});
 
 			if (body.status_code !== undefined) {
