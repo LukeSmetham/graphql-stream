@@ -37,6 +37,34 @@ describe('Feed', () => {
 		expect(createFeedTC(options).getTypeName()).toBe(`Stream${capitalize(options.feed.feedGroup)}Feed`);
 	});
 
+	test('Should include all of the correct fields for a StreamFeed.', () => {
+		const options = {
+			schemaComposer,
+			feed: {
+				feedGroup: 'user',
+				type: 'flat',
+				activityFields: {
+					text: 'String!',
+				},
+			}
+		}
+		const FeedTC = createFeedTC(options);
+		
+		const fields = {
+			id: 'StreamID!',
+			followers: '[StreamID!]',
+			following: '[StreamID!]',
+			followerCount: 'Int!',
+			followingCount: 'Int!',
+		}
+
+		const fieldNames = Object.keys(fields);
+
+		expect(FeedTC.getFieldNames()).toEqual(fieldNames);
+
+		Object.keys(fields).forEach(name => expect(FeedTC.getFieldTypeName(name)).toBe(fields[name]));
+	});
+
 	test('Should use libs schemaComposer if none is provided in the options object.', () => {
 		const options = {
 			feed: {
