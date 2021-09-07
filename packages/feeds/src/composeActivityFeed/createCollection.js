@@ -1,13 +1,10 @@
 import { composer } from 'schema';
-import capitalize from 'capitalize';
 
 import { createCollectionTC } from 'types/Collection';
 
 import * as resolvers from 'types/Collection/resolvers';
 
 export const createCollection = options => {
-    const schemaComposer = options.schemaComposer || composer;
-
     if (!options.collection.name) {
         throw new Error('Please provide the name of your Collection to opts.name.');
     }
@@ -23,7 +20,5 @@ export const createCollection = options => {
         CollectionTC.addResolver(resolvers[k](CollectionTC, options));
     });
 
-    return {
-        [`${CollectionTC.getTypeName()}TC`]: CollectionTC,
-    };
+    return CollectionTC;
 };

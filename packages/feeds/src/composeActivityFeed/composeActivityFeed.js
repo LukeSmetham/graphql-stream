@@ -58,14 +58,14 @@ export const composeActivityFeed = (opts = {}) => {
     let collections = {};
 
     for (let i = 0; i < options.collection.length; i++) {
-        const collectionTypes = createCollection({
+        const CollectionTC = createCollection({
             ...options,
             collection: options.collection[i],
         });
 
         collections = {
             ...collections,
-            ...collectionTypes,
+            [`${CollectionTC.getTypeName()}TC`]: CollectionTC
         };
     }
 
