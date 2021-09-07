@@ -36,7 +36,7 @@ export const followFeed = (tc, options) =>
 				data: {
 					target: args.target.toString(),
 				},
-				params: args.activityCopyLimit ? {
+				params: args.activityCopyLimit !== undefined ? {
 					activity_copy_limit: args.activityCopyLimit,
 				} : undefined,
 			});

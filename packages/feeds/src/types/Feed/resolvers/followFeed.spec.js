@@ -52,7 +52,7 @@ describe('followFeed resolver', () => {
 		})
 	})
 	
-	test('appends activity_copy_limit parameter to the URL if present', () => {
+	test('appends activity_copy_limit parameter to the URL if the activityCopyLimit arg is present', () => {
 		const resolver = followFeed(FeedTC, { credentials });
 
 		const resolveParams2 = deepmerge(resolveParams, {
