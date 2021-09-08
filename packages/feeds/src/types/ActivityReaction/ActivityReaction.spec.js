@@ -1,12 +1,16 @@
 import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
+import { composer } from 'schema';
 import { ensureScalars } from 'utils/ensureScalars';
 
 import { createActivityReactionTC } from './ActivityReaction';
 
 describe('ActivityReaction', () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		schemaComposer.clear();
+		composer.clear();
+
 		ensureScalars(schemaComposer);
+		ensureScalars(composer);
 	});
 
 	const options = {
@@ -41,5 +45,17 @@ describe('ActivityReaction', () => {
 		expect(ActivityReactionTC.getFieldNames()).toEqual(fieldNames);
 
 		Object.keys(fields).forEach(name => expect(ActivityReactionTC.getFieldTypeName(name)).toBe(fields[name]));
+	});
+
+	test('Should use libs schemaComposer if none is provided in the options object.', () => {
+		const options = {};
+		createActivityReactionTC(options);
+
+		expect(() => schemaComposer.getOTC('StreamActivityReaction')).toThrow(/Cannot find ObjectTypeComposer/)
+		expect(composer.getOTC('StreamActivityReaction')).toBeDefined()
+	});
+	
+	test('Should throw an error if no options argument was provided', () => {
+		expect(() => createActivityReactionTC()).toThrow(/No options were provided to createFeedTC/);
 	});
 });
