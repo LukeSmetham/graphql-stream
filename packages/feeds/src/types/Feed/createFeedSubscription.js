@@ -1,7 +1,7 @@
 import { composer } from 'schema';
 import { FeedSubscription } from 'subscription';
 
-export const createFeedSubscription = (ActivityTC, opts = {}) => {
+export const createFeedSubscription = (ActivityTC, opts) => {
     const schemaComposer = opts.schemaComposer || composer;
     const credentials = opts.credentials;
 
@@ -23,7 +23,7 @@ export const createFeedSubscription = (ActivityTC, opts = {}) => {
 		name: 'subscribeFeed',
 		type: RealtimeFeedTC,
 		args: { id: 'StreamID!' },
-		resolve: data => data,
-		subscribe: (_, args) => new FeedSubscription(credentials).asyncIterator(args.id.together)
+		resolve: /* istanbul ignore next */ data => data,
+		subscribe: /* istanbul ignore next */ (_, args) => new FeedSubscription(credentials).asyncIterator(args.id.together)
 	};
 };
