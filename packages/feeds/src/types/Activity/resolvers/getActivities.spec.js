@@ -1,9 +1,9 @@
 import phin from 'phin';
-import { Resolver, deepmerge, schemaComposer } from 'graphql-compose';
+import { Resolver, schemaComposer } from 'graphql-compose';
 
 import { StreamID } from 'scalars/StreamID';
 import { createActivityInterfaces } from 'interfaces/Activity';
-import { ensureScalars } from 'composeActivityFeed/ensureScalars';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createActivityTC } from '../Activity';
 import { getActivities } from './getActivities';

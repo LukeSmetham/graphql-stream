@@ -3,7 +3,7 @@ import { Resolver, deepmerge, schemaComposer } from 'graphql-compose';
 
 import { StreamID } from 'scalars/StreamID';
 import { createActivityInterfaces } from 'interfaces/Activity';
-import { ensureScalars } from 'composeActivityFeed/ensureScalars';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createActivityTC } from '../Activity';
 import { addActivity } from './addActivity';

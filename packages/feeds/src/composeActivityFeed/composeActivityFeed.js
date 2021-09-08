@@ -1,11 +1,10 @@
 import { composer } from 'schema';
-import capitalize from 'capitalize';
 import castArray from 'lodash.castarray';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createActivityInterfaces } from 'interfaces/Activity';
 import { createCollectionInterfaces } from 'interfaces/Collection';
 
-import { ensureScalars } from './ensureScalars';
 import { createActivityFeed } from './createActivityFeed';
 import { createActivityReaction } from './createActivityReaction';
 import { createCollection } from './createCollection';
