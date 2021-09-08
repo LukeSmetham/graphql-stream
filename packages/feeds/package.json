@@ -1,7 +1,7 @@
 {
-  "name": "@graphql-stream/feeds",
+  "name": "@stream-io/graphql-feeds",
   "description": "GraphQL Wrapper for the Stream Feeds JS SDK for Node. See README for details, roadmap, how-to's, etc.",
-  "version": "0.1.0",
+  "version": "1.0.0-beta.1",
   "main": "lib/index.js",
   "module": "src/index.js",
   "repository": {

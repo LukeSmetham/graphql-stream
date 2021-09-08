@@ -1,4 +1,4 @@
-# `@graphql-stream`
+# `@stream-io`
 
 Monorepo package containing utils, schemas, resolvers and subscription helpers for using Stream products with GraphQL.
 

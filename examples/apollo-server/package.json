@@ -1,6 +1,6 @@
 {
 	"name": "@examples/apollo-server",
-	"description": "An example project setting up @graphql-stream/feeds with Apollo Server.",
+	"description": "An example project setting up @stream-io/graphql-feeds with Apollo Server.",
 	"type": "module",
 	"version": "0.1.0",
 	"main": "main.js",

@@ -1,4 +1,4 @@
-import { composeActivityFeed, StreamID } from '@graphql-stream/feeds';
+import { composeActivityFeed, StreamID } from '@stream-io/graphql-feeds';
 import { deepmerge, schemaComposer } from 'graphql-compose';
 
 import { UserTC } from './types';

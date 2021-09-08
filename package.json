@@ -9,12 +9,12 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "lerna --scope @graphql-stream/* exec --parallel -- yarn build",
-    "watch": "lerna --scope @graphql-stream/* exec --parallel -- yarn watch",
+    "build": "lerna --scope @stream-io/* exec --parallel -- yarn build",
+    "watch": "lerna --scope @stream-io/* exec --parallel -- yarn watch",
     "build:clean": "lerna exec --parallel -- rm -rf lib",
     "dev:apollo-server": "yarn workspace @examples/apollo-server dev",
     "dev": "yarn workspace @examples/full-example dev",
-    "test": "lerna --scope @graphql-stream/* exec --parallel -- yarn test"
+    "test": "lerna --scope @stream-io/* exec --parallel -- yarn test"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.8",

@@ -1,4 +1,4 @@
-import { StreamID } from '@graphql-stream/feeds';
+import { StreamID } from '@stream-io/graphql-feeds';
 import UserTC from './User';
 import * as resolvers from './resolvers';
 

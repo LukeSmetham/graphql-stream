@@ -1,4 +1,4 @@
-import { composeActivityFeed, FeedSubscription } from '@graphql-stream/feeds';
+import { composeActivityFeed, FeedSubscription } from '@stream-io/graphql-feeds';
 import { schemaComposer } from 'graphql-compose';
 
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;

@@ -1,4 +1,4 @@
-# `@graphql-stream/feeds` Twitter Example
+# `@stream-io/graphql-feeds` Twitter Example
 
 This is example repo uses Apollo GraphQL, MongoDB & Stream Activity Feeds to create a simple Twitter style application with batteries included.
 
