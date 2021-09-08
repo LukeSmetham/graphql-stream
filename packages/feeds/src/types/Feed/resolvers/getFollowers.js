@@ -4,7 +4,14 @@ import { checkCredentials } from 'middleware/checkCredentials';
 export const getFollowers = (tc, options) =>
     tc.schemaComposer.createResolver({
         name: 'getFollowers',
-        type: '[StreamID!]',
+        type: tc.schemaComposer.getOrCreateOTC('StreamFeedFollowPayload', tc => {
+			tc.addFields({
+				feed_id: 'StreamID!',
+				target_id: 'StreamID!',
+				created_at: 'DateTime!',
+				updated_at: 'DateTime!',
+			})
+		}).getTypePlural(),
         kind: 'query',
         args: {
 			feed: {
@@ -31,7 +38,7 @@ export const getFollowers = (tc, options) =>
 				throw new Error(body.detail);
 			}
 
-			return body.results.map(({ feed_id }) => feed_id);
+			return body.results;
         },
     })
 	.withMiddlewares([checkCredentials(options)])

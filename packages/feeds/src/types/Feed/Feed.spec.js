@@ -63,9 +63,9 @@ describe('Feed', () => {
 		
 		const fields = {
 			id: 'StreamID!',
-			followers: '[StreamID!]',
+			followers: '[StreamFeedFollowPayload]',
 			followersCount: 'Int!',
-			following: '[StreamID!]',
+			following: '[StreamFeedFollowPayload]',
 			followingCount: 'Int!',
 			activities: `[Stream${capitalize(options.feed.feedGroup)}Activity]`
 		}
