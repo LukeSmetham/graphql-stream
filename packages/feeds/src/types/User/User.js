@@ -3,6 +3,10 @@ import { composer } from 'schema';
 import * as resolvers from './resolvers';
 
 export const createUserTC = options => {
+	if (!options) {
+		throw new Error('No options were provided to createUserTC');
+	}
+
     const schemaComposer = options.schemaComposer || composer;
 
     const UserTC = schemaComposer.createObjectTC({

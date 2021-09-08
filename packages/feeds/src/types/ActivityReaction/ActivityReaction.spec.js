@@ -56,6 +56,6 @@ describe('ActivityReaction', () => {
 	});
 	
 	test('Should throw an error if no options argument was provided', () => {
-		expect(() => createActivityReactionTC()).toThrow(/No options were provided to createFeedTC/);
+		expect(() => createActivityReactionTC()).toThrow(/No options were provided to createActivityReactionTC/);
 	});
 });
