@@ -32,6 +32,10 @@ export const getFollowing = (tc, options) =>
 				params,
 			});
 
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
+
 			return body.results.map(({ target_id }) => target_id);
         },
     })

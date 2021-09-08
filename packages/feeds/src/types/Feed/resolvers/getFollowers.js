@@ -27,6 +27,10 @@ export const getFollowers = (tc, options) =>
 				params,
 			});
 
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
+
 			return body.results.map(({ feed_id }) => feed_id);
         },
     })

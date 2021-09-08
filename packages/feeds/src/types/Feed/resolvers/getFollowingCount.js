@@ -21,6 +21,10 @@ export const getFollowingCount = (tc, options) =>
 				},
 			});
 
+			if (body.status_code !== undefined) {
+				throw new Error(body.detail);
+			}
+
 			return body.results.following.count;
         },
     })
