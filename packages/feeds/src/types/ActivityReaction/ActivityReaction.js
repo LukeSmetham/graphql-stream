@@ -3,6 +3,10 @@ import { composer } from 'schema';
 import * as resolvers from './resolvers';
 
 export const createActivityReactionTC = options => {
+	if (!options) {
+		throw new Error('No options were provided to createActivityReactionTC');
+	}
+
     const schemaComposer = options.schemaComposer || composer;
 
     const ActivityReactionTC = schemaComposer.createObjectTC({
@@ -55,7 +59,7 @@ export const createActivityReactionTC = options => {
 	// Add Relational Fields
     ActivityReactionTC.addRelation('childReactions', {
         prepareArgs: {
-            parent: source => source.id,
+            parent: /* istanbul ignore next */ source => source.id, 
         },
         projection: { id: true },
         resolver: () => ActivityReactionTC.getResolver('getReactions').clone({ name: 'getChildReactions' }).makeArgNullable('activity'),
