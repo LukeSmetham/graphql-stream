@@ -1,11 +1,9 @@
 import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
 import { StreamID } from 'scalars/StreamID';
-import { createActivityInterfaces } from 'interfaces/Activity';
-import { ensureScalars } from 'utils/ensureScalars';
 
-import { createFeedTC } from '../Feed';
 import { getFollowingCount } from './getFollowingCount';
 
 const credentials = {
@@ -24,30 +22,21 @@ const resolveParams = {
 };
 
 describe('getFollowingCount Resolver', () => {
-	let FeedTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		
-		ensureScalars(schemaComposer)
-		createActivityInterfaces(schemaComposer);
 
-		FeedTC = createFeedTC({
-			schemaComposer,
-			feed: {
-				feedGroup: 'user',
-				type: 'flat',
-			}
-		});
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = getFollowingCount(FeedTC, { credentials });
+		const resolver = getFollowingCount(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 	
 	test('makes a GET request to the /stats/follow endpoint with the colon-separated feed id as the `following` parameter', () => {
-		const resolver = getFollowingCount(FeedTC, { credentials });
+		const resolver = getFollowingCount(MockTC, { credentials });
 
 		phin.mockImplementationOnce((options) => Promise.resolve({ 
 			body: {
@@ -66,7 +55,7 @@ describe('getFollowingCount Resolver', () => {
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = getFollowingCount(FeedTC, { credentials });
+		const resolver = getFollowingCount(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
