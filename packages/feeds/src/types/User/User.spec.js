@@ -22,6 +22,7 @@ describe('User', () => {
 			data: 'JSON',
 			created_at: 'DateTime!',
 			updated_at: 'DateTime!',
+			token: 'JWT',
 		};
 
 		const fieldNames = Object.keys(fields);
