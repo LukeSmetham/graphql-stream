@@ -2,8 +2,6 @@ import { deepmerge } from 'graphql-compose';
 import capitalize from 'capitalize';
 import { composer } from 'schema';
 
-import { createGetFeedFollowers, createGetFeedFollowing, createGetFeedFollowersCount, createGetFeedFollowingCount } from './fields';
-
 /**
  * Checks the provided feed type is valid, can be either flat, aggregated or notification
  * @param {String} type
@@ -23,7 +21,6 @@ export const createFeedTC = (options) => {
 	}
 
     const schemaComposer = options.schemaComposer || composer;
-    const credentials = options.credentials;
 
 	const opts = deepmerge(options, {
 		feed: {
@@ -42,10 +39,6 @@ export const createFeedTC = (options) => {
         name: typeName,
         fields: {
             id: 'StreamID!',
-            followers: createGetFeedFollowers(schemaComposer, credentials),
-            following: createGetFeedFollowing(schemaComposer, credentials),
-            followerCount: createGetFeedFollowersCount(schemaComposer, credentials),
-            followingCount: createGetFeedFollowingCount(schemaComposer, credentials),
         },
     });
 

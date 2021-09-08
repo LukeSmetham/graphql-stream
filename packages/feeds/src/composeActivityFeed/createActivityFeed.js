@@ -22,10 +22,11 @@ export const createActivityFeed = options => {
 	const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
     
 	// Subscription
-	// Subscriptions aren't really support in graphql-compose, because of this the only way to add them is via a plain object resolver rather than via schemaComposer.createResolver.
+	// Subscriptions aren't really supported in graphql-compose, because of this the only way to add them is via a plain object resolver rather than via schemaComposer.createResolver.
 	// So we return the plain object from the below method and add it to the TC so end-users can manually add to their schema in a similar way to other resolvers.
 	FeedTC.subscription = createFeedSubscription(options, ActivityTC);
 
+	// Add resolvers to the FeedTC
     Object.keys(feedResolvers).forEach(k => {
         FeedTC.addResolver(feedResolvers[k](FeedTC, options));
     });

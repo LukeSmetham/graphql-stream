@@ -53,10 +53,6 @@ describe('Feed', () => {
 		
 		const fields = {
 			id: 'StreamID!',
-			followers: '[StreamID!]',
-			following: '[StreamID!]',
-			followerCount: 'Int!',
-			followingCount: 'Int!',
 		}
 
 		const fieldNames = Object.keys(fields);
