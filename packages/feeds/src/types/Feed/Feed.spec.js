@@ -74,17 +74,6 @@ describe('Feed', () => {
 		expect(() => schemaComposer.getOTC('StreamUserFeed')).toThrow(/Cannot find ObjectTypeComposer/)
 		expect(composer.getOTC('StreamUserFeed')).toBeDefined()
 	});
-
-	test('Should throw an error if the feed `type` is invalid', () => {
-		const options = {
-			schemaComposer,
-			feed: {
-				feedGroup: 'user',
-				type: 'invalid_feed_type',
-			}
-		}
-		expect(() => createFeedTC(options)).toThrow(/Unrecognized Feed Type • Choose either `flat` `aggregated` or `notification`/);
-	});
 	
 	test('Should throw an error if no options argument was provided', () => {
 		expect(() => createFeedTC()).toThrow(/No options were provided to createFeedTC/);
