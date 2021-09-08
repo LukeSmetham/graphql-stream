@@ -23,7 +23,7 @@ export const createUserTC = options => {
 	// Add Relational Fields
 	UserTC.addRelation('token', {
 		prepareArgs: {
-			id: (source) => source.id,
+			id: /* istanbul ignore next */ source => source.id,
 		},
 		projection: { id: true },
 		resolver: () => UserTC.getResolver('getToken'),

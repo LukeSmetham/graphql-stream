@@ -50,7 +50,7 @@ export const createFeedTC = (options) => {
 	// Add Relational Fields
 	FeedTC.addRelation('followers', {
         prepareArgs: {
-            feed: source => source.id,
+            feed: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => FeedTC.getResolver('getFollowers'),
@@ -59,7 +59,7 @@ export const createFeedTC = (options) => {
     
 	FeedTC.addRelation('followersCount', {
         prepareArgs: {
-            feed: source => source.id,
+            feed: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => FeedTC.getResolver('getFollowersCount'),
@@ -68,7 +68,7 @@ export const createFeedTC = (options) => {
     
 	FeedTC.addRelation('following', {
         prepareArgs: {
-            feed: source => source.id,
+            feed: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => FeedTC.getResolver('getFollowing'),
@@ -77,7 +77,7 @@ export const createFeedTC = (options) => {
     
 	FeedTC.addRelation('followingCount', {
         prepareArgs: {
-            feed: source => source.id,
+            feed: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => FeedTC.getResolver('getFollowingCount'),
@@ -86,7 +86,7 @@ export const createFeedTC = (options) => {
 
     FeedTC.addRelation('activities', {
         prepareArgs: {
-            feed: source => source.id,
+            feed: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => FeedTC.getResolver('getActivities').setType(GroupedActivityTC?.getTypePlural() ?? ActivityTC.getTypePlural()),
@@ -95,7 +95,7 @@ export const createFeedTC = (options) => {
 
     ActivityTC.addRelation('reactions', {
         prepareArgs: {
-            activity: source => source.id,
+            activity: /* istanbul ignore next */ source => source.id,
         },
         projection: { id: true },
         resolver: () => schemaComposer.getOTC('StreamActivityReaction').getResolver('getReactions'),
