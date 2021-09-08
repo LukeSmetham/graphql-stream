@@ -1,19 +1,7 @@
 import { deepmerge } from 'graphql-compose';
 import capitalize from 'capitalize';
 import { composer } from 'schema';
-
-/**
- * Checks the provided feed type is valid, can be either flat, aggregated or notification
- * @param {String} type
- * @returns the name of the feed type
- */
-const validateFeedType = type => {
-    if (type !== 'flat' && type !== 'aggregated' && type !== 'notification') {
-        throw new Error('Unrecognized Feed Type • Choose either `flat` `aggregated` or `notification`');
-    }
-
-    return type;
-};
+import { validateFeedType } from 'utils/validateFeedType';
 
 export const createFeedTC = (options) => {
 	if (!options) {
