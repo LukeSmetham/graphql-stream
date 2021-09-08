@@ -1,9 +1,7 @@
 import phin from 'phin';
 import { Resolver, schemaComposer, pluralize } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createCollectionInterfaces } from 'interfaces/Collection';
-
-import { createCollectionTC } from '../Collection';
 import { addEntity } from './addEntity';
 
 const credentials = {
@@ -36,21 +34,21 @@ const resolveParams = {
 };
 
 describe('addEntity Resolver', () => {
-	let CollectionTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		createCollectionInterfaces(schemaComposer);
-		CollectionTC = createCollectionTC(options);
+
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = addEntity(CollectionTC, options);
+		const resolver = addEntity(MockTC, options);
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	});
 	
 	test('makes a POST request to the /collection/:collection endpoint', () => {
-		const resolver = addEntity(CollectionTC, options);
+		const resolver = addEntity(MockTC, options);
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('POST');
@@ -60,14 +58,14 @@ describe('addEntity Resolver', () => {
 	});
 
 	test('data argument should be the correct InputType', () => {
-		const resolver = addEntity(CollectionTC, options);
-		const inputType = CollectionTC.getInputType();
+		const resolver = addEntity(MockTC, options);
+		const inputType = MockTC.getInputType();
 	
 		expect(resolver.getArgType('data')).toBe(inputType);
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = addEntity(CollectionTC, options);
+		const resolver = addEntity(MockTC, options);
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {

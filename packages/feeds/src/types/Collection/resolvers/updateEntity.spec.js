@@ -1,9 +1,7 @@
 import phin from 'phin';
 import { Resolver, schemaComposer, pluralize } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createCollectionInterfaces } from 'interfaces/Collection';
-
-import { createCollectionTC } from '../Collection';
 import { updateEntity } from './updateEntity';
 
 const credentials = {
@@ -36,21 +34,21 @@ const resolveParams = {
 };
 
 describe('updateEntity Resolver', () => {
-	let CollectionTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		createCollectionInterfaces(schemaComposer);
-		CollectionTC = createCollectionTC(options);
+
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = updateEntity(CollectionTC, options);
+		const resolver = updateEntity(MockTC, options);
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	});
 	
 	test('makes a PUT request to the /collection/:collection/:id endpoint', () => {
-		const resolver = updateEntity(CollectionTC, options);
+		const resolver = updateEntity(MockTC, options);
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('PUT');
@@ -59,14 +57,14 @@ describe('updateEntity Resolver', () => {
 	});
 
 	test('data argument should be the correct InputType', () => {
-		const resolver = updateEntity(CollectionTC, options);
-		const inputType = CollectionTC.getInputType();
+		const resolver = updateEntity(MockTC, options);
+		const inputType = MockTC.getInputType();
 	
 		expect(resolver.getArgType('data')).toBe(inputType);
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = updateEntity(CollectionTC, options);
+		const resolver = updateEntity(MockTC, options);
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {

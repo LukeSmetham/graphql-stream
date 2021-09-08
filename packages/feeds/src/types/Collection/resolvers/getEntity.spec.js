@@ -1,9 +1,7 @@
 import phin from 'phin';
-import { Resolver, schemaComposer, pluralize } from 'graphql-compose';
+import { Resolver, schemaComposer, pluralize, sc } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createCollectionInterfaces } from 'interfaces/Collection';
-
-import { createCollectionTC } from '../Collection';
 import { getEntity } from './getEntity';
 
 const credentials = {
@@ -33,21 +31,21 @@ const resolveParams = {
 };
 
 describe('getEntity Resolver', () => {
-	let CollectionTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		createCollectionInterfaces(schemaComposer);
-		CollectionTC = createCollectionTC(options);
+
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = getEntity(CollectionTC, options);
+		const resolver = getEntity(MockTC, options);
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	});
 	
 	test('makes a GET request to the /collection/:collection/:id endpoint', () => {
-		const resolver = getEntity(CollectionTC, options);
+		const resolver = getEntity(MockTC, options);
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('GET');
@@ -56,7 +54,7 @@ describe('getEntity Resolver', () => {
 	});
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = getEntity(CollectionTC, options);
+		const resolver = getEntity(MockTC, options);
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
