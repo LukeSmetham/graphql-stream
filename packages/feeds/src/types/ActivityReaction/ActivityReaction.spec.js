@@ -1,10 +1,12 @@
 import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createActivityReactionTC } from './ActivityReaction';
 
 describe('ActivityReaction', () => {
 	beforeAll(() => {
 		schemaComposer.clear();
+		ensureScalars(schemaComposer);
 	});
 
 	test('Should return an ObjectTypeComposer', () => {
@@ -27,6 +29,7 @@ describe('ActivityReaction', () => {
 			data: 'JSON',
 			target_feeds: '[StreamID!]',
 			target_feeds_extra_data: 'JSON',
+			childReactions: '[StreamActivityReaction!]'
 		};
 
 		const fieldNames = Object.keys(fields);
