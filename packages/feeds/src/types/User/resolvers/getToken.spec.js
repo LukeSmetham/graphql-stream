@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createUserTC } from '../User';
 import { getToken } from './getToken';
 
 const credentials = {
@@ -20,14 +20,14 @@ const resolverParams = {
 };
 
 describe('getToken Resolver', () => {
-	let UserTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		UserTC = createUserTC(schemaComposer);
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = getToken(UserTC, { credentials });
+		const resolver = getToken(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
@@ -37,7 +37,7 @@ describe('getToken Resolver', () => {
 			user_id: resolverParams.args.id
 		}, credentials.api_secret);
 
-		const resolver = getToken(UserTC, { credentials });
+		const resolver = getToken(MockTC, { credentials });
 
 		expect(resolver.resolve(resolverParams)).toEqual(expectedToken);
 	});

@@ -1,7 +1,7 @@
 import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createUserTC } from '../User';
 import { addUser } from './addUser';
 
 const credentials = {
@@ -24,20 +24,20 @@ const resolveParams = {
 };
 
 describe('addUser Resolver', () => {
-	let UserTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		UserTC = createUserTC(schemaComposer);
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = addUser(UserTC, { credentials });
+		const resolver = addUser(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 	
 	test('makes a POST request to the /user endpoint', () => {
-		const resolver = addUser(UserTC, { credentials });
+		const resolver = addUser(MockTC, { credentials });
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('POST');
@@ -47,7 +47,7 @@ describe('addUser Resolver', () => {
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = addUser(UserTC, { credentials });
+		const resolver = addUser(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
