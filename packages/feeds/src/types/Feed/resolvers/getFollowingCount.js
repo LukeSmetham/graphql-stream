@@ -15,7 +15,7 @@ export const getFollowingCount = (tc, options) =>
         resolve: async ({ args }) => {
             const { body } = await request({
 				url: `stats/follow`,
-				credentials,
+				credentials: options.credentials,
 				params: {
 					following: args.feed.toString(),
 				},

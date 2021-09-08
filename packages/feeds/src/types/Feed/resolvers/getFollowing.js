@@ -28,7 +28,7 @@ export const getFollowing = (tc, options) =>
         resolve: async ({ args: { feed, ...params } }) => {
             const { body } = await request({
 				url: `feed/${feed.uri}/following`,
-				credentials,
+				credentials: options.credentials,
 				params,
 			});
 
