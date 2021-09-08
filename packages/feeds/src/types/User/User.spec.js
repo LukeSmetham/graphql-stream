@@ -1,10 +1,12 @@
 import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createUserTC } from './User';
 
 describe('User', () => {
 	beforeAll(() => {
 		schemaComposer.clear();
+		ensureScalars(schemaComposer);
 	});
 
 	test('Should return an ObjectTypeComposer', () => {
