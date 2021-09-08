@@ -1,11 +1,9 @@
 import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
 import { StreamID } from 'scalars/StreamID';
-import { createActivityInterfaces } from 'interfaces/Activity';
-import { ensureScalars } from 'utils/ensureScalars';
 
-import { createActivityTC } from '../Activity';
 import { addActivities } from './addActivities';
 
 const credentials = {
@@ -34,30 +32,21 @@ const resolveParams = {
 };
 
 describe('addActivities Resolver', () => {
-	let ActivityTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		
-		ensureScalars(schemaComposer)
-		createActivityInterfaces(schemaComposer);
 
-		ActivityTC = createActivityTC({
-			schemaComposer,
-			feed: {
-				feedGroup: 'user',
-				type: 'flat',
-			}
-		});
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = addActivities(ActivityTC, { credentials });
+		const resolver = addActivities(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 	
 	test('makes a POST request to the /feed/:feed/:id endpoint', () => {
-		const resolver = addActivities(ActivityTC, { credentials });
+		const resolver = addActivities(MockTC, { credentials });
 
 		phin.mockImplementationOnce((options) => Promise.resolve({ 
 			body: {
@@ -73,7 +62,7 @@ describe('addActivities Resolver', () => {
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = addActivities(ActivityTC, { credentials });
+		const resolver = addActivities(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {

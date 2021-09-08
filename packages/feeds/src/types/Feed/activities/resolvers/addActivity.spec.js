@@ -1,11 +1,9 @@
 import phin from 'phin';
 import { Resolver, deepmerge, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
 import { StreamID } from 'scalars/StreamID';
-import { createActivityInterfaces } from 'interfaces/Activity';
-import { ensureScalars } from 'utils/ensureScalars';
 
-import { createActivityTC } from '../Activity';
 import { addActivity } from './addActivity';
 
 const credentials = {
@@ -29,30 +27,21 @@ const resolveParams = {
 };
 
 describe('addActivity Resolver', () => {
-	let ActivityTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
 
-		ensureScalars(schemaComposer)
-		createActivityInterfaces(schemaComposer);
-		
-		ActivityTC = createActivityTC({
-			schemaComposer,
-			feed: {
-				feedGroup: 'user',
-				type: 'flat',
-			}
-		});
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = addActivity(ActivityTC, { credentials });
+		const resolver = addActivity(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	})
 	
 	test('makes a POST request to the /feed/:feed/:id endpoint', () => {
-		const resolver = addActivity(ActivityTC, { credentials });
+		const resolver = addActivity(MockTC, { credentials });
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('POST');
@@ -62,7 +51,7 @@ describe('addActivity Resolver', () => {
 	})
 	
 	test('Should convert the `to` fields array of StreamID values into colon-separated IDs', () => {
-		const resolver = addActivity(ActivityTC, { credentials });
+		const resolver = addActivity(MockTC, { credentials });
 
 		const resolveParams2 = deepmerge(resolveParams, {
 			args: {
@@ -78,7 +67,7 @@ describe('addActivity Resolver', () => {
 	})
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = addActivity(ActivityTC, { credentials });
+		const resolver = addActivity(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
