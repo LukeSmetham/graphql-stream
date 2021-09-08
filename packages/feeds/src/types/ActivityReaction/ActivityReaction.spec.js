@@ -9,16 +9,20 @@ describe('ActivityReaction', () => {
 		ensureScalars(schemaComposer);
 	});
 
+	const options = {
+		schemaComposer,
+	};
+
 	test('Should return an ObjectTypeComposer', () => {
-		expect(createActivityReactionTC(schemaComposer)).toBeInstanceOf(ObjectTypeComposer);
+		expect(createActivityReactionTC(options)).toBeInstanceOf(ObjectTypeComposer);
 	});
 
 	test('Returned type should have the correct name', () => {
-		expect(createActivityReactionTC(schemaComposer).getTypeName()).toBe('StreamActivityReaction');
+		expect(createActivityReactionTC(options).getTypeName()).toBe('StreamActivityReaction');
 	});
 
 	test('StreamActivityReaction should contain the correct fields', () => {
-		const ActivityReactionTC = createActivityReactionTC(schemaComposer);
+		const ActivityReactionTC = createActivityReactionTC(options);
 		const fields = {
 			id: 'ID!',
 			kind: 'String!',
@@ -29,7 +33,7 @@ describe('ActivityReaction', () => {
 			data: 'JSON',
 			target_feeds: '[StreamID!]',
 			target_feeds_extra_data: 'JSON',
-			childReactions: '[StreamActivityReaction!]'
+			childReactions: '[StreamActivityReaction]'
 		};
 
 		const fieldNames = Object.keys(fields);

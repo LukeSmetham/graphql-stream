@@ -9,16 +9,20 @@ describe('User', () => {
 		ensureScalars(schemaComposer);
 	});
 
+	const options = {
+		schemaComposer,
+	};
+
 	test('Should return an ObjectTypeComposer', () => {
-		expect(createUserTC(schemaComposer)).toBeInstanceOf(ObjectTypeComposer);
+		expect(createUserTC(options)).toBeInstanceOf(ObjectTypeComposer);
 	});
 
 	test('Returned type should have the correct name', () => {
-		expect(createUserTC(schemaComposer).getTypeName()).toBe('StreamUser');
+		expect(createUserTC(options).getTypeName()).toBe('StreamUser');
 	});
 
 	test('StreamUser should contain the correct fields', () => {
-		const UserTC = createUserTC(schemaComposer);
+		const UserTC = createUserTC(options);
 		const fields = {
 			id: 'ID!',
 			data: 'JSON',
