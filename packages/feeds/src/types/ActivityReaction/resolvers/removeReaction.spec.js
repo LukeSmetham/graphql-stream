@@ -1,7 +1,7 @@
 import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createActivityReactionTC } from '../ActivityReaction';
 import { removeReaction } from './removeReaction';
 
 const credentials = {
@@ -20,20 +20,20 @@ const resolveParams = {
 };
 
 describe('removeReaction Resolver', () => {
-	let ActivityReactionTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		ActivityReactionTC = createActivityReactionTC(schemaComposer);
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = removeReaction(ActivityReactionTC, { credentials });
+		const resolver = removeReaction(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	});
 
 	test('makes a DELETE request to the /reaction endpoint', () => {
-		const resolver = removeReaction(ActivityReactionTC, { credentials });
+		const resolver = removeReaction(MockTC, { credentials });
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('DELETE');
@@ -43,7 +43,7 @@ describe('removeReaction Resolver', () => {
 	});
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = removeReaction(ActivityReactionTC, { credentials });
+		const resolver = removeReaction(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {

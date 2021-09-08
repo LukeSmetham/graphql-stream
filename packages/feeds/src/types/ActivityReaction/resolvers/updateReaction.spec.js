@@ -1,7 +1,7 @@
 import phin from 'phin';
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { getMockTC } from '__mocks__/MockTC';
 
-import { createActivityReactionTC } from '../ActivityReaction';
 import { updateReaction } from './updateReaction';
 
 const credentials = {
@@ -23,20 +23,20 @@ const resolveParams = {
 }
 
 describe('updateReaction Resolver', () => {
-	let ActivityReactionTC;
+	let MockTC;
 	beforeAll(() => {
 		schemaComposer.clear();
-		ActivityReactionTC = createActivityReactionTC(schemaComposer);
+		MockTC = getMockTC(schemaComposer);
 	});
 
 	test('returns a graphql-compose resolver instance', () => {
-		const resolver = updateReaction(ActivityReactionTC, { credentials });
+		const resolver = updateReaction(MockTC, { credentials });
 
 		expect(resolver).toBeInstanceOf(Resolver)
 	});
 
 	test('makes a PUT request to the /reaction/:id endpoint', () => {
-		const resolver = updateReaction(ActivityReactionTC, { credentials });
+		const resolver = updateReaction(MockTC, { credentials });
 
 		resolver.resolve(resolveParams).then((response) => {
 			expect(response.method).toEqual('PUT');
@@ -46,7 +46,7 @@ describe('updateReaction Resolver', () => {
 	});
 
 	test('throws an error if the body contains a status_code property', () => {
-		const resolver = updateReaction(ActivityReactionTC, { credentials });
+		const resolver = updateReaction(MockTC, { credentials });
 
 		phin.mockImplementationOnce(() => Promise.resolve({ 
 			body: {
