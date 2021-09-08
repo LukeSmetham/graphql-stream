@@ -36,6 +36,42 @@ export const createActivityFeed = options => {
     });
 
     // Relate types together where applicable
+    FeedTC.addRelation('followers', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.getResolver('getFollowers'),
+        description: 'Get the list of followers for this feed',
+    });
+    
+	FeedTC.addRelation('followersCount', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.getResolver('getFollowersCount'),
+        description: 'Get the count of followers for this feed',
+    });
+    
+	FeedTC.addRelation('following', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.getResolver('getFollowing'),
+        description: 'Get the list of feeds that this feed follows',
+    });
+    
+	FeedTC.addRelation('followingCount', {
+        prepareArgs: {
+            feed: source => source.id,
+        },
+        projection: { id: true },
+        resolver: () => FeedTC.getResolver('getFollowingCount'),
+        description: 'Get the count of feeds that this feed follows',
+    });
+
     FeedTC.addRelation('activities', {
         prepareArgs: {
             feed: source => source.id,
