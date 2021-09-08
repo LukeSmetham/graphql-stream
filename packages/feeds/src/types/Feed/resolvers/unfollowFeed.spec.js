@@ -2,6 +2,8 @@ import phin from 'phin';
 import { Resolver, deepmerge, schemaComposer } from 'graphql-compose';
 
 import { StreamID } from 'scalars/StreamID';
+import { createActivityInterfaces } from 'interfaces/Activity';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createFeedTC } from '../Feed';
 import { unfollowFeed } from './unfollowFeed';
@@ -34,6 +36,10 @@ describe('unfollowFeed resolver', () => {
 	let FeedTC;
 	beforeAll(() => {
 		schemaComposer.clear();
+		
+		ensureScalars(schemaComposer);
+		createActivityInterfaces(schemaComposer);
+		
 		FeedTC = createFeedTC(options);
 	});
 

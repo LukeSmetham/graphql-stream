@@ -1,4 +1,6 @@
 import { Resolver, schemaComposer } from 'graphql-compose';
+import { createActivityInterfaces } from 'interfaces/Activity';
+import { ensureScalars } from 'utils/ensureScalars';
 
 import { createFeedTC } from '../Feed';
 import { getFeed } from './getFeed';
@@ -30,6 +32,10 @@ describe('getFeed resolver', () => {
 	let FeedTC;
 	beforeAll(() => {
 		schemaComposer.clear();
+		
+		ensureScalars(schemaComposer);
+		createActivityInterfaces(schemaComposer);
+
 		FeedTC = createFeedTC(options);
 	});
 
