@@ -3,6 +3,7 @@ import capitalize from 'capitalize';
 import { composer } from 'schema';
 
 import { collectionEntityInterfaceFields } from 'interfaces/Collection';
+import * as resolvers from './resolvers';
 
 export const createCollectionTC = (options) => {
 	if (!options) {
@@ -36,6 +37,11 @@ export const createCollectionTC = (options) => {
     });
 
     CollectionTC.setInputTypeComposer(EntityTC.getInputTypeComposer());
+
+	// Add the resolvers to the TypeComposer
+	Object.keys(resolvers).forEach(k => {
+        CollectionTC.addResolver(resolvers[k](CollectionTC, options));
+    });
 
     return CollectionTC;
 };

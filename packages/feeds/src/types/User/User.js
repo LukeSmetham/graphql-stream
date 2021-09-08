@@ -1,18 +1,33 @@
 import { composer } from 'schema';
 
-import { getToken } from './resolvers';
+import * as resolvers from './resolvers';
 
-export const createUserTC = opts => {
-    const schemaComposer = opts.schemaComposer || composer;
+export const createUserTC = options => {
+    const schemaComposer = options.schemaComposer || composer;
 
-    const UserTC = schemaComposer.getOrCreateOTC(`StreamUser`, tc => {
-        tc.addFields({
-            id: 'ID!',
-            data: 'JSON',
-            created_at: 'DateTime!',
-            updated_at: 'DateTime!',
-        });
+    const UserTC = schemaComposer.createObjectTC({
+		name: 'StreamUser',
+		fields: {
+			id: 'ID!',
+			data: 'JSON',
+			created_at: 'DateTime!',
+			updated_at: 'DateTime!',
+		}
+	});
+
+	// Add resolvers to the TypeComposer
+	Object.keys(resolvers).forEach(k => {
+        UserTC.addResolver(resolvers[k](UserTC, options));
     });
+
+	// Add Relational Fields
+	UserTC.addRelation('token', {
+		prepareArgs: {
+			id: (source) => source.id,
+		},
+		projection: { id: true },
+		resolver: () => UserTC.getResolver('getToken'),
+	})
 
     return UserTC;
 };

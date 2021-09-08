@@ -6,9 +6,9 @@ import { createActivityInterfaces } from 'interfaces/Activity';
 import { createCollectionInterfaces } from 'interfaces/Collection';
 
 import { createActivityFeed } from './createActivityFeed';
-import { createActivityReaction } from './createActivityReaction';
-import { createCollection } from './createCollection';
-import { createUser } from './createUser';
+import { createActivityReactionTC } from 'types/ActivityReaction';
+import { createCollectionTC } from 'types/Collection';
+import { createUserTC } from 'types/User';
 
 export const composeActivityFeed = (opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
@@ -46,18 +46,18 @@ export const composeActivityFeed = (opts = {}) => {
 
     // Reactions
     // Create ActivityReaction types and resolvers
-    const StreamActivityReactionTC = createActivityReaction(options);
+    const StreamActivityReactionTC = createActivityReactionTC(options);
 
     // Users
     // Create StreamUser types and resolvers
-    const StreamUserTC = createUser(options);
+    const StreamUserTC = createUserTC(options);
 
     // Collections
     // Create the various Collection types & resolvers for each collection config object.
     let collections = {};
 
     for (let i = 0; i < options.collection.length; i++) {
-        const CollectionTC = createCollection({
+        const CollectionTC = createCollectionTC({
             ...options,
             collection: options.collection[i],
         });
