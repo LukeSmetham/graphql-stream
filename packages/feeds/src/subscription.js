@@ -5,8 +5,6 @@ import jwt from 'jsonwebtoken';
 export class FeedSubscription extends PubSubEngine {
     fayeClient;
 
-    currentSubscriptionId = 0;
-
     subscriptions = {};
 
     subRefMap = {};
@@ -26,12 +24,12 @@ export class FeedSubscription extends PubSubEngine {
         this.fayeClient = this._getFayeClient();
     }
 
-    _getFayeAuthorization() {
+    /* istanbul ignore next */ _getFayeAuthorization() {
         return {
-            incoming: (message, callback) => {
+            incoming: /* istanbul ignore next */ (message, callback) => {
 				return callback(message)
 			},
-            outgoing: (message, callback) => {
+            outgoing: /* istanbul ignore next */ (message, callback) => {
                 if (message.subscription && this.subscriptions[message.subscription]) {
                     const subscription = this.subscriptions[message.subscription];
 
@@ -49,7 +47,7 @@ export class FeedSubscription extends PubSubEngine {
         };
     }
 
-    _getFayeClient(timeout = 10) {
+    /* istanbul ignore next */ _getFayeClient(timeout = 10) {
         if (!this.fayeClient) {
             this.fayeClient = new Faye.Client('https://faye-us-east.stream-io-api.com/faye', { timeout });
 
@@ -61,7 +59,7 @@ export class FeedSubscription extends PubSubEngine {
         return this.fayeClient;
     }
 
-    publish = () => Promise.resolve();
+   /* istanbul ignore next */  publish = () => Promise.resolve();
 
     subscribe(feed, onMessage) {
         const id = `site-${this.credentials.app_id}-feed-${feed}`;
