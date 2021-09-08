@@ -1,3 +1,0 @@
-type Query {
-    channel(id: StreamID!): Channel
-}

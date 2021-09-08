@@ -1,7 +1,0 @@
-type Query {
-    message(id: String!): Message
-}
-
-type Mutation {
-    sendMessage(channel: StreamID!, message: MessageInput!): Message
-}

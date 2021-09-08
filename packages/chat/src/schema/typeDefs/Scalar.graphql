@@ -1,6 +1,0 @@
-scalar Date
-scalar StreamID # TODO add directive here to choose return format of the Selector. (Array or colon-separated String.)
-scalar UUID
-scalar JSON
-scalar JSONObject
-scalar URL
