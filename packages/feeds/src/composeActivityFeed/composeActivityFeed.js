@@ -5,7 +5,7 @@ import { ensureScalars } from 'utils/ensureScalars';
 import { createActivityInterfaces } from 'interfaces/Activity';
 import { createCollectionInterfaces } from 'interfaces/Collection';
 
-import { createActivityFeed } from './createActivityFeed';
+import { createFeedTC } from 'types/Feed';
 import { createActivityReactionTC } from 'types/ActivityReaction';
 import { createCollectionTC } from 'types/Collection';
 import { createUserTC } from 'types/User';
@@ -33,14 +33,14 @@ export const composeActivityFeed = (opts = {}) => {
     let feeds = {};
 
     for (let i = 0; i < options.feed.length; i++) {
-        const feedTypes = createActivityFeed({
+        const FeedTC = createFeedTC({
             ...options,
             feed: options.feed[i],
         });
 
         feeds = {
             ...feeds,
-            ...feedTypes,
+            [`${FeedTC.getTypeName()}TC`]: FeedTC
         };
     }
 

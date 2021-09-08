@@ -1,7 +1,7 @@
 import { schemaComposer, ObjectTypeComposer } from 'graphql-compose';
 import capitalize from 'capitalize';
 
-import { createActivityTC, createGroupedActivityTC } from '../Activity';
+import { createActivityTC, createGroupedActivityTC } from './Activity';
 import { createActivityInterfaces, activityInterfaceFields, groupedActivityInterfaceFields } from 'interfaces/Activity';
 
 const baseOptions = {

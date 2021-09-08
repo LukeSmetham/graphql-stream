@@ -1,7 +1,7 @@
 import { composer } from 'schema';
 import { FeedSubscription } from 'subscription';
 
-export const createFeedSubscription = (opts = {}, ActivityTC) => {
+export const createFeedSubscription = (ActivityTC, opts = {}) => {
     const schemaComposer = opts.schemaComposer || composer;
     const credentials = opts.credentials;
 
