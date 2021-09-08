@@ -27,8 +27,10 @@ describe('getActivities Resolver', () => {
 	let ActivityTC;
 	beforeAll(() => {
 		schemaComposer.clear();
+		
 		ensureScalars(schemaComposer)
 		createActivityInterfaces(schemaComposer);
+		
 		ActivityTC = createActivityTC({
 			schemaComposer,
 			feed: {
