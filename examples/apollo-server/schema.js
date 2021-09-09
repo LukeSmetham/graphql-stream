@@ -42,7 +42,7 @@ const config = {
     credentials,
 };
 
-const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed(config);
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC } = composeActivityFeed(config);
 
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
@@ -62,7 +62,6 @@ StreamUserTC.setField('data', {
 // Add everything to your schema
 schemaComposer.Query.addFields({
     getPost: StreamPostEntityTC.getResolver('getEntity'),
-    getVideo: StreamVideoEntityTC.getResolver('getEntity'),
     getUser: StreamUserTC.getResolver('getUser'),
     getOrCreateUser: StreamUserTC.getResolver('getOrCreateUser'),
     userFeed: StreamUserFeedTC.getResolver('getFeed'),
@@ -73,9 +72,6 @@ schemaComposer.Mutation.addFields({
     addPost: StreamPostEntityTC.getResolver('addEntity'),
     updatePost: StreamPostEntityTC.getResolver('updateEntity'),
     removePost: StreamPostEntityTC.getResolver('removeEntity'),
-    addVideo: StreamVideoEntityTC.getResolver('addEntity'),
-    updateVideo: StreamVideoEntityTC.getResolver('updateEntity'),
-    removeVideo: StreamVideoEntityTC.getResolver('removeEntity'),
     addUser: StreamUserTC.getResolver('addUser').setArg('data', { type: CustomUserDataTC.getInputType() }), // getInputType will automatically create the input type for you (you can create a custom one too and set the type property to that instead)
     updateUser: StreamUserTC.getResolver('updateUser').setArg('data', { type: CustomUserDataTC.getInputType() }),
     removeUser: StreamUserTC.getResolver('removeUser'),
