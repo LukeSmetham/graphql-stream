@@ -5,7 +5,7 @@ module.exports = {
     node: true,
   },
   extends: ["plugin:prettier/recommended", "eslint:recommended", "get-off-my-lawn"],
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
   plugins: ["prettier"],
   rules: {
 	"accessor-pairs": 0,
