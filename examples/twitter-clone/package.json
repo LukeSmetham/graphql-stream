@@ -1,5 +1,5 @@
 {
-	"name": "@examples/full-example",
+	"name": "@examples/twitter-clone",
 	"description": "An full twitter-style example with MongoDB, User Authentication and examples for relating different sources together with the power of GraphQL.",
 	"type": "module",
 	"version": "0.1.0",
