@@ -171,3 +171,5 @@ const dataTypeName = `Stream${capitalize(collection.name)}`; // This will be the
 > As with everything in this guide, the best way to learn is to spin up one of the `example` projects in this repo and check out the GraphQL playground to visually see the types and resolvers that are generated.
 
 ## Examples
+
+-   [Apollo Server w/ Subscriptions](../examples/apollo-server)
