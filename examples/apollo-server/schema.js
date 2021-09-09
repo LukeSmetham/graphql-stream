@@ -1,7 +1,7 @@
-import { composeActivityFeed, FeedSubscription } from '@stream-io/graphql-feeds';
+import { composeActivityFeed } from '@stream-io/graphql-feeds';
 import { schemaComposer } from 'graphql-compose';
 
-const { STREAM_KEY, STREAM_SECRET, STREAM_ID, PORT = 8080 } = process.env;
+const { STREAM_KEY, STREAM_SECRET, STREAM_ID } = process.env;
 
 const credentials = {
     api_key: STREAM_KEY,
@@ -18,7 +18,6 @@ const config = {
             activityFields: {
                 // These fields are custom additions to the activity type from the Combase stream app as an example.
                 text: 'String!',
-                entity: 'String!',
             },
         },
         {
@@ -38,25 +37,12 @@ const config = {
                 coverImage: 'String!',
             },
         },
-        {
-            name: 'video',
-            fields: {
-                description: 'String!',
-                src: 'String!',
-            },
-        },
     ],
     schemaComposer,
     credentials,
 };
 
-const { 
-	StreamUserFeedTC, 
-	StreamNotificationFeedTC, 
-	StreamUserTC, 
-	StreamPostEntityTC, 
-	StreamVideoEntityTC 
-} = composeActivityFeed(config);
+const { StreamUserFeedTC, StreamNotificationFeedTC, StreamUserTC, StreamPostEntityTC, StreamVideoEntityTC } = composeActivityFeed(config);
 
 // Adding custom user data
 // By default, the user data is of type JSON to allow any arbitrary data to be stored.
