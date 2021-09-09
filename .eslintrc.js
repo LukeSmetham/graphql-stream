@@ -1,7 +1,10 @@
 module.exports = {
   env: {
-    es6: true,
+	esnext: true,
     node: true,
+  },
+  parserOptions: {
+	"ecmaVersion": 2021
   },
   extends: ["plugin:prettier/recommended", "eslint:recommended", "get-off-my-lawn"],
   parser: "@babel/eslint-parser",
