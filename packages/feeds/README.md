@@ -172,4 +172,4 @@ const dataTypeName = `Stream${capitalize(collection.name)}`; // This will be the
 
 ## Examples
 
--   [Apollo Server w/ Subscriptions](../examples/apollo-server)
+-   [Apollo Server w/ Subscriptions](../../examples/apollo-server)
