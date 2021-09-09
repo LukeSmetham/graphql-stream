@@ -9,18 +9,18 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "lerna --scope @stream-io/* exec --parallel -- yarn build",
+    "build": "NODE_ENV=production lerna --scope @stream-io/* exec --parallel -- yarn build",
     "watch": "lerna --scope @stream-io/* exec --parallel -- yarn watch",
     "build:clean": "lerna exec --parallel -- rm -rf lib",
     "dev:apollo-server": "yarn workspace @examples/apollo-server dev",
     "dev": "yarn workspace @examples/full-example dev",
-	"lint": "yarn eslint --fix",
+    "lint": "yarn eslint --fix",
     "test": "lerna --scope @stream-io/* exec --parallel -- yarn test"
   },
   "lint-staged": {
     "packages/**/*.{ts,js,json,md}": [
       "prettier --write",
-	  "yarn lint"
+      "yarn lint"
     ]
   },
   "devDependencies": {
@@ -35,7 +35,6 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-transform-optional-chaining": "^7.0.0-beta.3",
-    "dataloader": "^2.0.0",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-get-off-my-lawn": "^6.0.1",
@@ -44,19 +43,16 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "faye": "^1.4.0",
-    "getstream": "^7.2.10",
     "graphql": "^15.5.1",
+    "graphql-compose": "^9.0.3",
     "graphql-scalars": "^1.10.0",
     "graphql-subscriptions": "^1.2.1",
-    "graphql-tools": "^8.0.0",
     "husky": "^7.0.1",
     "jest": "^27.1.0",
     "lerna": "4.0.0",
     "lint-staged": "^11.1.1",
     "nodemon": "^2.0.12",
     "phin": "^3.6.0",
-    "prettier": "^2.3.2",
-    "rsync": "^0.6.1",
-    "stream-chat": "^3.13.1"
+    "prettier": "^2.3.2"
   }
 }
