@@ -16,6 +16,7 @@ module.exports = {
     "no-empty-function": 0,
     "no-process-exit": 0,
     "no-warning-comments": 0,
+    "node/callback-return": 0,
     "node/no-extraneous-import": 0,
     "node/no-unpublished-import": 0,
     "spaced-comment": 0,

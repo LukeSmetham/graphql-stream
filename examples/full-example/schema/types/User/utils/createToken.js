@@ -6,5 +6,5 @@ export const createToken = (doc, aud = 'user') =>
             sub: doc._id.toString(),
             aud,
         },
-        process.env.AUTH_SECRET,
+        process.env.AUTH_SECRET
     );

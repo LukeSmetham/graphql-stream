@@ -4,18 +4,18 @@ import { createToken } from '../utils/createToken';
 
 // Here we re-use the findOne resolver, remove its original args from being exposed to the user
 // and add new ones for email and password.
-export const login = (tc) =>
+export const login = tc =>
     tc.mongooseResolvers
-		.findOne()
-		.removeArg('record')
-		.removeArg('filter')
-		.removeArg('sort')
-		.removeArg('skip')
+        .findOne()
+        .removeArg('record')
+        .removeArg('filter')
+        .removeArg('sort')
+        .removeArg('skip')
         .addArgs({
             email: 'String!',
             password: 'String!',
         })
-        .wrapResolve((next) => async (rp) => {
+        .wrapResolve(next => async rp => {
             const data = await next(
                 deepmerge(rp, {
                     args: {
@@ -27,12 +27,12 @@ export const login = (tc) =>
                         _id: true,
                         password: true,
                     },
-                }),
+                })
             );
 
-			if (!data) {
-				throw new Error('An account with that email does not exist.')
-			}
+            if (!data) {
+                throw new Error('An account with that email does not exist.');
+            }
 
             const valid = await bcrypt.compare(rp.args.password, data.password);
 

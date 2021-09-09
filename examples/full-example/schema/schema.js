@@ -1,5 +1,5 @@
 import { composeActivityFeed, StreamID } from '@stream-io/graphql-feeds';
-import { deepmerge, schemaComposer } from 'graphql-compose';
+import { schemaComposer } from 'graphql-compose';
 
 import { UserTC } from './types';
 
@@ -50,6 +50,7 @@ schemaComposer.Query.addFields({
         .wrapResolve(next => rp => {
             const { user } = rp.context;
 
+            // eslint-disable-next-line no-param-reassign
             rp.args.id = new StreamID(`timeline:${user}`);
 
             return next(rp);
@@ -59,6 +60,7 @@ schemaComposer.Query.addFields({
         .wrapResolve(next => rp => {
             const { user } = rp.context;
 
+            // eslint-disable-next-line no-param-reassign
             rp.args.id = new StreamID(`notification:${user}`);
 
             return next(rp);
@@ -80,6 +82,7 @@ schemaComposer.Mutation.addFields({
             // Users will follow other users feeds, from their timeline feed.
             // This means their timeline will include all their followers activities too,
             // whereas user feeds will only include their own activities.
+            // eslint-disable-next-line no-param-reassign
             rp.args = {
                 feed: new StreamID(`timeline:${user}`),
                 target: new StreamID(`user:${rp.args.target.toString()}`),
@@ -99,6 +102,7 @@ schemaComposer.Mutation.addFields({
             // Users will follow other users feeds, from their timeline feed.
             // This means their timeline will include all their followers activities too,
             // whereas user feeds will only include their own activities.
+            // eslint-disable-next-line no-param-reassign
             rp.args = {
                 feed: new StreamID(`timeline:${user}`),
                 target: new StreamID(`user:${rp.args.target.toString()}`),
@@ -117,7 +121,9 @@ schemaComposer.Mutation.addFields({
             // by forcing the feed arg to be the user's feedId
             const { user } = rp.context;
 
+            // eslint-disable-next-line no-param-reassign
             rp.args.feed = new StreamID(`user:${user}`);
+            // eslint-disable-next-line no-param-reassign
             rp.args.activity = {
                 actor: user,
                 text: rp.args.text,
@@ -135,6 +141,7 @@ schemaComposer.Mutation.addFields({
             // by forcing the feed arg to be the user's feedId
             const { user } = rp.context;
 
+            // eslint-disable-next-line no-param-reassign
             rp.args.feed = new StreamID(`user:${user}`);
 
             return next(rp);
