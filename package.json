@@ -14,7 +14,7 @@
     "build:clean": "lerna exec --parallel -- rm -rf lib",
     "dev:apollo-server": "yarn workspace @examples/apollo-server dev",
     "dev": "yarn workspace @examples/full-example dev",
-	"lint": "lerna exec --parallel -- eslint",
+	"lint": "yarn eslint --fix",
     "test": "lerna --scope @stream-io/* exec --parallel -- yarn test"
   },
   "lint-staged": {

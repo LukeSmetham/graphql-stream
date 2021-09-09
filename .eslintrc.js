@@ -1,5 +1,4 @@
 module.exports = {
-  allowTopLevelAwait: true,
   env: {
     es6: true,
     node: true,
