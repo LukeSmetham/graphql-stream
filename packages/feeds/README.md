@@ -43,3 +43,84 @@ Building with GraphQL Compose specifically, revolves mainly around an instance o
 You don't have to fully understand GraphQL Compose in any way to make use of this library. Although to perform more complex customizations, reading [their documentation](https://graphql-compose.github.io/), as well as checking out our [examples](#examples), will definitely help.
 
 ## Examples
+
+### `composeActivityFeed`
+
+The first step to generating GraphQL Object Types & Resolvers for your Stream Feeds is to call `composeActivityFeed(options)`
+
+The structure of the `options` object is as follows:
+
+```ts
+// Pseudo-code, the library is not currently written in typescript.
+type StreamCredentialsMap = {
+    api_key: string;
+    api_secret: string;
+    app_id: string;
+    region?: string;
+};
+
+type FeedConfig = {
+    feedGroup: string;
+    type: 'flat' | 'aggregated' | 'notification';
+    activityFields?: ObjectTypeComposerFieldConfigMapDefinition;
+};
+// For more information on ObjectTypeComposerFieldConfigMapDefinition, see here: https://graphql-compose.github.io/docs/api/ObjectTypeComposer.html#objecttypecomposerfieldconfigmapdefinition - You can define the additional custom fields of you activities the same way you would any other GQL Object Type - the same applies to collections as seen below.
+
+type CollectionConfig = {
+    name: string;
+    fields: ObjectTypeComposerFieldConfigMapDefinition;
+};
+
+type Options = {
+    feed: FeedConfig | [FeedConfig];
+    collection: CollectionConfig | [CollectionConfig];
+    schemaComposer?: SchemaComposer;
+    credentials: StreamCredentialsMap;
+};
+```
+
+Once you have constructed your options object, you can pass it to `composeActivityFeed` as below:
+
+```js
+import { composeActivityFeed } from '@stream.io/graphql-feeds';
+import { schemaComposer } from 'graphql-compose';
+
+const credentials = {
+    api_key: 'YOUR_STREAM_API_KEY',
+    api_secret: 'YOUR_STREAM_API_SECRET',
+    app_id: 'YOUR_STREAM_APP_ID',
+    region: 'eu-west',
+};
+
+const options = {
+    feed: [
+        {
+            feedGroup: 'user',
+            type: 'flat',
+        },
+        {
+            feedGroup: 'timeline',
+            type: 'aggregated',
+        },
+    ],
+    collection: {
+        name: 'post',
+        fields: {
+            text: {
+                type: 'String!',
+                description: 'The text content of the post',
+            },
+            coverImage: {
+                type: 'String',
+                description: 'An optional cover image for the post.',
+            },
+        },
+    },
+    credentials,
+    schemaComposer,
+};
+
+const feeds = composeActivityFeed(options);
+```
+
+The returned `feeds` object above contains the generated TypeComposers for your feeds and collections, and their resolvers.
