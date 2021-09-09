@@ -8,7 +8,10 @@ If not, you can always import the full schema object and use this out-of-the-box
 
 1. [Installation](#installation)
 2. [How it works](#how-it-works)
-3. [Examples](#examples)
+3. [Usage](#usage)
+    1. [composeActivityFeed](#composeactivityfeed)
+    2. [Naming Conventions](#naming-conventions)
+4. [Examples](#examples)
 
 ## Installation
 
@@ -42,7 +45,7 @@ Building with GraphQL Compose specifically, revolves mainly around an instance o
 
 You don't have to fully understand GraphQL Compose in any way to make use of this library. Although to perform more complex customizations, reading [their documentation](https://graphql-compose.github.io/), as well as checking out our [examples](#examples), will definitely help.
 
-## Examples
+## Usage
 
 ### `composeActivityFeed`
 
@@ -120,7 +123,51 @@ const options = {
     schemaComposer,
 };
 
-const feeds = composeActivityFeed(options);
+const { StreamUserFeedTC, StreamTimelineFeedTC, StreamPostEntityTC } = composeActivityFeed(options);
+
+// Add everything to the Schema:
+schemaComposer.Query.addFields({
+    userFeed: StreamUserFeedTC.getResolver('getFeed'),
+    timeline: StreamTimelineFeedTC.getResolver('getFeed'),
+    getPost: StreamPostEntityTC.getResolver('getEntity'),
+});
+
+schemaComposer.Mutation.addFields({
+    addUserActivity: StreamUserFeedTC.getResolver('addActivity'),
+});
+
+const schema = schemaComposer.buildSchema();
 ```
 
-The returned `feeds` object above contains the generated TypeComposers for your feeds and collections, and their resolvers.
+The object returned from `composeActivityFeed` above contains the generated TypeComposers for your feeds and collections, and their resolvers.
+
+###  Naming Conventions
+
+Type names are automatically generated based on your configuration objects, as explained below:
+
+#### Feeds
+
+To generate type names for your Feed ObjectTypes, the library takes the `feedGroup` property of each feed configuration object you pass in, and runs a method similar to the below:
+
+```js
+const { feed } = options;
+const typeName = `Stream${capitalize(feed.feedGroup)}Feed`;
+```
+
+i.e. if your `feedGroup` is `user` the outputted TypeComposer will be `StreamUserFeed`.
+
+Activity types are unique to each feed, and are created in the same way. If your `feedGroup` is `user` the outputted Activity type will be names `StreamUserActivity`.
+
+#### Collections
+
+Similarly to [feeds](#feeds), the collection types take the `name` value from your configuration object provided to `options` and run a method similar to the below:
+
+```js
+const { collection } = options;
+const typeName = `Stream${capitalize(collection.name)}Entity`; // The collection query resolvers return CollectionEntities that contain a data property with actual collection item embedded.
+const dataTypeName = `Stream${capitalize(collection.name)}`; // This will be the type of the `data` field of the CollectionEntity.
+```
+
+> As with everything in this guide, the best way to learn is to spin up one of the `example` projects in this repo and check out the GraphQL playground to visually see the types and resolvers that are generated.
+
+## Examples
