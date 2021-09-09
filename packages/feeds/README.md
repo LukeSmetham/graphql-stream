@@ -172,4 +172,6 @@ const dataTypeName = `Stream${capitalize(collection.name)}`; // This will be the
 
 ## Examples
 
+-   [Simple Token Server](../../examples/simple-token-server)
+    -   If using the Stream Client-side SDKs, the bare minimum you need on the server is a way to generate user tokens for authentication, this example repo contains only the token resolver, but can be exapnded on if/when you decide you want to move functionality up to the server.
 -   [Apollo Server w/ Subscriptions](../../examples/apollo-server)

@@ -1,0 +1,16 @@
+{
+	"name": "@examples/simple-token-server",
+	"description": "An example project setting up @stream-io/graphql-feeds with Apollo Server.",
+	"type": "module",
+	"version": "0.1.0",
+	"main": "main.js",
+	"scripts": {
+		"dev": "nodemon --inspect --experimental-specifier-resolution=node main.js",
+		"start": "node --experimental-specifier-resolution=node main.js"
+	},
+	"dependencies": {
+		"apollo-server": "^3.1.1",
+		"apollo-server-express": "^3.3.0",
+		"subscriptions-transport-ws": "^0.9.19"
+	}
+}
