@@ -48,6 +48,15 @@ describe('subscription', () => {
 			feed_id: feedId.together,
 		}, credentials.api_secret);
 
+		const cancel = jest.fn();
+		const subscribe = jest.fn();
+		jest.spyOn(Subscriber, '_getFayeClient').mockImplementationOnce(() => ({
+			subscribe: subscribe.mockImplementation(() => ({
+				cancel
+			}))
+		}));
+
+
 		Subscriber.subscribe(feedId.together, onMessage).then(id => expect(id).toBe(expectedId));
 
 		const subscription = Subscriber.subscriptions[`/${expectedId}`];
@@ -55,6 +64,8 @@ describe('subscription', () => {
 		expect(subscription.token).toBe(expectedToken);
 		expect(subscription.userId).toBe(expectedId);
 		expect(subscription.fayeSubscription).toBeDefined();
+		expect(subscribe).toHaveBeenCalledTimes(1);
+		expect(cancel).toHaveBeenCalledTimes(0);
 	});
 	
 	test('the unsubscribe method should remove a subscription from the `subscriptions` property by its id.', () => {
@@ -71,20 +82,22 @@ describe('subscription', () => {
 
 		const expectedId = `site-${credentials.app_id}-feed-${feedId.together}`;
 
+		const cancel = jest.fn();
+		const subscribe = jest.fn();
+		jest.spyOn(Subscriber, '_getFayeClient').mockImplementationOnce(() => ({
+			subscribe: subscribe.mockImplementation(() => ({
+				cancel
+			}))
+		}));
+
 		Subscriber.subscribe(feedId.together, onMessage).then(id => expect(id).toBe(expectedId));
 
 		expect(Subscriber.subscriptions[`/${expectedId}`]).toBeDefined();
 		
-		const cancel = jest.fn();
-		Subscriber.subscriptions[`/${expectedId}`] = {
-			...Subscriber.subscriptions[`/${expectedId}`],
-			fayeSubscription: {
-				cancel, // Mock the cancel method manually, could potentially mock Faye entirely, but this was quicker for now
-			}
-		}
 		Subscriber.unsubscribe(expectedId);
 
 		expect(Subscriber.subscriptions[`/${expectedId}`]).not.toBeDefined();
+		expect(subscribe).toHaveBeenCalledTimes(1);
 		expect(cancel).toHaveBeenCalledTimes(1);
 	});
 })
