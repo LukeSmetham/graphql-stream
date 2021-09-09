@@ -5,6 +5,9 @@ module.exports = {
   },
   extends: ["plugin:prettier/recommended", "eslint:recommended", "get-off-my-lawn"],
   parser: "@babel/eslint-parser",
+  parserOptions: {
+	  allowTopLevelAwait: true
+  },
   plugins: ["prettier"],
   rules: {
 	"accessor-pairs": 0,
