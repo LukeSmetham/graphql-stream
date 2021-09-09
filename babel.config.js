@@ -14,4 +14,12 @@ module.exports = {
         'transform-optional-chaining', 
         '@babel/proposal-class-properties'
     ],
+	comments: false,
+	env: {
+		production: {
+			presets: [
+				'minify'
+			]
+		}
+	}
 };

@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-	esnext: true,
+	es2021: true,
     node: true,
   },
   parserOptions: {
@@ -8,7 +8,6 @@ module.exports = {
   },
   extends: ["plugin:prettier/recommended", "eslint:recommended", "get-off-my-lawn"],
   parser: "@babel/eslint-parser",
-  allowTopLevelAwait: true,
   plugins: ["prettier"],
   rules: {
 	"accessor-pairs": 0,

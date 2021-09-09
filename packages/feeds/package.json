@@ -11,7 +11,7 @@
     "author": "Luke Smetham <luke@smetham.dev>",
     "license": "MIT",
     "scripts": {
-        "build": "rm -rf lib && babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js,__mocks__/**",
+        "build": "rm -rf lib && babel --root-mode upward src -d lib --ignore lib/**,**/*.spec.js,**/__mocks__/**",
         "watch": "yarn build -w",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage --maxWorkers 4",
