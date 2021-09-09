@@ -21,7 +21,7 @@ MONGODB_URI=
     - a `flat` feed called `user`
     - a `flat` feed called `timeline`
     - a `notification` feed called `notification`
-- Open your terminal an run `openssl rand -base64 128` to generate an Authentication secret.
+- Open your terminal an run `openssl rand -base64 128` to generate an Authentication secret for the `AUTH_SECRET` var
 - Go to cloud.mongodb.com and provision a new MongoDB Database, get your connection string for the `MONGODB_URI` var
 
 Once the above is complete, you can run `yarn`, followed by `yarn dev` to begin running the server and immediately have access to:

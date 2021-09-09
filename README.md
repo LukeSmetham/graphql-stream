@@ -1,7 +1,7 @@
-# `@stream-io`
+# Stream GraphQL
 
-Monorepo package containing utils, schemas, resolvers and subscription helpers for using Stream products with GraphQL.
+This repo contains GraphQL JS Wrappers around Stream's REST APIs.
 
-Library is a WIP. Feeds is in fairly good shape but still early.
+Currently only Activity Feeds is support, Chat will be coming soon.
 
-Chat needs work but subscriptions with client and channel events are working.
+Check out the [`@stream-io/graphql-feeds`](./packages/feeds/) to view the README and examples.
