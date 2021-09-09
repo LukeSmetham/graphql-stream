@@ -23,7 +23,7 @@ export const composeActivityFeed = (opts = {}) => {
     // Cast feed & collection property to an array if it's not already an array and add the feedGroupName to each
     const options = {
         ...opts,
-        feed: castArray(feed),
+        feed: castArray(feed || []),
         collection: castArray(collection || []),
         schemaComposer,
     };
@@ -40,7 +40,7 @@ export const composeActivityFeed = (opts = {}) => {
 
         feeds = {
             ...feeds,
-            [`${FeedTC.getTypeName()}TC`]: FeedTC
+            [`${FeedTC.getTypeName()}TC`]: FeedTC,
         };
     }
 
@@ -64,7 +64,7 @@ export const composeActivityFeed = (opts = {}) => {
 
         collections = {
             ...collections,
-            [`${CollectionTC.getTypeName()}TC`]: CollectionTC
+            [`${CollectionTC.getTypeName()}TC`]: CollectionTC,
         };
     }
 
