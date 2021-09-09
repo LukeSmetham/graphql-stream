@@ -11,6 +11,8 @@ const credentials = {
 };
 
 const config = {
+    // Replace with your feed configs
+    // feed: {},
     schemaComposer,
     credentials,
 };
