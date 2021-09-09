@@ -18,5 +18,5 @@ You can also use this project as a starting point with no assumptions made to yo
 
 1. Run `yarn` in the root of the workspace.
 2. Copy the `.env.example` file from the root of this project and rename it to `.env` - then fill out the variables with the values in the [Stream Dashboard](https://dashboard.getstream.io) for your application.
-3. Run `yarn workspace @examples/simple-token-server dev` from the root of the workspace
+3. Run `yarn dev:token-server` from the root of the workspace
 4. You can now view the Playground, powered by Apollo Studio, at [`http://localhost:8080`]
