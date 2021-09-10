@@ -6,42 +6,42 @@
  */
 import { AuthenticationError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
- 
+
 const authorizeRequest = async ({ req, connection }) => {
-	try {
-		let token;
+    try {
+        let token;
 
-		if (connection) {
-			token = connection.context.Authorization ? connection.context.Authorization.replace(/^Bearer\s/u, '') : '';
-		} else {
-			token = req.headers.authorization ? req.headers.authorization.replace(/^Bearer\s/u, '') : '';
-		}
+        if (connection) {
+            token = connection.context.Authorization ? connection.context.Authorization.replace(/^Bearer\s/u, '') : '';
+        } else {
+            token = req.headers.authorization ? req.headers.authorization.replace(/^Bearer\s/u, '') : '';
+        }
 
-		if (!token) {
-			return {};
-		}
+        if (!token) {
+            return {};
+        }
 
-		const { sub, aud: type } = jwt.verify(token, process.env.AUTH_SECRET);
+        const { sub, aud: type } = jwt.verify(token, process.env.AUTH_SECRET);
 
-		if (!sub) {
-			return {};
-		}
+        if (!sub) {
+            return {};
+        }
 
-		return {
-			[type]: sub,
-		};
-	} catch (error) {
-		throw new AuthenticationError(error);
-	}
+        return {
+            [type]: sub,
+        };
+    } catch (error) {
+        throw new AuthenticationError(error);
+    }
 };
 
 export default async ({ connection, req }) => {
-	const scope = await authorizeRequest({
-		connection,
-		req,
-	});
+    const scope = await authorizeRequest({
+        connection,
+        req,
+    });
 
-	return {
-		...scope,
-	};
+    return {
+        ...scope,
+    };
 };

@@ -8,18 +8,18 @@ import * as resolvers from './resolvers';
 import * as activityResolvers from './activities/resolvers';
 import { createFeedSubscription } from './createFeedSubscription';
 
-export const createFeedTC = (options) => {
-	if (!options) {
-		throw new Error('No options were provided to createFeedTC');
-	}
+export const createFeedTC = options => {
+    if (!options) {
+        throw new Error('No options were provided to createFeedTC');
+    }
 
     const schemaComposer = options.schemaComposer || composer;
 
-	const opts = deepmerge(options, {
-		feed: {
-			feedGroupName: capitalize(options.feed.feedGroup)
-		}
-	});
+    const opts = deepmerge(options, {
+        feed: {
+            feedGroupName: capitalize(options.feed.feedGroup),
+        },
+    });
 
     const { feedGroupName, type } = opts.feed;
 
@@ -35,10 +35,10 @@ export const createFeedTC = (options) => {
         },
     });
 
-	const ActivityTC = createActivityTC(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
-	const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
+    const ActivityTC = createActivityTC(options); // ActivityTC is created regardless of type, as grouped activities use this type for their activities field.
+    const GroupedActivityTC = createGroupedActivityTC(ActivityTC, options);
 
-	// Add resolvers to the FeedTC
+    // Add resolvers to the FeedTC
     Object.keys(resolvers).forEach(k => {
         FeedTC.addResolver(resolvers[k](FeedTC, options));
     });
@@ -47,8 +47,8 @@ export const createFeedTC = (options) => {
         FeedTC.addResolver(activityResolvers[k](ActivityTC, options));
     });
 
-	// Add Relational Fields
-	FeedTC.addRelation('followers', {
+    // Add Relational Fields
+    FeedTC.addRelation('followers', {
         prepareArgs: {
             feed: /* istanbul ignore next */ source => source.id,
         },
@@ -56,8 +56,8 @@ export const createFeedTC = (options) => {
         resolver: () => FeedTC.getResolver('getFollowers'),
         description: 'Get the list of followers for this feed',
     });
-    
-	FeedTC.addRelation('followersCount', {
+
+    FeedTC.addRelation('followersCount', {
         prepareArgs: {
             feed: /* istanbul ignore next */ source => source.id,
         },
@@ -65,8 +65,8 @@ export const createFeedTC = (options) => {
         resolver: () => FeedTC.getResolver('getFollowersCount'),
         description: 'Get the count of followers for this feed',
     });
-    
-	FeedTC.addRelation('following', {
+
+    FeedTC.addRelation('following', {
         prepareArgs: {
             feed: /* istanbul ignore next */ source => source.id,
         },
@@ -74,8 +74,8 @@ export const createFeedTC = (options) => {
         resolver: () => FeedTC.getResolver('getFollowing'),
         description: 'Get the list of feeds that this feed follows',
     });
-    
-	FeedTC.addRelation('followingCount', {
+
+    FeedTC.addRelation('followingCount', {
         prepareArgs: {
             feed: /* istanbul ignore next */ source => source.id,
         },
@@ -102,10 +102,10 @@ export const createFeedTC = (options) => {
         description: 'Get the list of reactions for this activity',
     });
 
-	// Subscription
-	// Subscriptions aren't really supported in graphql-compose, because of this the only way to add them is via a plain object resolver rather than via schemaComposer.createResolver.
-	// So we return the plain object from the below method and add it to the TC so end-users can manually add to their schema in a similar way to other resolvers.
-	FeedTC.subscription = createFeedSubscription(ActivityTC, options);
+    // Subscription
+    // Subscriptions aren't really supported in graphql-compose, because of this the only way to add them is via a plain object resolver rather than via schemaComposer.createResolver.
+    // So we return the plain object from the below method and add it to the TC so end-users can manually add to their schema in a similar way to other resolvers.
+    FeedTC.subscription = createFeedSubscription(ActivityTC, options);
 
     return FeedTC;
 };

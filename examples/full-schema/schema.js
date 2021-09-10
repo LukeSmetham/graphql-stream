@@ -15,6 +15,9 @@ const config = {
         {
             feedGroup: 'user',
             type: 'flat',
+            activityFields: {
+                text: 'String!',
+            },
         },
         {
             feedGroup: 'timeline',
@@ -28,7 +31,8 @@ const config = {
     collection: {
         name: 'post',
         fields: {
-            text: 'String!',
+            text: 'String',
+            coverImage: 'String',
         },
     },
     credentials,

@@ -26,9 +26,7 @@ export class FeedSubscription extends PubSubEngine {
 
     /* istanbul ignore next */ _getFayeAuthorization() {
         return {
-            incoming: /* istanbul ignore next */ (message, callback) => {
-				return callback(message)
-			},
+            incoming: /* istanbul ignore next */ (message, callback) => callback(message),
             outgoing: /* istanbul ignore next */ (message, callback) => {
                 if (message.subscription && this.subscriptions[message.subscription]) {
                     const subscription = this.subscriptions[message.subscription];
@@ -39,7 +37,6 @@ export class FeedSubscription extends PubSubEngine {
                         api_key: this.credentials.api_key,
                         signature: subscription.token,
                     };
-
                 }
 
                 callback(message);
@@ -59,14 +56,14 @@ export class FeedSubscription extends PubSubEngine {
         return this.fayeClient;
     }
 
-   /* istanbul ignore next */  publish = () => Promise.resolve();
+    /* istanbul ignore next */ publish = () => Promise.resolve();
 
     subscribe(feed, onMessage) {
         const id = `site-${this.credentials.app_id}-feed-${feed}`;
 
         const subscription = this._getFayeClient().subscribe(`/${id}`, onMessage);
 
-		const token = jwt.sign(
+        const token = jwt.sign(
             {
                 resource: '*',
                 action: '*',

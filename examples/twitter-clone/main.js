@@ -13,9 +13,9 @@ const { MONGODB_URI, PORT = 8080 } = process.env;
 
 // Connect to MongoDB (top-level await with esm/node 16 removes the need for IIFE/etc.)
 await mongoose.connect(MONGODB_URI, {
-	autoIndex: true,
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
+    autoIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 // Init Express App
@@ -26,17 +26,19 @@ const httpServer = createServer(app);
 
 // Init ApolloServer instance
 const server = new ApolloServer({
-	context,
+    context,
     schema,
-	plugins: [{
-		async serverWillStart() {
-		  return {
-			async drainServer() {
-			  subscriptionServer.close();
-			}
-		  };
-		}
-	  }],
+    plugins: [
+        {
+            async serverWillStart() {
+                return {
+                    async drainServer() {
+                        subscriptionServer.close();
+                    },
+                };
+            },
+        },
+    ],
 });
 
 // Create a Subscription Server
@@ -57,6 +59,4 @@ await server.start();
 server.applyMiddleware({ app });
 
 // Start!
-httpServer.listen(PORT, () =>
-	console.log(`🚀::${PORT}`)
-);
+httpServer.listen(PORT, () => console.log(`🚀::${PORT}`));

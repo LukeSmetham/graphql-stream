@@ -16,7 +16,6 @@ const config = {
             feedGroup: 'user',
             type: 'flat',
             activityFields: {
-                // These fields are custom additions to the activity type from the Combase stream app as an example.
                 text: 'String!',
             },
         },
