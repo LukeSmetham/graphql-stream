@@ -1,5 +1,4 @@
 import { createActivityFeedSchema } from '@stream-io/graphql-feeds';
-import { schemaComposer } from 'graphql-compose';
 
 const { STREAM_KEY, STREAM_SECRET, STREAM_ID } = process.env;
 
@@ -32,12 +31,9 @@ const config = {
             text: 'String!',
         },
     },
-    schemaComposer,
     credentials,
 };
 
-createActivityFeedSchema(config);
-
-const schema = schemaComposer.buildSchema();
+const schema = createActivityFeedSchema(config);
 
 export default schema;
