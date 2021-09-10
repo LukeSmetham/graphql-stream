@@ -1,4 +1,4 @@
-**/packages/**/lib
+**/lib
 **/node_modules
 **/*.md
 *.config.js

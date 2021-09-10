@@ -5,18 +5,18 @@ import { composer } from 'schema';
 import { collectionEntityInterfaceFields } from 'interfaces/Collection';
 import * as resolvers from './resolvers';
 
-export const createCollectionTC = (options) => {
-	if (!options) {
-		throw new Error('No options were provided to createCollectionTC');
-	}
+export const createCollectionTC = options => {
+    if (!options) {
+        throw new Error('No options were provided to createCollectionTC');
+    }
 
     const schemaComposer = options.schemaComposer || composer;
 
-	const opts = deepmerge(options, {
-		collection: {
-			collectionName: capitalize(options.collection.name)
-		}
-	});
+    const opts = deepmerge(options, {
+        collection: {
+            collectionName: capitalize(options.collection.name),
+        },
+    });
 
     const { collectionName, fields } = opts.collection;
 
@@ -38,8 +38,8 @@ export const createCollectionTC = (options) => {
 
     CollectionTC.setInputTypeComposer(EntityTC.getInputTypeComposer());
 
-	// Add the resolvers to the TypeComposer
-	Object.keys(resolvers).forEach(k => {
+    // Add the resolvers to the TypeComposer
+    Object.keys(resolvers).forEach(k => {
         CollectionTC.addResolver(resolvers[k](CollectionTC, options));
     });
 
