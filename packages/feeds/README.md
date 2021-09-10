@@ -141,6 +141,41 @@ const schema = schemaComposer.buildSchema();
 
 The object returned from `composeActivityFeed` above contains the generated TypeComposers for your feeds and collections, and their resolvers.
 
+### `createActivityFeedsSchema`
+
+Alternatively you can use the `createActivityFeedsSchema` method to return a fully operational, pre-built GraphQL Schema that you can use as you would any other. This removes the need to use `graphql-compose` in your own code, although restricts the ability to add relational data, and manipulate the type beyond what the library generates from your config object.
+
+Here's an example of how quickly you can get up and running with GraphQL and Stream Activity Feeds using Apollo Server.
+
+```js
+import { ApolloServer } from 'apollo-server';
+import { createActivityFeedsSchema } from '@stream-io/graphql-feeds';
+
+const config = {
+    credentials: {
+        api_key: 'YOUR_STREAM_KEY',
+        api_secret: 'YOUR_STREAM_SECRET',
+        app_id: 'YOUR_STREAM_APP_ID',
+        region: 'YOUR_STREAM_REGION',
+    },
+    feed: {
+        feedGroup: 'user',
+        type: 'flat',
+    },
+};
+
+const schema = createActivityFeedsSchema(config);
+
+const server = new ApolloServer({
+    schema,
+});
+
+const { url } = await server.listen();
+console.log(`Server ready at ${url}`);
+```
+
+You can also check out our [Examples](#examples) for more in-depth examples of how to set up `@stream-io/graphql-feeds` in different ways.
+
 ###  Naming Conventions
 
 Type names are automatically generated based on your configuration objects, as explained below:
